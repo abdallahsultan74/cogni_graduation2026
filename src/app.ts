@@ -1,7 +1,8 @@
 import express from "express";
-import type { Request, Response } from "express";
+import type { Request, Response, RequestHandler } from "express";
 import morgan from "morgan";
-import * as helmetModule from "helmet";
+import { createRequire } from "node:module";
+import type { HelmetOptions } from "helmet";
 import cors from "cors";
 import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
@@ -29,6 +30,10 @@ import messageRoutes from "./routes/message.routes.js";
 import recommendationsRoutes from "./routes/recommendations.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
 
+const nodeRequire = createRequire(import.meta.url);
+/** CJS require: avoids Vercel secondary TS pass treating helmet ESM default as non-callable */
+const helmet = nodeRequire("helmet") as (options?: Readonly<HelmetOptions>) => RequestHandler;
+
 const apiLimiter = rateLimit({
   windowMs: RATE_LIMIT_WINDOW_MS,
   max: RATE_LIMIT_MAX_API,
@@ -49,7 +54,7 @@ const app = express();
 app.use(requestId);
 app.use(morgan("combined", { stream: createMorganStream() }));
 app.use(express.json());
-app.use(helmetModule.default());
+app.use(helmet());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(",") ?? "*",
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
