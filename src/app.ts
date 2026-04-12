@@ -49,15 +49,34 @@ const app = express();
 app.use(requestId);
 app.use(morgan("combined", { stream: createMorganStream() }));
 app.use(express.json());
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        fontSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'"]
+      }
+    }
+  })
+);
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(",") ?? "*",
-  methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Authorization", "Content-Type", "X-Request-Id"]
 }));
-app.use("/api", apiLimiter);
+
+app.get("/", (_req, res) => {
+  res.redirect(302, "/api-docs/");
+});
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use("/api", apiLimiter);
 
 app.use("/api/auth/login", authLimiter);
 
