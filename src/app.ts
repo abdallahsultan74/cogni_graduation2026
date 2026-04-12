@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
+import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.js";
 import { createMorganStream } from "./config/logger.js";
