@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "name": "Cogni-Advisor API",
-    "description": "مجموعة كاملة من API endpoints لنظام Cogni-Advisor الأكاديمي",
+    "description": "مجموعة Postman لنظام Cogni-Advisor.\n\n**قبل أي طلب محمي:** نفّذ **Authentication → Login** (حدّث `identifier` و`password`) — السكربت يملأ تلقائيًا `ADMIN_TOKEN` / `ADVISOR_TOKEN` / `STUDENT_TOKEN` حسب الدور.\n\n**متغير المجموعة:** `BASE_URL` (افتراضي: إنتاج Vercel). للمحلي غيّره أو استورد بيئة **Local** من مجلد `postman/`.\n\n**Swagger (متصفح):** `https://cogni-advisor-backend.vercel.app/api-docs/`",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1540,7 +1540,7 @@
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "http://localhost:5000",
+      "value": "https://cogni-advisor-backend.vercel.app",
       "type": "string"
     },
     {
