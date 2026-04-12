@@ -1,8 +1,7 @@
 import express from "express";
-import type { Request, Response, RequestHandler } from "express";
+import type { Request, Response } from "express";
 import morgan from "morgan";
-import { createRequire } from "node:module";
-import type { HelmetOptions } from "helmet";
+import helmet from "helmet";
 import cors from "cors";
 import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
@@ -29,10 +28,6 @@ import semesterRecordRoutes from "./routes/semesterRecord.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import recommendationsRoutes from "./routes/recommendations.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
-
-const nodeRequire = createRequire(import.meta.url);
-/** CJS require: avoids Vercel secondary TS pass treating helmet ESM default as non-callable */
-const helmet = nodeRequire("helmet") as (options?: Readonly<HelmetOptions>) => RequestHandler;
 
 const apiLimiter = rateLimit({
   windowMs: RATE_LIMIT_WINDOW_MS,
