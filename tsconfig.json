@@ -15,10 +15,10 @@
     // "types": ["node"],
     // and npm install -D @types/node
 
-    // Other Outputs
+    // Other Outputs (no .d.ts emit — أسرع وأخف على Vercel؛ التشغيل يعتمد على JS في dist فقط)
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false,
+    "declarationMap": false,
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
