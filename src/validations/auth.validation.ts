@@ -14,3 +14,17 @@ export const changePasswordSchema = z.object({
     newPassword: z.string().min(6)
   })
 });
+
+/** تسجيل طالب جديد (عام — بدون توكن أدمن) */
+export const registerStudentSchema = z.object({
+  body: z.object({
+    first_name: z.string().min(2),
+    middle_name: z.string().optional(),
+    last_name: z.string().min(2),
+    national_id: z.string().min(14),
+    personal_email: z.string().email(),
+    password: z.string().min(6),
+    gender: z.string().optional(),
+    street_address: z.string().optional()
+  })
+});

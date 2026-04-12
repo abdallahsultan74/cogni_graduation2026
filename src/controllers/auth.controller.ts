@@ -1,5 +1,15 @@
 import type { Response } from "express";
 import * as authService from "../services/auth.service.js";
+import * as userService from "../services/user.service.js";
+
+export const registerStudentHandler = async (req: any, res: Response) => {
+  const user = await userService.createUser({
+    ...req.body,
+    role: "STUDENT"
+  });
+  const { password_hash: _pw, ...safe } = user;
+  res.status(201).json(safe);
+};
 
 export const loginHandler = async (req: any, res: Response) => {
   const { identifier, password, role: requestedRole } = req.body;

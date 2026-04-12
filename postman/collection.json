@@ -28,6 +28,29 @@
       "name": "Authentication",
       "item": [
         {
+          "name": "Register Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"أحمد\",\n  \"middle_name\": \"محمد\",\n  \"last_name\": \"علي\",\n  \"national_id\": \"29901011234567\",\n  \"personal_email\": \"student@example.com\",\n  \"password\": \"SecurePass123\",\n  \"gender\": \"male\",\n  \"street_address\": \"القاهرة\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "تسجيل طالب جديد (عام). غيّر national_id و personal_email لقيم غير مستخدمة في قاعدة البيانات."
+          },
+          "response": []
+        },
+        {
           "name": "Login",
           "event": [
             {

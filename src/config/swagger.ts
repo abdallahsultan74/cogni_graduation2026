@@ -30,6 +30,37 @@ export const swaggerSpec = {
         }
       }
     },
+    "/api/auth/register": {
+      post: {
+        summary: "Register student",
+        description: "Public signup — creates a user with role STUDENT and a Student profile. No authentication required.",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["first_name", "last_name", "national_id", "personal_email", "password"],
+                properties: {
+                  first_name: { type: "string", minLength: 2 },
+                  middle_name: { type: "string" },
+                  last_name: { type: "string", minLength: 2 },
+                  national_id: { type: "string", minLength: 14 },
+                  personal_email: { type: "string", format: "email" },
+                  password: { type: "string", minLength: 6 },
+                  gender: { type: "string" },
+                  street_address: { type: "string" }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          "201": { description: "User created (password_hash omitted)" },
+          "400": { description: "Validation error or national ID already exists" }
+        }
+      }
+    },
     "/api/auth/login": {
       post: {
         summary: "Login",

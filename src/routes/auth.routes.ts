@@ -4,17 +4,25 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
 
 import {
+  registerStudentHandler,
   loginHandler,
   changePasswordHandler,
   meHandler
 } from "../controllers/auth.controller.js";
 
 import {
+  registerStudentSchema,
   loginSchema,
   changePasswordSchema
 } from "../validations/auth.validation.js";
 
 const router = Router();
+
+router.post(
+  "/register",
+  validate(registerStudentSchema),
+  asyncHandler(registerStudentHandler)
+);
 
 router.post(
   "/login",

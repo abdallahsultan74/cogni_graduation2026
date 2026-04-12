@@ -79,6 +79,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", apiLimiter);
 
 app.use("/api/auth/login", authLimiter);
+app.use("/api/auth/register", authLimiter);
 
 // Feature routes
 app.use("/api/auth", authRoutes);
