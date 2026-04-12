@@ -1,7 +1,7 @@
 import express from "express";
 import type { Request, Response } from "express";
 import morgan from "morgan";
-import helmet from "helmet";
+import * as helmetModule from "helmet";
 import cors from "cors";
 import { rateLimit } from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
@@ -49,7 +49,7 @@ const app = express();
 app.use(requestId);
 app.use(morgan("combined", { stream: createMorganStream() }));
 app.use(express.json());
-app.use(helmet());
+app.use(helmetModule.default());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(",") ?? "*",
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
