@@ -3,6 +3,7 @@ import { join } from "path";
 
 const { combine, timestamp, printf, colorize, json, errors } = winston.format;
 const isProduction = process.env.NODE_ENV === "production";
+const isServerless = !!process.env.VERCEL;
 
 const textFormat = printf(({ level, message, timestamp, requestId, ...meta }) => {
   const rid = requestId ? ` [${requestId}]` : "";
@@ -23,24 +24,23 @@ const fileFormat = combine(
   json()
 );
 
-const logsDir = join(process.cwd(), "logs");
+const transports: winston.transport[] = [
+  new winston.transports.Console({
+    format: isProduction ? combine(timestamp(), errors({ stack: true }), json()) : consoleFormat
+  })
+];
+
+if (!isServerless) {
+  const logsDir = join(process.cwd(), "logs");
+  transports.push(
+    new winston.transports.File({ filename: join(logsDir, "error.log"), level: "error", format: fileFormat }),
+    new winston.transports.File({ filename: join(logsDir, "combined.log"), format: fileFormat })
+  );
+}
 
 export const logger = winston.createLogger({
   level: process.env.LOG_LEVEL ?? "info",
-  transports: [
-    new winston.transports.Console({
-      format: isProduction ? combine(timestamp(), errors({ stack: true }), json()) : consoleFormat
-    }),
-    new winston.transports.File({
-      filename: join(logsDir, "error.log"),
-      level: "error",
-      format: fileFormat
-    }),
-    new winston.transports.File({
-      filename: join(logsDir, "combined.log"),
-      format: fileFormat
-    })
-  ]
+  transports
 });
 
 export const createMorganStream = () => ({
