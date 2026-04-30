@@ -6,6 +6,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 import {
   createUserHandler,
+  createStudentByAdminHandler,
+  createAdvisorByAdminHandler,
+  createAdminByAdminHandler,
   getUsersHandler,
   getUserHandler,
   updateUserHandler,
@@ -14,6 +17,9 @@ import {
 
 import {
   createUserSchema,
+  createStudentByAdminSchema,
+  createAdvisorByAdminSchema,
+  createAdminByAdminSchema,
   updateUserSchema,
   deleteUserSchema
 } from "../validations/user.validation.js";
@@ -27,6 +33,30 @@ router.post(
   authorize("ADMIN"),
   validate(createUserSchema),
   asyncHandler(createUserHandler)
+);
+
+router.post(
+  "/students",
+  authenticate,
+  authorize("ADMIN"),
+  validate(createStudentByAdminSchema),
+  asyncHandler(createStudentByAdminHandler)
+);
+
+router.post(
+  "/advisors",
+  authenticate,
+  authorize("ADMIN"),
+  validate(createAdvisorByAdminSchema),
+  asyncHandler(createAdvisorByAdminHandler)
+);
+
+router.post(
+  "/admins",
+  authenticate,
+  authorize("ADMIN"),
+  validate(createAdminByAdminSchema),
+  asyncHandler(createAdminByAdminHandler)
 );
 
 

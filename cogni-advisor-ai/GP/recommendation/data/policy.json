@@ -1,0 +1,66 @@
+{
+  "program_name": "Bachelor Degree Program In Information Technology",
+  "total_credit_hours_required_for_graduation": 135,
+  "level_thresholds": [
+    {
+      "max_exclusive": 30,
+      "label": "First Level"
+    },
+    {
+      "max_exclusive": 63,
+      "label": "Second Level"
+    },
+    {
+      "max_exclusive": 96,
+      "label": "Third Level"
+    },
+    {
+      "max_exclusive": null,
+      "label": "Fourth Level"
+    }
+  ],
+  "distribution": {
+    "General_Requirements - Mandatory": 6,
+    "General_Requirements - Elective": 6,
+    "Math_And_Basic_Sciences": 24,
+    "Basic_Computer_Science": 39,
+    "Applied_Sciences - Mandatory": 27,
+    "Applied_Sciences - Elective": 15,
+    "Graduation_Project": 6,
+    "Specialized_Labs": 10,
+    "Training_Field": 2
+  },
+  "credit_hour_limits": {
+    "regular": {
+      "min_credit_hours": 9,
+      "max_credit_hours": 18,
+      "max_credit_hours_with_graduation_approval": 21
+    },
+    "summer": {
+      "min_credit_hours": 0,
+      "max_credit_hours": 9,
+      "max_credit_hours_with_graduation_approval": 12
+    }
+  },
+  "auto_expected_to_graduate_levels": [
+    "Fourth Level"
+  ],
+  "outside_department_max": 2,
+  "gpa_credit_caps": [
+    {
+      "min_gpa": 0.0,
+      "max_gpa_inclusive": 1.0,
+      "max_credit_hours": 12
+    },
+    {
+      "min_gpa_exclusive": 1.0,
+      "max_gpa_exclusive": 2.0,
+      "max_credit_hours": 15
+    },
+    {
+      "min_gpa": 2.0,
+      "max_gpa_exclusive": null,
+      "max_credit_hours": null
+    }
+  ]
+}

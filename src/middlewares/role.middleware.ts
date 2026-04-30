@@ -9,7 +9,7 @@ export const authorize =
   (req: AuthRequest, res: Response, next: NextFunction) => {
 
     if (!req.user || !req.user.role) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
     const userRole = String(req.user.role ?? "").toUpperCase();
@@ -17,6 +17,7 @@ export const authorize =
 
     if (!allowedRoles.includes(userRole)) {
       return res.status(403).json({
+        success: false,
         message: "Forbidden: Access denied",
         yourRole: req.user.role ?? "unknown"
       });

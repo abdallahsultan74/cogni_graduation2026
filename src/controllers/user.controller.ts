@@ -8,6 +8,30 @@ export const createUserHandler = async (req: any, res: Response) => {
   res.status(201).json(user);
 };
 
+export const createStudentByAdminHandler = async (req: any, res: Response) => {
+  const user = await userService.createUser({
+    ...req.body,
+    role: "STUDENT"
+  });
+  res.status(201).json(user);
+};
+
+export const createAdvisorByAdminHandler = async (req: any, res: Response) => {
+  const user = await userService.createUser({
+    ...req.body,
+    role: "ADVISOR"
+  });
+  res.status(201).json(user);
+};
+
+export const createAdminByAdminHandler = async (req: any, res: Response) => {
+  const user = await userService.createUser({
+    ...req.body,
+    role: "ADMIN"
+  });
+  res.status(201).json(user);
+};
+
 export const getUsersHandler = async (req: any, res: Response) => {
 
   const users = await userService.getAllUsers();

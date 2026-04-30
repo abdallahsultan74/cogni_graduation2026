@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+nav a {
+    margin: 0 10px;
+}
+h1, h2, h3, h4 {
+    color: #333;
+}
+form {
+    margin-bottom: 20px;
+}
+label {
+    display: inline-block;
+    width: 150px;
+}
+input, select {
+    margin-bottom: 10px;
+}
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+li {
+    margin: 5px 0;
+}
+
+/* Chatbot Styles */
+#chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#chat-history {
+    height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.message.user {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.message.bot {
+    background-color: #e9ecef;
+    color: #333;
+    margin-right: auto;
+}
+
+.message.system {
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.message.loading {
+    background-color: #ffc107;
+    color: #333;
+    font-style: italic;
+}
+
+.message.error {
+    background-color: #dc3545;
+    color: white;
+}
+
+#chat-form {
+    display: flex;
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+#send-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#send-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+#send-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.message.loading {
+    animation: pulse 1.5s infinite;
+}

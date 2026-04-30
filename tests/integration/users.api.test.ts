@@ -67,6 +67,7 @@ describe("Users API", () => {
     it("returns 201 when admin creates user", async () => {
       prismaMock.user.findUnique
         .mockResolvedValueOnce({ user_id: 1, role: "ADMIN" })
+        .mockResolvedValueOnce(null)
         .mockResolvedValueOnce(null);
       prismaMock.user.create.mockResolvedValue({
         user_id: 10,
@@ -91,6 +92,40 @@ describe("Users API", () => {
         });
       expect(res.status).toBe(201);
       expect(res.body).toHaveProperty("user_id");
+    });
+
+    it("allows admin to create advisor and admin roles", async () => {
+      const { default: app } = await import("../../src/app.js");
+
+      for (const role of ["ADVISOR", "ADMIN"] as const) {
+        prismaMock.user.findUnique.mockReset();
+        prismaMock.user.findUnique
+          .mockResolvedValueOnce({ user_id: 1, role: "ADMIN" })
+          .mockResolvedValueOnce(null)
+          .mockResolvedValueOnce(null);
+        prismaMock.user.create.mockResolvedValue({
+          user_id: role === "ADVISOR" ? 21 : 22,
+          first_name: "Role",
+          last_name: "User",
+          national_id: role === "ADVISOR" ? "22345678901234" : "32345678901234",
+          personal_email: role === "ADVISOR" ? "advisor@test.com" : "admin2@test.com",
+          role
+        });
+
+        const res = await request(app)
+          .post("/api/users")
+          .set("Authorization", `Bearer ${adminToken}`)
+          .send({
+            first_name: "Role",
+            last_name: "User",
+            national_id: role === "ADVISOR" ? "22345678901234" : "32345678901234",
+            personal_email: role === "ADVISOR" ? "advisor@test.com" : "admin2@test.com",
+            password: "pass123",
+            role
+          });
+
+        expect(res.status).toBe(201);
+      }
     });
   });
 

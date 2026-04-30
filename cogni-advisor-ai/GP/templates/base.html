@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{% block title %}Cogni Advisor{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="app-nav" aria-label="Primary">
+      <a class="brand" href="{{ url_for('home') }}">
+        <span class="brand-mark" aria-hidden="true">c</span>
+        <span>Cogni <span class="brand-suffix">Advisor</span></span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link"
+           href="{{ url_for('home') }}"
+           {% if request.endpoint == 'home' %}aria-current="page"{% endif %}>
+          Home
+        </a>
+        <a class="nav-link"
+           href="{{ url_for('recommendation.recommend') }}"
+           {% if request.endpoint and request.endpoint.startswith('recommendation.') %}aria-current="page"{% endif %}>
+          Recommendation
+        </a>
+        <a class="nav-link"
+           href="{{ url_for('chatbot.chat') }}"
+           {% if request.endpoint and request.endpoint.startswith('chatbot.') %}aria-current="page"{% endif %}>
+          Chatbot
+        </a>
+      </div>
+    </nav>
+
+    <main class="app-main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-foot">
+      <span>Cogni Advisor · EELU Faculty of Computing &amp; Information Technology</span>
+      <span>Bachelor Program · Bylaw 2021</span>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  {% block body_scripts %}{% endblock %}
+</body>
+</html>

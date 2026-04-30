@@ -10,9 +10,11 @@ export const globalErrorHandler = (
 ) => {
   logger.error(`${err.message ?? "Unknown error"} - ${req.method} ${req.path}`);
 
-  if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
+  if (err instanceof AppError || typeof err?.statusCode === "number") {
+    const statusCode = typeof err?.statusCode === "number" ? err.statusCode : 500;
+    return res.status(statusCode).json({
       success: false,
+      code: "APP_ERROR",
       message: err.message
     });
   }
@@ -21,6 +23,7 @@ export const globalErrorHandler = (
   if (err.code === "P2003") {
     return res.status(400).json({
       success: false,
+      code: "PRISMA_FOREIGN_KEY",
       message: "Reference not found (student, course, or semester)"
     });
   }
@@ -31,6 +34,7 @@ export const globalErrorHandler = (
     const field = target || "field";
     return res.status(409).json({
       success: false,
+      code: "PRISMA_UNIQUE_CONSTRAINT",
       message: `Value already exists for field: ${field}`
     });
   }
@@ -39,6 +43,7 @@ export const globalErrorHandler = (
   if (err.code) {
     return res.status(400).json({
       success: false,
+      code: "PRISMA_ERROR",
       message: "Database error"
     });
   }
@@ -46,6 +51,7 @@ export const globalErrorHandler = (
   // Unknown error
   return res.status(500).json({
     success: false,
+    code: "INTERNAL_SERVER_ERROR",
     message: "Something went wrong"
   });
 };

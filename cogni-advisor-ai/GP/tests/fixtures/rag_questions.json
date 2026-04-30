@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rag-001-credit-cap-regular",
+    "question": "What is the maximum number of credit hours a student can register in a regular semester?",
+    "expected_snippets": ["18", "max_credit_hours"],
+    "expected_citations": ["Rules For general"],
+    "must_not_contain": ["20 credit", "25 credit"]
+  },
+  {
+    "id": "rag-002-graduation-credits",
+    "question": "How many credit hours are required to graduate?",
+    "expected_snippets": ["135"],
+    "expected_citations": ["Rules For graduation"],
+    "must_not_contain": ["120 total", "150 total"]
+  },
+  {
+    "id": "rag-003-low-gpa-cap",
+    "question": "What is the credit hour cap for a student whose GPA is below 1.0?",
+    "expected_snippets": ["12"],
+    "expected_citations": ["Rules For general"],
+    "must_not_contain": ["15 credit", "18 credit"]
+  },
+  {
+    "id": "rag-004-summer-cap",
+    "question": "What is the maximum number of credit hours allowed in the summer semester for a regular student?",
+    "expected_snippets": ["6"],
+    "expected_citations": ["Rules For general"],
+    "must_not_contain": ["9 credit hours summer", "12 credit hours summer"]
+  },
+  {
+    "id": "rag-005-graduation-project-prereq",
+    "question": "What is required to register for the graduation project?",
+    "expected_snippets": ["85", "Credit Hours"],
+    "expected_citations": ["Rules For graduation", "Courses all"],
+    "must_not_contain": ["50 credit hours required", "100 credit hours required"]
+  }
+]

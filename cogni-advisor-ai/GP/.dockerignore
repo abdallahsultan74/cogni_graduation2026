@@ -1,0 +1,12 @@
+.git
+.gitignore
+.venv
+__pycache__/
+*.pyc
+tests/baselines/before/
+tests/baselines/after/
+recommendation/data/students.db
+bylaws_vector_index/
+.idea/
+.vscode/
+.DS_Store

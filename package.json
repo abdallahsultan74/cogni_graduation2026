@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "prisma generate",
+    "endpoints:generate": "npx tsx scripts/generate-frontend-endpoints.ts",
+    "openapi:export": "npx tsx scripts/export-openapi.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "tsc && node -e \"console.log('TypeScript build finished OK')\"",
@@ -20,6 +22,7 @@
   "type": "module",
   "dependencies": {
     "@prisma/client": "^6.19.2",
+    "@supabase/supabase-js": "^2.105.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -37,11 +40,11 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
-    "swagger-ui-express": "^5.0.1",
-    "winston": "^3.19.0",
-    "zod": "^4.3.6",
     "prisma": "^6.6.0",
-    "typescript": "^5.9.3"
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "^5.9.3",
+    "winston": "^3.19.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "supertest": "^7.2.2",
@@ -49,4 +52,3 @@
     "vitest": "^4.0.18"
   }
 }
-

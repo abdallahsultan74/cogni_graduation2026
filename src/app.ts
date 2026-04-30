@@ -11,7 +11,12 @@ import { requestId } from "./middlewares/requestId.middleware.js";
 import { globalErrorHandler } from "./middlewares/errorHandler.middleware.js";
 import prisma from "./config/prisma.js";
 import { asyncHandler } from "./utils/asyncHandler.js";
-import { RATE_LIMIT_WINDOW_MS, RATE_LIMIT_MAX_API, RATE_LIMIT_MAX_AUTH } from "./constants/api.js";
+import {
+  RATE_LIMIT_WINDOW_MS,
+  RATE_LIMIT_MAX_API,
+  RATE_LIMIT_MAX_AUTH,
+  RATE_LIMIT_MAX_FORGOT_PASSWORD
+} from "./constants/api.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import studentRoutes from "./routes/student.routes.js";
@@ -45,7 +50,18 @@ const authLimiter = rateLimit({
   message: { success: false, message: "Too many login attempts, please try again later." }
 });
 
+const forgotPasswordLimiter = rateLimit({
+  windowMs: RATE_LIMIT_WINDOW_MS,
+  max: RATE_LIMIT_MAX_FORGOT_PASSWORD,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: "Too many reset attempts, please try again later." }
+});
+
 const app = express();
+// Running behind Vercel/Supabase gateway requires trusting proxy headers
+// so rate-limit can resolve client IP without throwing proxy validation errors.
+app.set("trust proxy", 1);
 app.use(requestId);
 app.use(morgan("combined", { stream: createMorganStream() }));
 app.use(express.json());
@@ -79,7 +95,13 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api", apiLimiter);
 
 app.use("/api/auth/login", authLimiter);
+app.use("/api/auth/login/student", authLimiter);
+app.use("/api/auth/login/advisor", authLimiter);
+app.use("/api/auth/login/admin", authLimiter);
 app.use("/api/auth/register", authLimiter);
+app.use("/api/auth/forgot-password", forgotPasswordLimiter);
+app.use("/api/auth/forgot-password/otp/request", forgotPasswordLimiter);
+app.use("/api/auth/forgot-password/otp/verify", forgotPasswordLimiter);
 
 // Feature routes
 app.use("/api/auth", authRoutes);

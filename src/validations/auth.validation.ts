@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const loginSchema = z.object({
   body: z.object({
-    identifier: z.string().min(14, "Invalid national ID"),
+    email: z.string().email("Valid email is required"),
     password: z.string().min(6),
     role: z.enum(["STUDENT", "ADVISOR", "ADMIN"]).optional()
   })
@@ -15,16 +15,24 @@ export const changePasswordSchema = z.object({
   })
 });
 
-/** تسجيل طالب جديد (عام — بدون توكن أدمن) */
-export const registerStudentSchema = z.object({
+export const forgotPasswordSchema = z.object({
   body: z.object({
-    first_name: z.string().min(2),
-    middle_name: z.string().optional(),
-    last_name: z.string().min(2),
     national_id: z.string().min(14),
     personal_email: z.string().email(),
-    password: z.string().min(6),
-    gender: z.string().optional(),
-    street_address: z.string().optional()
+    newPassword: z.string().min(6)
+  })
+});
+
+export const forgotPasswordOtpRequestSchema = z.object({
+  body: z.object({
+    email: z.string().email()
+  })
+});
+
+export const forgotPasswordOtpVerifySchema = z.object({
+  body: z.object({
+    email: z.string().email(),
+    otp: z.string().min(4),
+    newPassword: z.string().min(6)
   })
 });

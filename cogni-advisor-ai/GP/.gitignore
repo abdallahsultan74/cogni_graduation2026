@@ -1,0 +1,21 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+
+# Vector store is keyed to the active embedding model; rebuild locally.
+bylaws_vector_index/
+
+# SQLite is rebuilt from students.seed.json on first request.
+recommendation/data/students.db
+
+# Test artifacts
+tests/baselines/before/
+tests/baselines/after/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store

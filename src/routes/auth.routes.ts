@@ -6,28 +6,71 @@ import { authenticate } from "../middlewares/auth.middleware.js";
 import {
   registerStudentHandler,
   loginHandler,
+  loginStudentHandler,
+  loginAdvisorHandler,
+  loginAdminHandler,
   changePasswordHandler,
-  meHandler
+  meHandler,
+  forgotPasswordHandler,
+  requestForgotPasswordOtpHandler,
+  verifyForgotPasswordOtpHandler
 } from "../controllers/auth.controller.js";
 
 import {
-  registerStudentSchema,
   loginSchema,
-  changePasswordSchema
+  changePasswordSchema,
+  forgotPasswordSchema,
+  forgotPasswordOtpRequestSchema,
+  forgotPasswordOtpVerifySchema
 } from "../validations/auth.validation.js";
 
 const router = Router();
 
 router.post(
   "/register",
-  validate(registerStudentSchema),
   asyncHandler(registerStudentHandler)
+);
+
+router.post(
+  "/forgot-password",
+  validate(forgotPasswordSchema),
+  asyncHandler(forgotPasswordHandler)
+);
+
+router.post(
+  "/forgot-password/otp/request",
+  validate(forgotPasswordOtpRequestSchema),
+  asyncHandler(requestForgotPasswordOtpHandler)
+);
+
+router.post(
+  "/forgot-password/otp/verify",
+  validate(forgotPasswordOtpVerifySchema),
+  asyncHandler(verifyForgotPasswordOtpHandler)
 );
 
 router.post(
   "/login",
   validate(loginSchema),
   asyncHandler(loginHandler)
+);
+
+router.post(
+  "/login/student",
+  validate(loginSchema),
+  asyncHandler(loginStudentHandler)
+);
+
+router.post(
+  "/login/advisor",
+  validate(loginSchema),
+  asyncHandler(loginAdvisorHandler)
+);
+
+router.post(
+  "/login/admin",
+  validate(loginSchema),
+  asyncHandler(loginAdminHandler)
 );
 
 router.get("/me", authenticate, asyncHandler(meHandler));

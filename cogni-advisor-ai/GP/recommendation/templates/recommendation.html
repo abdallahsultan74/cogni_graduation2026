@@ -1,0 +1,1377 @@
+{% extends "base.html" %}
+{% block title %}Cogni Advisor — Course Recommendation{% endblock %}
+
+{% block head_extra %}
+<style>
+  .reco-page { max-width: var(--container-wide); margin: 0 auto; }
+
+  /* Form card */
+  .reco-form-card {
+    background: var(--surface-card);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-6);
+    margin-bottom: var(--space-7);
+    position: relative;
+    overflow: hidden;
+  }
+  .reco-form-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--ink-900));
+  }
+
+  .reco-form-head { display: flex; align-items: end; justify-content: space-between; gap: var(--space-5); margin-bottom: var(--space-5); flex-wrap: wrap; }
+  .reco-form-head h1 { font-size: var(--text-2xl); margin: 0; }
+  .reco-form-head p { margin: 0; color: var(--ink-500); font-size: var(--text-sm); }
+
+  .reco-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .reco-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  /* Result bento */
+  .reco-bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-5);
+  }
+
+  .reco-card {
+    background: var(--surface-card);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .reco-card h2 {
+    font-size: var(--text-lg);
+    font-family: var(--font-display);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .reco-card h2::before {
+    content: "";
+    width: 6px; height: 22px;
+    border-radius: 3px;
+    background: var(--accent);
+  }
+  .reco-card.warn h2::before { background: var(--warn); }
+  .reco-card.dim h2::before { background: var(--ink-300); }
+  .reco-card.success h2::before { background: var(--success); }
+
+  /* AI advisor summary card — sits at the top of the bento and gives the
+     student a 2-paragraph plain-English read of the deterministic data. */
+  .ai-summary-card {
+    background:
+      linear-gradient(135deg, var(--accent-soft) 0%, var(--surface-card) 60%);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+  }
+  .ai-summary-head {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    margin-bottom: var(--space-3);
+  }
+  .ai-summary-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--accent-deep);
+    color: white;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .ai-summary-source {
+    margin: 2px 0 0;
+    font-size: var(--text-xs);
+    color: var(--ink-500);
+  }
+  .ai-summary-body {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: 1.55;
+    color: var(--ink-900);
+    letter-spacing: -0.005em;
+  }
+  .ai-summary-body p {
+    margin: 0 0 var(--space-3);
+    color: inherit;
+  }
+  .ai-summary-body p:last-child { margin-bottom: 0; }
+
+  /* Inline tag for Optional rows — shows which bylaw bucket the course
+     would chip into without needing a separate sub-section. */
+  .opt-tag {
+    display: inline-flex;
+    margin-left: var(--space-2);
+    padding: 1px 7px;
+    border-radius: var(--radius-pill);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+  .tag-general  { background: var(--accent-soft); color: var(--accent-deep); }
+  .tag-applied  { background: oklch(94% 0.04 280); color: oklch(40% 0.12 280); }
+  .tag-outside  { background: var(--cream-300); color: var(--ink-700); }
+
+  /* Min-credit-hours bylaw warning, lives inside "Plan for this term" */
+  .min-warning {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-3) var(--space-4);
+    margin: 0 0 var(--space-4);
+    background: var(--warn-soft);
+    border-left: 3px solid var(--warn);
+    border-radius: var(--radius-sm);
+    color: var(--warn-deep);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  .min-warning svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .min-warning strong { font-weight: 600; }
+  .min-warning-info {
+    background: var(--accent-soft);
+    border-left-color: var(--accent);
+    color: var(--accent-deep);
+  }
+
+  /* Card-internal blocks — used inside the merged "This term" and
+     "Looking ahead" cards so each card is one visual unit but its
+     subsections (Mandatory / General / Applied / Outside / Blocked)
+     remain visually distinct. */
+  .card-summary-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--hairline-soft);
+    flex-wrap: wrap;
+  }
+  .card-summary-row h2 { margin: 0; }
+  .card-summary-meta {
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+  }
+  .card-summary-meta strong { color: var(--ink-900); font-weight: 600; }
+
+  .card-block {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .card-block:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .card-block-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--ink-900);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .card-block-warn {
+    background: var(--warn-soft);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    border-top: none;
+    margin-top: var(--space-4);
+  }
+  .card-block-warn .card-block-title { color: var(--warn-deep); }
+
+  /* Section dividers inside the bento — span the full grid width and
+     introduce vertical breathing room between major reading zones. */
+  .bento-section {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px dashed var(--hairline);
+  }
+  .bento-section:first-of-type { margin-top: 0; }
+  .bento-section-label {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+  }
+  .bento-section-hint {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+  }
+  @media (max-width: 640px) {
+    .bento-section { flex-direction: column; gap: var(--space-1); align-items: flex-start; }
+  }
+
+  /* Bento spans */
+  .span-12 { grid-column: span 12; }
+  .span-8 { grid-column: span 8; }
+  .span-7 { grid-column: span 7; }
+  .span-6 { grid-column: span 6; }
+  .span-5 { grid-column: span 5; }
+  .span-4 { grid-column: span 4; }
+
+  @media (max-width: 980px) {
+    .reco-bento { grid-template-columns: repeat(6, 1fr); }
+    .span-12, .span-8, .span-7, .span-6, .span-5, .span-4 { grid-column: span 6; }
+  }
+
+  /* Summary card */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-4);
+  }
+  .summary-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .summary-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+    font-weight: 600;
+  }
+  .summary-value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--ink-900);
+    letter-spacing: -0.01em;
+  }
+  .summary-value.accent { color: var(--accent-deep); }
+
+  /* Course list */
+  .course-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+  .course-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .course-row:last-child { border-bottom: none; }
+  .course-code {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-500);
+    background: var(--cream-200);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    min-width: 56px;
+    text-align: center;
+  }
+  .course-name { color: var(--ink-900); font-size: var(--text-sm); }
+  .course-credits {
+    margin-left: auto;
+    font-size: var(--text-xs);
+    color: var(--ink-500);
+    flex-shrink: 0;
+  }
+  .empty-state {
+    color: var(--ink-400);
+    font-size: var(--text-sm);
+    padding: var(--space-3) 0;
+  }
+
+  /* Distribution status pills list */
+  .dist-list { display: flex; flex-direction: column; gap: var(--space-2); }
+  .dist-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+  }
+  .dist-name { font-size: var(--text-sm); color: var(--ink-700); }
+
+  /* Ineligible warning rows */
+  .ineligible-list { display: flex; flex-direction: column; gap: var(--space-3); }
+  .ineligible-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-3);
+    background: var(--warn-soft);
+    border-left: 3px solid var(--warn);
+    border-radius: var(--radius-sm);
+  }
+  .ineligible-name { font-weight: 500; color: var(--ink-900); font-size: var(--text-sm); }
+  .ineligible-prereq { font-size: var(--text-xs); color: var(--warn-deep); }
+
+  /* Completed-courses picker */
+  .completed-picker {
+    margin-top: var(--space-4);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    background: var(--cream-100);
+    overflow: hidden;
+  }
+  .completed-summary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface-card);
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: var(--text-sm);
+    color: var(--ink-700);
+    transition: background var(--duration-fast) var(--ease-out-soft);
+  }
+  .completed-summary:hover { background: var(--cream-200); }
+  .completed-summary .chev {
+    margin-left: auto;
+    transition: transform var(--duration-fast) var(--ease-out-soft);
+  }
+  .completed-picker[open] .completed-summary .chev { transform: rotate(180deg); }
+  .completed-picker-body {
+    padding: var(--space-4);
+    border-top: 1px solid var(--hairline-soft);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .completed-toolbar {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .completed-search {
+    flex: 1;
+    min-width: 200px;
+  }
+  .completed-stats {
+    font-size: var(--text-xs);
+    color: var(--ink-500);
+  }
+  .completed-stats strong { color: var(--ink-900); font-weight: 600; }
+
+  .completed-group { display: flex; flex-direction: column; gap: var(--space-2); }
+  .completed-group-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    color: var(--ink-900);
+    margin: 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .completed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-2);
+  }
+  .completed-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-card);
+    border: 1px solid var(--hairline-soft);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-out-soft),
+                background var(--duration-fast) var(--ease-out-soft);
+  }
+  .completed-row:hover { border-color: var(--ink-300); }
+  .completed-row input[type="checkbox"] {
+    accent-color: var(--accent-deep);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .completed-row input[type="checkbox"]:checked + .completed-row-text { color: var(--ink-900); }
+  .completed-row:has(input:checked) {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .completed-row-text {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    color: var(--ink-700);
+  }
+  .completed-row-code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-500);
+    background: var(--cream-200);
+    padding: 1px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .completed-row-name { flex: 1; font-size: var(--text-sm); }
+  .completed-row-credits { color: var(--ink-400); font-size: 11px; flex-shrink: 0; }
+
+  .form-notices {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .form-notice {
+    padding: var(--space-3) var(--space-4);
+    background: var(--warn-soft);
+    color: var(--warn-deep);
+    border-left: 3px solid var(--warn);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+  }
+
+  .live-level {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .live-level-num { font-family: var(--font-display); font-size: var(--text-base); }
+
+  /* Previous-courses transcript card */
+  .transcript-toolbar {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: var(--text-xs);
+    color: var(--ink-500);
+  }
+  .transcript-toolbar strong { color: var(--ink-900); font-weight: 600; }
+
+  .transcript-list {
+    list-style: none;
+    padding: var(--space-2) 0 var(--space-3);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .transcript-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto auto auto;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-2) var(--space-2);
+    border-radius: var(--radius-sm);
+    transition: background var(--duration-fast) var(--ease-out-soft);
+  }
+  .transcript-row:hover { background: var(--cream-200); }
+  .transcript-row + .transcript-row { border-top: 1px solid var(--hairline-soft); }
+  .transcript-row .when {
+    font-size: 11px;
+    color: var(--ink-400);
+    font-family: var(--font-mono);
+  }
+  .transcript-row .credits {
+    font-size: 11px;
+    color: var(--ink-500);
+    font-family: var(--font-mono);
+  }
+
+  .grade-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .grade-A { background: var(--success-soft); color: var(--success); }
+  .grade-B { background: var(--accent-soft); color: var(--accent-deep); }
+  .grade-C { background: var(--cream-300); color: var(--ink-700); }
+  .grade-D { background: var(--warn-soft); color: var(--warn-deep); }
+  .grade-F { background: oklch(94% 0.05 25); color: oklch(45% 0.15 25); }
+
+  .transcript-grouped {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .transcript-term {
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-md);
+    background: var(--cream-100);
+    overflow: hidden;
+  }
+  .transcript-term[open] {
+    background: var(--surface-card);
+    box-shadow: var(--shadow-sm);
+  }
+  .transcript-term-head {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--duration-fast) var(--ease-out-soft);
+  }
+  .transcript-term-head::-webkit-details-marker { display: none; }
+  .transcript-term-head:hover { background: var(--cream-200); }
+  .transcript-term[open] .transcript-term-head { border-bottom: 1px solid var(--hairline-soft); }
+
+  .transcript-term-head .chev {
+    color: var(--ink-400);
+    transition: transform var(--duration-fast) var(--ease-out-expo);
+    flex-shrink: 0;
+  }
+  .transcript-term[open] .transcript-term-head .chev { transform: rotate(90deg); color: var(--accent-deep); }
+
+  .transcript-term-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    color: var(--ink-900);
+    margin: 0;
+  }
+  .transcript-term-meta {
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+    margin-left: auto;
+  }
+  .transcript-term[open] .transcript-list {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .transcript-empty {
+    padding: var(--space-4);
+    text-align: center;
+    color: var(--ink-400);
+    font-size: var(--text-sm);
+  }
+
+  /* ID-only lookup mode */
+  .form-lookup .lookup-row {
+    display: flex;
+    gap: var(--space-3);
+    align-items: end;
+    flex-wrap: wrap;
+  }
+  .form-lookup .lookup-row .field { min-width: 140px; }
+
+  .sample-ids {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--hairline);
+  }
+  .sample-ids-label {
+    font-size: var(--text-xs);
+    color: var(--ink-500);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-right: var(--space-2);
+  }
+  .sample-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 6px 10px 6px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--cream-200);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out-soft);
+  }
+  .sample-pill:hover {
+    background: var(--surface-card);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  .sample-pill .sample-id {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-700);
+    font-weight: 600;
+  }
+  .sample-pill .sample-name {
+    font-size: var(--text-xs);
+    color: var(--ink-700);
+  }
+  .sample-pill .sample-dept {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+  }
+
+  /* Export-JSON button row */
+  .form-export {
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--hairline-soft);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .form-export-hint {
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+  }
+  /* Hide the inline JSON payload so the page doesn't render it as text */
+  #export-payload { display: none; }
+
+  /* Mode toggle below the form cards */
+  .form-mode-toggle {
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--hairline-soft);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+  }
+  .mode-link {
+    background: none;
+    border: none;
+    padding: 2px 4px;
+    color: var(--ink-500);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-out-soft),
+                text-decoration-color var(--duration-fast) var(--ease-out-soft);
+  }
+  .mode-link:hover { color: var(--ink-900); text-decoration-color: var(--ink-300); }
+  .mode-link[aria-current="true"] {
+    color: var(--ink-900);
+    font-weight: 600;
+    text-decoration-color: var(--accent);
+  }
+  .mode-sep { color: var(--ink-300); }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="reco-page">
+
+  {% set active_mode = mode|default('lookup') %}
+
+  <section class="reco-form-card reveal reveal-1">
+    <header class="reco-form-head">
+      <div>
+        <p class="eyebrow">Course Recommendation</p>
+        <h1>Plan next term in seconds.</h1>
+        <p>Enter a Student ID — the system pulls completed courses, GPA, and academic level from the registry. Term is the only planning input you choose.</p>
+      </div>
+    </header>
+
+    <!-- ===== LOOKUP MODE ===== -->
+    <form method="POST" id="lookup-form" class="form-lookup" {% if active_mode != 'lookup' %}hidden{% endif %}>
+      <input type="hidden" name="mode" value="lookup">
+      <div class="lookup-row">
+        <div class="field" style="flex: 2;">
+          <label class="field-label" for="student_id">Student ID</label>
+          <input class="input" type="text" id="student_id" name="student_id"
+                 value="{{ request.form.student_id or '' }}"
+                 placeholder="e.g. 20210525" autocomplete="off" autofocus>
+        </div>
+        <div class="field" style="flex: 1;">
+          <label class="field-label" for="term-lookup">Plan for term</label>
+          <select class="select" id="term-lookup" name="term">
+            <option value="" {% if not request.form.term %}selected{% endif %}>Auto (next term)</option>
+            <option value="First" {% if request.form.term == 'First' %}selected{% endif %}>First</option>
+            <option value="Second" {% if request.form.term == 'Second' %}selected{% endif %}>Second</option>
+            <option value="Summer" {% if request.form.term == 'Summer' %}selected{% endif %}>Summer</option>
+          </select>
+        </div>
+        <div class="field" style="flex: 1;">
+          <label class="field-label" for="semester-lookup">Semester type</label>
+          <select class="select" id="semester-lookup" name="semester">
+            <option value="regular" {% if (request.form.semester or 'regular') == 'regular' %}selected{% endif %}>Regular</option>
+            <option value="summer" {% if request.form.semester == 'summer' %}selected{% endif %}>Summer</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit" style="align-self: flex-end;">
+          Generate plan
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      {% if sample_students %}
+      <div class="sample-ids">
+        <span class="sample-ids-label">Try a sample student:</span>
+        {% for s in sample_students %}
+          <button type="button" class="sample-pill" data-id="{{ s.student_id }}">
+            <span class="sample-id">{{ s.student_id }}</span>
+            <span class="sample-name">{{ s.name }}</span>
+            <span class="sample-dept">{{ s.department }}</span>
+          </button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </form>
+
+    <!-- ===== WHAT-IF (MANUAL) MODE ===== -->
+    <form method="POST" id="manual-form" class="form-manual" {% if active_mode != 'manual' %}hidden{% endif %}>
+      <input type="hidden" name="mode" value="manual">
+
+      <div class="reco-form-grid">
+        <div class="field">
+          <label class="field-label" for="student_id_manual">Student ID</label>
+          <input class="input" type="text" id="student_id_manual" name="student_id"
+                 value="{{ request.form.student_id or '' }}" placeholder="e.g. what-if-1">
+        </div>
+        <div class="field">
+          <label class="field-label" for="gpa">GPA</label>
+          <input class="input" type="number" step="0.01" min="0" max="4" id="gpa" name="gpa"
+                 value="{{ request.form.gpa or '' }}" placeholder="e.g. 3.28">
+        </div>
+        <div class="field">
+          <label class="field-label" for="department-manual">Department</label>
+          <select class="select" id="department-manual" name="department">
+            {% set selected_dept = request.form.department or 'IT' %}
+            <option value="IT" {% if selected_dept == 'IT' %}selected{% endif %}>IT</option>
+            <option value="AI" {% if selected_dept == 'AI' %}selected{% endif %}>AI</option>
+            <option value="null" {% if selected_dept == 'null' %}selected{% endif %}>Common</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="term-manual">Term</label>
+          <select class="select" id="term-manual" name="term">
+            <option value="First" {% if (request.form.term or 'First') == 'First' %}selected{% endif %}>First</option>
+            <option value="Second" {% if request.form.term == 'Second' %}selected{% endif %}>Second</option>
+            <option value="Summer" {% if request.form.term == 'Summer' %}selected{% endif %}>Summer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="semester-manual">Semester</label>
+          <select class="select" id="semester-manual" name="semester">
+            <option value="regular" {% if (request.form.semester or 'regular') == 'regular' %}selected{% endif %}>Regular</option>
+            <option value="summer" {% if request.form.semester == 'summer' %}selected{% endif %}>Summer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="expected_to_graduate">Graduating soon</label>
+          <select class="select" id="expected_to_graduate" name="expected_to_graduate">
+            <option value="False" {% if (request.form.expected_to_graduate or 'False') == 'False' %}selected{% endif %}>No</option>
+            <option value="True" {% if request.form.expected_to_graduate == 'True' %}selected{% endif %}>Yes</option>
+          </select>
+        </div>
+      </div>
+
+      {% if catalog_groups %}
+      <details class="completed-picker" {% if completed_codes %}open{% endif %}>
+        <summary class="completed-summary">
+          <span>
+            <strong>Completed courses</strong>
+            <span style="color: var(--ink-400); margin-left: var(--space-2);">tick everything the student has passed</span>
+          </span>
+          <span class="completed-stats" id="completed-stats">
+            <strong id="completed-count">{{ completed_codes|length }}</strong> selected ·
+            <strong id="completed-credits">0</strong> hrs ·
+            level <strong id="live-level">First Level</strong>
+          </span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="completed-picker-body">
+          <div class="completed-toolbar">
+            <input class="input completed-search" type="search" id="completed-search" placeholder="Filter by code or course name…" aria-label="Filter courses">
+            <button type="button" class="btn btn-ghost" id="completed-clear">Clear all</button>
+          </div>
+          {% for level_label, courses in catalog_groups.items() %}
+          <div class="completed-group" data-level="{{ level_label }}">
+            <h3 class="completed-group-title">{{ level_label }}</h3>
+            <div class="completed-grid">
+              {% for course in courses %}
+              <label class="completed-row" data-code="{{ course.code }}" data-name="{{ course.course_name|lower }}">
+                <input type="checkbox" name="completed[]" value="{{ course.code }}"
+                       data-credits="{{ course.credit_hours }}"
+                       {% if course.code in completed_codes %}checked{% endif %}>
+                <span class="completed-row-text">
+                  <span class="completed-row-code">{{ course.code }}</span>
+                  <span class="completed-row-name">{{ course.course_name }}</span>
+                  <span class="completed-row-credits">{{ course.credit_hours }} hrs</span>
+                </span>
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </details>
+      {% endif %}
+
+      <div class="reco-actions" style="margin-top: var(--space-4);">
+        <button class="btn btn-primary" type="submit">
+          Generate plan
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+        </button>
+        <a class="btn btn-ghost" href="{{ url_for('recommendation.recommend') }}">Reset</a>
+      </div>
+    </form>
+
+    {% if notices %}
+    <div class="form-notices" style="margin-top: var(--space-4);">
+      {% for notice in notices %}
+        <div class="form-notice">{{ notice }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="form-export">
+      <button type="button" class="btn btn-ghost" id="export-json-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export JSON
+      </button>
+      <span class="form-export-hint">Downloads the full result + transcript for debugging.</span>
+    </div>
+    <script type="application/json" id="export-payload">{{ export_payload | tojson }}</script>
+    {% endif %}
+
+    <div class="form-mode-toggle">
+      <button type="button" class="mode-link" data-target="lookup" {% if active_mode == 'lookup' %}aria-current="true"{% endif %}>
+        Look up by Student ID
+      </button>
+      <span class="mode-sep">·</span>
+      <button type="button" class="mode-link" data-target="manual" {% if active_mode == 'manual' %}aria-current="true"{% endif %}>
+        What-if mode (manual entry)
+      </button>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    // Mode toggle (lookup ↔ manual)
+    const lookup = document.getElementById('lookup-form');
+    const manual = document.getElementById('manual-form');
+    document.querySelectorAll('.mode-link').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        const isLookup = target === 'lookup';
+        lookup.hidden = !isLookup;
+        manual.hidden = isLookup;
+        document.querySelectorAll('.mode-link').forEach(b =>
+          b.toggleAttribute('aria-current', b.dataset.target === target));
+      });
+    });
+
+    // Sample-id pills auto-fill the lookup input
+    document.querySelectorAll('.sample-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idEl = document.getElementById('student_id');
+        if (idEl) {
+          idEl.value = btn.dataset.id;
+          idEl.focus();
+        }
+      });
+    });
+
+    // Manual-mode multi-select widget — fetches policy thresholds from the API
+    // so the live-level readout never drifts from policy.json.
+    const picker = document.querySelector('.completed-picker');
+    if (!picker) return;
+    const search = document.getElementById('completed-search');
+    const clearBtn = document.getElementById('completed-clear');
+    const countEl = document.getElementById('completed-count');
+    const creditsEl = document.getElementById('completed-credits');
+    const levelEl = document.getElementById('live-level');
+    const checkboxes = Array.from(picker.querySelectorAll('input[type="checkbox"]'));
+    const rows = Array.from(picker.querySelectorAll('.completed-row'));
+    const groups = Array.from(picker.querySelectorAll('.completed-group'));
+
+    let LEVELS = [
+      { max: 30, label: 'First Level' },
+      { max: 63, label: 'Second Level' },
+      { max: 96, label: 'Third Level' },
+      { max: Infinity, label: 'Fourth Level' },
+    ];
+
+    fetch('{{ url_for("recommendation.api_policy") }}')
+      .then(r => r.ok ? r.json() : null)
+      .then(p => {
+        if (!p || !Array.isArray(p.level_thresholds)) return;
+        LEVELS = p.level_thresholds.map(t => ({
+          max: t.max_exclusive == null ? Infinity : Number(t.max_exclusive),
+          label: t.label,
+        }));
+        recompute();
+      })
+      .catch(() => { /* fall back to embedded LEVELS */ });
+
+    function recompute() {
+      let count = 0, credits = 0;
+      for (const cb of checkboxes) if (cb.checked) {
+        count += 1;
+        credits += parseInt(cb.dataset.credits || '0', 10);
+      }
+      countEl.textContent = count;
+      creditsEl.textContent = credits;
+      const level = LEVELS.find(l => credits < l.max) || LEVELS[LEVELS.length - 1];
+      levelEl.textContent = level.label;
+    }
+
+    function applyFilter() {
+      const q = (search.value || '').trim().toLowerCase();
+      for (const row of rows) {
+        const code = (row.dataset.code || '').toLowerCase();
+        const name = row.dataset.name || '';
+        row.style.display = (!q || code.includes(q) || name.includes(q)) ? '' : 'none';
+      }
+      for (const group of groups) {
+        const visible = group.querySelectorAll('.completed-row:not([style*="display: none"])').length;
+        group.style.display = visible === 0 ? 'none' : '';
+      }
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', recompute));
+    search.addEventListener('input', applyFilter);
+    clearBtn.addEventListener('click', () => {
+      checkboxes.forEach(cb => { cb.checked = false; });
+      recompute();
+    });
+
+    recompute();
+
+    // Export-JSON button: read the embedded payload and trigger a download.
+    const exportBtn = document.getElementById('export-json-btn');
+    const payloadEl = document.getElementById('export-payload');
+    if (exportBtn && payloadEl) {
+      exportBtn.addEventListener('click', function () {
+        let raw = payloadEl.textContent || '{}';
+        let pretty;
+        try {
+          pretty = JSON.stringify(JSON.parse(raw), null, 2);
+        } catch (e) {
+          pretty = raw;
+        }
+        const studentId = (() => {
+          try { return JSON.parse(raw)?.input?.student_id || 'student'; }
+          catch (e) { return 'student'; }
+        })();
+        const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        const blob = new Blob([pretty], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `eelu-recommendation-${studentId}-${ts}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+  })();
+  </script>
+
+  {% if result %}
+  <section class="reco-bento">
+
+    {# ───── 0. AI HEADLINE SUMMARY ───── #}
+    {% if ai_summary and ai_summary.summary %}
+    <article class="reco-card span-12 ai-summary-card reveal reveal-1">
+      <div class="ai-summary-head">
+        <span class="ai-summary-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 9.5 8.5 3 11l6.5 2.5L12 20l2.5-6.5L21 11l-6.5-2.5L12 2z"/>
+          </svg>
+        </span>
+        <div>
+          <p class="eyebrow" style="margin: 0;">AI advisor summary</p>
+          <p class="ai-summary-source">
+            {% if ai_summary.source == 'llm' %}
+              Generated by Gemini · grounded in this dashboard's data only
+            {% elif ai_summary.source == 'fallback' %}
+              Auto-generated (no LLM key configured — set GEMINI_API_KEY for richer narration)
+            {% else %}
+              LLM unavailable — showing deterministic fallback
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="ai-summary-body">
+        {% for paragraph in ai_summary.summary.split('\n\n') %}
+          {% if paragraph.strip() %}<p>{{ paragraph.strip() }}</p>{% endif %}
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {# ───── 1. AT A GLANCE ───── #}
+    <header class="bento-section">
+      <p class="bento-section-label">At a glance</p>
+      <p class="bento-section-hint">Snapshot of where this student stands.</p>
+    </header>
+
+    <article class="reco-card span-12 reveal reveal-2">
+      <h2>Student Academic Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-stat">
+          <span class="summary-label">Student</span>
+          <span class="summary-value">{{ result.student_summary.student_id }}</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-label">Level</span>
+          <span class="summary-value">{{ result.student_summary.academic_level }}</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-label">Department</span>
+          <span class="summary-value">{{ result.student_summary.department }}</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-label">GPA</span>
+          <span class="summary-value accent">{{ "%.2f"|format(result.student_summary.gpa|float) }}</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-label">Completed</span>
+          <span class="summary-value">{{ result.student_summary.total_completed_hours }} hrs</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-label">Remaining</span>
+          <span class="summary-value">{{ result.student_summary.total_remaining }} hrs</span>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-label">Next-term cap</span>
+          <span class="summary-value accent">{{ result.student_summary.credit_limit }} hrs</span>
+        </div>
+      </div>
+    </article>
+
+    {# ───── 2. THIS TERM — single card with all "register now" content ───── #}
+    <header class="bento-section">
+      <p class="bento-section-label">This term — register now</p>
+      <p class="bento-section-hint">Required courses (must register or be delayed) plus optional picks you can use to fill your remaining cap headroom.</p>
+    </header>
+
+    {% set min_unmet = registration.min_hrs > 0 and registration.required_total_hrs < registration.min_hrs and not registration.is_final_term %}
+
+    <article class="reco-card span-12 reveal reveal-3">
+      <header class="card-summary-row">
+        <h2>Plan for this term</h2>
+        <span class="card-summary-meta">
+          Required: <strong>{{ registration.required_total_hrs }} hrs</strong>
+          {% if registration.min_hrs > 0 %}· min <strong>{{ registration.min_hrs }} hrs</strong>{% endif %}
+          · cap <strong>{{ result.student_summary.credit_limit }} hrs</strong>
+        </span>
+      </header>
+
+      {% if min_unmet %}
+      <div class="min-warning">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div>
+          <strong>Below the bylaw minimum.</strong>
+          The 2021 bylaw (Article 4) requires at least <strong>{{ registration.min_hrs }} credit hours</strong> in a regular semester. We could only assemble <strong>{{ registration.required_total_hrs }} hrs</strong> from the eligible catalog this term. Consider taking outside-department options, deferring registration, or speaking with your advisor.
+        </div>
+      </div>
+      {% elif registration.is_final_term and registration.required_total_hrs < registration.min_hrs %}
+      <div class="min-warning min-warning-info">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        <div>
+          <strong>Final-term exception.</strong>
+          You have <strong>{{ result.student_summary.total_remaining }} hrs</strong> left to graduate, which is below the {{ registration.min_hrs }}-hour regular-semester minimum. The bylaw allows a smaller registration in this case.
+        </div>
+      </div>
+      {% endif %}
+
+      {# 2a — REQUIRED (mandatory + auto-promoted to meet bylaw min) #}
+      <section class="card-block">
+        <h3 class="card-block-title">
+          Required this term
+          {% if result.core_courses or registration.promoted %}
+            <span class="pill pill-warn">skip and you'll be delayed</span>
+            <span class="pill">{{ (result.core_courses | length) + (registration.promoted | length) }} course{{ 's' if (result.core_courses|length + registration.promoted|length) != 1 else '' }} · {{ registration.required_total_hrs }} hrs</span>
+          {% else %}
+            <span class="pill">none this term</span>
+          {% endif %}
+        </h3>
+
+        {% if result.core_courses %}
+          <p class="text-sm" style="margin: 0 0 var(--space-2);">Mandatory courses you're eligible for and that are offered this term. Each one you skip pushes graduation back at least one term.</p>
+          <ul class="course-list">
+            {% for course in result.core_courses %}
+              <li class="course-row">
+                <span class="course-code">{{ course.code }}</span>
+                <span class="course-name">{{ course.course_name }}</span>
+                <span class="course-credits">{{ course.credit_hours }} hrs</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if registration.promoted %}
+          <p class="text-sm" style="margin: var(--space-3) 0 var(--space-2);">
+            <strong>Plus the following to meet the {{ registration.min_hrs }}-hour bylaw minimum</strong>
+            (mandatory load is only {{ registration.core_hrs }} hrs — the bylaw requires you to register for at least {{ registration.min_hrs }}):
+          </p>
+          <ul class="course-list">
+            {% for opt in registration.promoted %}
+              <li class="course-row">
+                <span class="course-code">{{ opt.code }}</span>
+                <span class="course-name">
+                  {{ opt.course_name }}
+                  <span class="opt-tag {{ opt.tag_class }}">{{ opt.tag }}</span>
+                </span>
+                <span class="course-credits">{{ opt.credit_hours }} hrs</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if not result.core_courses and not registration.promoted %}
+          <p class="empty-state">No required courses this term — every mandatory you owe is either completed, blocked by a prerequisite, or only offered in the next term.{% if registration.is_final_term %} You're in your final term, so the bylaw 9-hour minimum is waived.{% endif %}</p>
+        {% endif %}
+      </section>
+
+      {# 2b — OPTIONAL — what's left to fill the cap headroom #}
+      <section class="card-block">
+        <h3 class="card-block-title">
+          Optional — fill up to your cap
+          <span class="pill pill-accent">{{ registration.headroom_hrs }} hrs of headroom</span>
+          <span class="pill">{{ registration.optional | length }} option{{ 's' if registration.optional|length != 1 else '' }}</span>
+        </h3>
+        {% if registration.optional %}
+          <p class="text-sm" style="margin: 0 0 var(--space-2);">
+            Required + cap math: <strong>{{ registration.required_total_hrs }}</strong> required + up to <strong>{{ registration.headroom_hrs }}</strong> optional ≤ <strong>{{ result.student_summary.credit_limit }}</strong> hr cap.
+            Pick whichever combination fits your load — these chip into your remaining electives, lab, and outside-department allowances.
+          </p>
+          <ul class="course-list">
+            {% for opt in registration.optional %}
+              <li class="course-row">
+                <span class="course-code">{{ opt.code }}</span>
+                <span class="course-name">
+                  {{ opt.course_name }}
+                  <span class="opt-tag {{ opt.tag_class }}">{{ opt.tag }}</span>
+                </span>
+                <span class="course-credits">{{ opt.credit_hours }} hrs</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="empty-state">No optional courses available — your required load already covers your remaining bylaw allowances, or the catalog has no eligible electives this term.</p>
+        {% endif %}
+      </section>
+    </article>
+
+    {# ───── 3. LOOKING AHEAD — single card combining queue + blocked ───── #}
+    {% set has_next = result.coming_next_term and result.coming_next_term.courses %}
+    {% set has_blocked = result.ineligible_courses %}
+    {% if has_next or has_blocked %}
+    <header class="bento-section">
+      <p class="bento-section-label">Looking ahead</p>
+      <p class="bento-section-hint">What's queued for after this term, and what's currently locked behind a prerequisite.</p>
+    </header>
+
+    <article class="reco-card span-12 reveal reveal-5">
+      <h2>What comes after</h2>
+
+      {% if has_next %}
+      {% set next_total = result.coming_next_term.courses | map(attribute='credit_hours') | sum %}
+      <section class="card-block">
+        <h3 class="card-block-title">
+          Coming in {{ result.coming_next_term.term|lower }} term
+          <span class="pill pill-accent">{{ result.coming_next_term.courses | length }} course{{ 's' if result.coming_next_term.courses|length != 1 else '' }} · {{ next_total }} hrs</span>
+        </h3>
+        <p class="text-sm" style="margin: 0 0 var(--space-2);">Mandatory courses already eligible — they just don't run this term.</p>
+        <ul class="course-list">
+          {% for course in result.coming_next_term.courses %}
+            <li class="course-row">
+              <span class="course-code">{{ course.code }}</span>
+              <span class="course-name">{{ course.course_name }}</span>
+              <span class="course-credits">{{ course.credit_hours }} hrs</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if has_blocked %}
+      <section class="card-block card-block-warn">
+        <h3 class="card-block-title">
+          Blocked — missing prerequisites
+          <span class="pill pill-warn">{{ result.ineligible_courses | length }} course{{ 's' if result.ineligible_courses|length != 1 else '' }}</span>
+        </h3>
+        <p class="text-sm" style="margin: 0 0 var(--space-2);">Mandatory courses you cannot register for yet:</p>
+        <div class="ineligible-list">
+          {% for course in result.ineligible_courses %}
+            <div class="ineligible-row">
+              <span class="ineligible-name">{{ course.course_name }} <span class="course-code" style="margin-left: 6px;">{{ course.code }}</span></span>
+              <span class="ineligible-prereq">Needs: {{ course.missing_prereqs }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </article>
+    {% endif %}
+
+    {# ───── 4. DEGREE PROGRESS ───── #}
+    <header class="bento-section">
+      <p class="bento-section-label">Degree progress</p>
+      <p class="bento-section-hint">How far you've gone against each bylaw bucket — green is done.</p>
+    </header>
+
+    <article class="reco-card span-12 success reveal reveal-6">
+      <h2>Distribution Requirements</h2>
+      <ul class="dist-list unstyled">
+        {% for category, status in result.remaining_requirements.items() %}
+          <li class="dist-row">
+            <span class="dist-name">{{ category }}</span>
+            {% if status == 'Fulfilled' %}
+              <span class="pill pill-success">Fulfilled</span>
+            {% else %}
+              <span class="pill pill-warn">{{ status }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </article>
+
+    {# ───── 5. HISTORY ───── #}
+    {% if enrollments %}
+    {% set passed_count = enrollments | selectattr('passed') | list | length %}
+    {% set retake_count = enrollments | selectattr('is_retake') | list | length %}
+    {% set failed_count = enrollments | length - passed_count %}
+    <header class="bento-section">
+      <p class="bento-section-label">Academic history</p>
+      <p class="bento-section-hint">Click a term to expand it. Most recent term opens by default.</p>
+    </header>
+
+    <article class="reco-card span-12 reveal reveal-6" id="previous-courses">
+      <h2>
+        Previous Courses
+        <span class="pill" style="margin-left: var(--space-3); font-weight: 500;">{{ enrollments | length }}</span>
+      </h2>
+      <div class="transcript-toolbar">
+        <span><strong>{{ passed_count }}</strong> passed</span>
+        {% if failed_count %}<span>·</span><span><strong>{{ failed_count }}</strong> failed</span>{% endif %}
+        {% if retake_count %}<span>·</span><span><strong>{{ retake_count }}</strong> retaken</span>{% endif %}
+        <span style="margin-left: auto;">
+          Cumulative GPA <strong>{{ "%.2f"|format(result.student_summary.gpa|float) }}</strong> on
+          <strong>{{ result.student_summary.total_completed_hours }}</strong> credit hrs
+        </span>
+      </div>
+
+      {% set term_groups = [] %}
+      {% set ns = namespace(current=None, current_key=None) %}
+      {% for e in enrollments %}
+        {% set key = e.year_taken ~ '-' ~ e.term_taken %}
+        {% if key != ns.current_key %}
+          {% set ns.current = {'year': e.year_taken, 'term': e.term_taken, 'rows': []} %}
+          {% set _ = term_groups.append(ns.current) %}
+          {% set ns.current_key = key %}
+        {% endif %}
+        {% set _ = ns.current.rows.append(e) %}
+      {% endfor %}
+
+      <div class="transcript-grouped">
+        {% for group in term_groups %}
+          {% set term_credits = group.rows | map(attribute='credit_hours') | sum %}
+          {% set term_passed = group.rows | selectattr('passed') | list | length %}
+          <details class="transcript-term" {% if loop.first %}open{% endif %}>
+            <summary class="transcript-term-head">
+              <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+              <h3 class="transcript-term-title">{{ group.term }} term · {{ group.year }}</h3>
+              <span class="transcript-term-meta">
+                {{ group.rows | length }} course{{ 's' if group.rows|length != 1 else '' }} ·
+                {{ term_credits }} hrs
+                {% if term_passed != group.rows|length %} · <span style="color: var(--warn-deep);">{{ group.rows|length - term_passed }} failed</span>{% endif %}
+              </span>
+            </summary>
+            <ul class="transcript-list">
+              {% for e in group.rows %}
+                <li class="transcript-row">
+                  <span class="course-code">{{ e.code }}</span>
+                  <span class="course-name">
+                    {{ e.course_name }}
+                    {% if e.is_retake %}<span class="pill pill-warn" style="margin-left: 6px; font-size: 9px;">retake</span>{% endif %}
+                  </span>
+                  <span class="credits">{{ e.credit_hours }} hrs</span>
+                  {% set grade_letter = e.grade[0] if e.grade else 'F' %}
+                  <span class="grade-pill grade-{{ grade_letter }}">{{ e.grade }}</span>
+                  <span class="when">{{ e.term_taken[:1] }}/{{ e.year_taken }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </details>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}
