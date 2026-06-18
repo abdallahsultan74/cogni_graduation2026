@@ -17,7 +17,9 @@ export const createUserSchema = z.object({
 });
 
 export const createStudentByAdminSchema = z.object({
-  body: createUserBodyBase
+  body: createUserBodyBase.extend({
+    personal_email: z.string().email("Valid personal email is required")
+  })
 });
 
 export const createAdvisorByAdminSchema = z.object({

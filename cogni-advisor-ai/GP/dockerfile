@@ -4,12 +4,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     EELU_HOST=0.0.0.0 \
-    EELU_PORT=7860
+    PORT=7860 \
+    EELU_PORT=7860 \
+    EELU_PRELOAD=0
 
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -19,4 +22,7 @@ COPY . .
 
 EXPOSE 7860
 
-CMD ["python", "run_app.py"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+  CMD curl -fsS "http://127.0.0.1:${PORT}/health" || exit 1
+
+CMD gunicorn --bind "0.0.0.0:${PORT}" --workers 1 --threads 4 --timeout 180 app:app

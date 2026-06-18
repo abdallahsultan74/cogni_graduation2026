@@ -1,0 +1,14 @@
+﻿python.exe : Traceback (most recent call last):
+At C:\Users\HD\AppData\Local\Temp\ps-script-8ed810f6-92d3-4310-ac38-52ee550ebda1.ps1:86 char:1
++ & "D:\congi_advisor\GP\venv\Scripts\python.exe" -c "
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 9, in <module>
+  File "C:\Users\HD\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 0-8: character maps to <undefined>
+PAGES 4
+=== PAGE 1 ===

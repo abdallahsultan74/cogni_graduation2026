@@ -1,0 +1,60 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: Dashboard → New → Blueprint → connect repo → apply this file.
+
+services:
+  # ── AI (Flask + RAG) ──────────────────────────────────────────────
+  - type: web
+    name: cogni-advisor-ai
+    runtime: docker
+    rootDir: cogni-advisor-ai/GP
+    dockerfilePath: ./dockerfile
+    plan: standard
+    healthCheckPath: /health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-flash-latest
+      - key: EELU_SECRET_KEY
+        generateValue: true
+      - key: EELU_PRELOAD
+        value: "0"
+
+  # ── Backend API (Node + Prisma) ───────────────────────────────────
+  - type: web
+    name: cogni-advisor-api
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build && npx prisma migrate deploy
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "20"
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: MAILBOXLAYER_ACCESS_KEY
+        sync: false
+      - key: COGNI_ADVISOR_AI_ENABLED
+        value: "1"
+      - key: COGNI_ADVISOR_AI_TIMEOUT_MS
+        value: "120000"
+      - key: COGNI_ADVISOR_AI_BASE_URL
+        fromService:
+          type: web
+          name: cogni-advisor-ai
+          envVarKey: RENDER_EXTERNAL_URL

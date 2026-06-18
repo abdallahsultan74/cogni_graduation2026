@@ -22,27 +22,10 @@
     "type": "Mandatory",
     "prerequisites": [
       "MA214",
-      "IT113",
-      "CS216"
+      "ST222"
     ],
     "Term": [
       "First"
-    ],
-    "department": "AI",
-    "level": "Third Year"
-  },
-  {
-    "code": "AI435",
-    "course_name": "Semantic Web and Ontology",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Mandatory",
-    "prerequisites": [
-      "AI311",
-      "IT230"
-    ],
-    "Term": [
-      "Second"
     ],
     "department": "AI",
     "level": "Third Year"
@@ -79,7 +62,7 @@
   },
   {
     "code": "CS215",
-    "course_name": "Object Oriented Programming",
+    "course_name": "Object Oriented Programing",
     "credit_hours": 3,
     "distribution_category": "Basic_Computer_Science",
     "type": "Mandatory",
@@ -99,6 +82,7 @@
     "distribution_category": "Basic_Computer_Science",
     "type": "Mandatory",
     "prerequisites": [
+      "IT215",
       "CS215"
     ],
     "Term": [
@@ -129,6 +113,7 @@
     "distribution_category": "Basic_Computer_Science",
     "type": "Mandatory",
     "prerequisites": [
+      "IT113",
       "CS216"
     ],
     "Term": [
@@ -174,6 +159,7 @@
     "distribution_category": "Applied_Sciences",
     "type": "Mandatory",
     "prerequisites": [
+      "IT240",
       "CS240"
     ],
     "Term": [
@@ -213,21 +199,6 @@
   {
     "code": "CS447",
     "course_name": "Selected Topics in Software Engineering",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [
-      "CS344"
-    ],
-    "Term": [
-      "Second"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "CS449",
-    "course_name": "Software Security",
     "credit_hours": 3,
     "distribution_category": "Applied_Sciences",
     "type": "Elective",
@@ -308,19 +279,6 @@
     "level": "First Year"
   },
   {
-    "code": "HU402",
-    "course_name": "Fundamental of Management",
-    "credit_hours": 2,
-    "distribution_category": "General_Requirements",
-    "type": "Elective",
-    "prerequisites": [],
-    "Term": [
-      "Second"
-    ],
-    "department": "null",
-    "level": "Fourth Year"
-  },
-  {
     "code": "HU427",
     "course_name": "Entrepreneurship",
     "credit_hours": 2,
@@ -396,7 +354,8 @@
     "distribution_category": "Basic_Computer_Science",
     "type": "Mandatory",
     "prerequisites": [
-      "CS112"
+      "CS112",
+      "ST121"
     ],
     "Term": [
       "Second"
@@ -411,6 +370,7 @@
     "distribution_category": "Applied_Sciences",
     "type": "Mandatory",
     "prerequisites": [
+      "IT215",
       "CS215"
     ],
     "Term": [
@@ -426,6 +386,7 @@
     "distribution_category": "Basic_Computer_Science",
     "type": "Mandatory",
     "prerequisites": [
+      "IT215",
       "CS215"
     ],
     "Term": [
@@ -456,7 +417,8 @@
     "distribution_category": "Applied_Sciences",
     "type": "Mandatory",
     "prerequisites": [
-      "IT212"
+      "IT212",
+      "ST222"
     ],
     "Term": [
       "Second"
@@ -510,73 +472,6 @@
     "level": "Fourth Year"
   },
   {
-    "code": "IT424",
-    "course_name": "Multimedia Mining",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [],
-    "Term": [
-      "Second"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "IT425",
-    "course_name": "Machine Vision",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [],
-    "Term": [
-      "First"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "IT426",
-    "course_name": "Virtual Reality",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [],
-    "Term": [
-      "Second"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "IT427",
-    "course_name": "Selected Topics in embedded systems",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [],
-    "Term": [
-      "Second"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "IT428",
-    "course_name": "Image processing",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Mandatory",
-    "prerequisites": [
-      "IT212"
-    ],
-    "Term": [
-      "Second"
-    ],
-    "department": "IT",
-    "level": "Third Year"
-  },
-  {
     "code": "IT434",
     "course_name": "Advanced Computer Networks",
     "credit_hours": 3,
@@ -584,21 +479,6 @@
     "type": "Elective",
     "prerequisites": [
       "IT231"
-    ],
-    "Term": [
-      "First"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "IT436",
-    "course_name": "Cloud Computing Networks",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [
-      "IT434"
     ],
     "Term": [
       "First"
@@ -637,36 +517,6 @@
     "level": "Fourth Year"
   },
   {
-    "code": "IT439",
-    "course_name": "Wireless and Mobile Networks",
-    "credit_hours": 3,
-    "distribution_category": "Applied_Sciences",
-    "type": "Elective",
-    "prerequisites": [
-      "IT434"
-    ],
-    "Term": [
-      "Second"
-    ],
-    "department": "IT",
-    "level": "Fourth Year"
-  },
-  {
-    "code": "LB211",
-    "course_name": "Networking Fundamentals lab",
-    "credit_hours": 2,
-    "distribution_category": "Specialized_Labs",
-    "type": "Mandatory",
-    "prerequisites": [
-      "IT231"
-    ],
-    "Term": [
-      "Second"
-    ],
-    "department": "null",
-    "level": "Third Year"
-  },
-  {
     "code": "LB312",
     "course_name": "Network Routing and Switching-Lab",
     "credit_hours": 2,
@@ -703,7 +553,8 @@
     "distribution_category": "Specialized_Labs",
     "type": "Mandatory",
     "prerequisites": [
-      "CS344"
+      "CS344",
+      "CS341"
     ],
     "Term": [
       "First"
@@ -728,7 +579,7 @@
   },
   {
     "code": "MA111",
-    "course_name": "Mathematics-1",
+    "course_name": "Mathematics1-",
     "credit_hours": 3,
     "distribution_category": "Math_And_Basic_Sciences",
     "type": "Mandatory",
@@ -834,7 +685,9 @@
     "credit_hours": 3,
     "distribution_category": "Math_And_Basic_Sciences",
     "type": "Mandatory",
-    "prerequisites": [],
+    "prerequisites": [
+      "ST121"
+    ],
     "Term": [
       "First"
     ],
@@ -851,6 +704,7 @@
       "Passing 60 Credit Hours"
     ],
     "Term": [
+      "Second",
       "Summer"
     ],
     "department": "null",

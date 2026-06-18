@@ -1,0 +1,43 @@
+{
+  "source": "eelulaw.pdf Article 16 (pages 10-18)",
+  "general_requirements_mandatory": [
+    "HU111",
+    "HU112",
+    "HU113"
+  ],
+  "general_requirements_elective": [
+    "HU101",
+    "HU402",
+    "HU201",
+    "HU124",
+    "HU125",
+    "HU115",
+    "HU427",
+    "HU128"
+  ],
+  "math_and_basic_sciences": [
+    "MA111",
+    "MA112",
+    "MA113",
+    "MA214",
+    "ST121",
+    "ST222",
+    "IT111",
+    "IT113"
+  ],
+  "basic_computer_science": [
+    "IT110",
+    "CS112",
+    "CS215",
+    "CS216",
+    "CS240",
+    "IT217",
+    "DS211",
+    "IT230",
+    "CS318",
+    "IT231",
+    "CS341",
+    "CS319",
+    "AI311"
+  ]
+}

@@ -13,21 +13,49 @@ COURSES_PATH = DATA_DIR / "courses.json"
 GRAPH_PATH = DATA_DIR / "prerequisite_graph.json"
 
 
+def _normalize_department(department=None):
+    value = str(department or "IT").strip().upper()
+    return "AI" if value == "AI" else "IT"
+
+
+def _courses_path_for_department(department=None):
+    track = _normalize_department(department)
+    track_path = DATA_DIR / f"courses_{track.lower()}.json"
+    if track_path.exists():
+        return track_path
+    return COURSES_PATH
+
+
+def _graph_path_for_department(department=None):
+    track = _normalize_department(department)
+    track_path = DATA_DIR / f"prerequisite_graph_{track.lower()}.json"
+    if track_path.exists():
+        return track_path
+    return GRAPH_PATH
+
+
 def load_policy():
-    ensure_preprocessed_data()
+    if not POLICY_PATH.exists():
+        ensure_preprocessed_data()
     with POLICY_PATH.open(encoding="utf-8") as handle:
         return json.load(handle)
 
 
-def load_courses():
-    ensure_preprocessed_data()
-    with COURSES_PATH.open(encoding="utf-8") as handle:
+def load_courses(department=None):
+    path = _courses_path_for_department(department)
+    if not path.exists():
+        ensure_preprocessed_data()
+        path = _courses_path_for_department(department)
+    with path.open(encoding="utf-8") as handle:
         return json.load(handle)
 
 
-def load_prerequisite_graph():
-    ensure_preprocessed_data()
-    with GRAPH_PATH.open(encoding="utf-8") as handle:
+def load_prerequisite_graph(department=None):
+    path = _graph_path_for_department(department)
+    if not path.exists():
+        ensure_preprocessed_data()
+        path = _graph_path_for_department(department)
+    with path.open(encoding="utf-8") as handle:
         return json.load(handle)
 
 
@@ -70,8 +98,8 @@ def determine_level(total_credits, policy=None):
     return thresholds[-1]["label"] if thresholds else "Unknown"
 
 
-def fetch_all_courses():
-    return load_courses()
+def fetch_all_courses(department=None):
+    return load_courses(department)
 
 
 def topological_sort(course_ids, graph):
@@ -235,7 +263,14 @@ def _resolve_gpa_cap(gpa, semester_max, policy):
     return semester_max
 
 
-def determine_credit_limit(gpa, expected_to_graduate, semester, remaining_credit_hours, policy=None):
+def determine_credit_limit(
+    gpa,
+    expected_to_graduate,
+    semester,
+    remaining_credit_hours,
+    policy=None,
+    total_completed_hours=0,
+):
     """Return the actual credit cap for this term, GPA-aware.
 
     Order of precedence:
@@ -245,7 +280,9 @@ def determine_credit_limit(gpa, expected_to_graduate, semester, remaining_credit
        has fewer remaining hours than the floor (final term).
     3. The semester max from policy bounds normal terms; the
        graduation-approval cap raises it when ``expected_to_graduate``.
-    4. The GPA band caps the result downward when GPA is below 2.0.
+    4. The GPA band caps the result downward when GPA is below 2.0 —
+       only after the student has completed at least one course (new
+       students have no transcript GPA yet).
     """
     policy = policy or load_policy()
     semester_rules = policy.get("credit_hour_limits", {})
@@ -256,7 +293,8 @@ def determine_credit_limit(gpa, expected_to_graduate, semester, remaining_credit
     graduation_cap = int(limits.get("max_credit_hours_with_graduation_approval", semester_max))
 
     cap = graduation_cap if expected_to_graduate else semester_max
-    cap = min(cap, _resolve_gpa_cap(gpa, cap, policy))
+    if total_completed_hours > 0:
+        cap = min(cap, _resolve_gpa_cap(gpa, cap, policy))
 
     if remaining_credit_hours <= 0:
         return 0
@@ -304,12 +342,16 @@ class AcademicAdvisor:
         self.term = term
         self.department = department
         self.policy = load_policy()
-        self.graph_bundle = load_prerequisite_graph()
+        self.graph_bundle = load_prerequisite_graph(department)
         self.prerequisite_graph = self.graph_bundle.get("prerequisites", {})
         self.reverse_graph = self.graph_bundle.get("dependents", {})
 
         completed_source = completed_course_details if completed_course_details is not None else []
-        all_courses_source = all_courses if all_courses is not None else fetch_all_courses()
+        all_courses_source = (
+            all_courses
+            if all_courses is not None
+            else fetch_all_courses(department)
+        )
 
         self.completed_courses = normalize_courses(completed_source)
         self.all_courses = normalize_courses(all_courses_source)
@@ -348,6 +390,7 @@ class AcademicAdvisor:
             self.semester,
             graduation_gap,
             policy=self.policy,
+            total_completed_hours=self.total_completed_hours,
         )
         self.deficits = compute_deficits(self.completed_courses, self.department, policy=self.policy)
 
@@ -403,6 +446,13 @@ class AcademicAdvisor:
 
     def suggest_core_courses(self):
         core_eligible = [course for course in self.eligible if course["type"] != "Elective"]
+        if self.total_completed_hours == 0 and self.term == "First":
+            first_year = [
+                course for course in core_eligible
+                if str(course.get("level", "")).strip().lower() == "first year"
+            ]
+            if first_year:
+                return sorted(first_year, key=lambda c: c["code"])
         return csp_select(
             core_eligible,
             self.reverse_graph,
@@ -494,18 +544,20 @@ class AcademicAdvisor:
                 credit_used += hours
                 deficit -= hours
 
-            return len(picked), options, credit_used
+            return len(picked), options, credit_used, picked
 
         budget = max(int(remaining_credit_capacity), 0)
-        general_slots, general_options, used_general = pick_elective("General_Requirements", budget)
-        applied_slots, applied_options, used_applied = pick_elective(
+        general_slots, general_options, used_general, general_picked = pick_elective("General_Requirements", budget)
+        applied_slots, applied_options, used_applied, applied_picked = pick_elective(
             "Applied_Sciences", budget - used_general
         )
 
         result["General"] = general_slots
         result["GeneralOptions"] = general_options
+        result["GeneralSelected"] = general_picked
         result["Applied"] = applied_slots
         result["AppliedOptions"] = applied_options
+        result["AppliedSelected"] = applied_picked
         result["TotalElectives"] = general_slots + applied_slots
         result["UsedElectiveCredits"] = used_general + used_applied
         return result
@@ -552,6 +604,8 @@ class AcademicAdvisor:
         core_summaries = [_course_summary(course) for course in core_courses]
         general_options = [_course_summary(course) for course in electives.get("GeneralOptions", [])]
         applied_options = [_course_summary(course) for course in electives.get("AppliedOptions", [])]
+        general_selected = [_course_summary(course) for course in electives.get("GeneralSelected", [])]
+        applied_selected = [_course_summary(course) for course in electives.get("AppliedSelected", [])]
 
         student_summary = {
             "student_id": self.student_id,
@@ -580,8 +634,10 @@ class AcademicAdvisor:
             "electives": {
                 "Applied": electives.get("Applied", 0),
                 "AppliedOptions": applied_options,
+                "AppliedSelected": applied_selected,
                 "General": electives.get("General", 0),
                 "GeneralOptions": general_options,
+                "GeneralSelected": general_selected,
                 "TotalElectives": electives.get("TotalElectives", 0),
                 "UsedElectiveCredits": electives.get("UsedElectiveCredits", 0),
             },

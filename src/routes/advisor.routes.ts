@@ -8,7 +8,8 @@ import {
   updateMyProfileHandler,
   getMyStudentsHandler,
   getMyStudentByIdHandler,
-  getDashboardHandler
+  getDashboardHandler,
+  getStudentTranscriptHandler
 } from "../controllers/advisor.controller.js";
 import {
   updateAdvisorProfileSchema,
@@ -42,6 +43,11 @@ router.get(
   "/students/:studentId",
   validate(studentIdParamSchema),
   asyncHandler(getMyStudentByIdHandler)
+);
+router.get(
+  "/students/:studentId/transcript",
+  validate(studentIdParamSchema),
+  asyncHandler(getStudentTranscriptHandler)
 );
 
 export default router;

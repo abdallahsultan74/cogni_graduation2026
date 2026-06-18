@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Notification" ADD COLUMN IF NOT EXISTS "type" VARCHAR(30);
+ALTER TABLE "Notification" ADD COLUMN IF NOT EXISTS "action_url" VARCHAR(200);
+ALTER TABLE "Notification" ADD COLUMN IF NOT EXISTS "entity_id" INTEGER;

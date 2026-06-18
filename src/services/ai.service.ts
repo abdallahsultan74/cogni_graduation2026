@@ -1,29 +1,98 @@
 import prisma from "../config/prisma.js";
 import { AppError } from "../utils/AppError.js";
-import type { AIQueryType } from "@prisma/client";
+import { callCogniAdvisorAsk } from "./cogniAdvisorAiClient.js";
+
+const isAiEnabled = () =>
+  process.env.COGNI_ADVISOR_AI_ENABLED === "1" ||
+  process.env.COGNI_ADVISOR_AI_ENABLED === "true";
+
+const localizeBylawsFallback = (raw: string, question?: string): string => {
+  const lower = raw.toLowerCase().trim();
+  const isEnglishFallback =
+    lower.includes("the bylaws context does not specify") ||
+    lower === "the context does not specify this." ||
+    lower.includes("i don't have enough information in the bylaws");
+  if (!isEnglishFallback) return raw;
+  const isArabicQuestion = question ? /[\u0600-\u06FF]/.test(question) : false;
+  if (isArabicQuestion) {
+    return "اللائحة المتاحة لا تحتوي على معلومات كافية عن هذا السؤال.";
+  }
+  return raw;
+};
+
+const sanitizeChatAnswer = (raw: string, question?: string): string => {
+  if (!raw?.trim()) {
+    return "عذراً، لم أتمكن من إنشاء إجابة. حاول مرة أخرى.";
+  }
+  if (raw.startsWith("LLM Error") || raw.includes("generativelanguage.googleapis.com")) {
+    return "عذراً، خدمة الذكاء الاصطناعي غير متاحة حالياً. تأكد من تشغيل خدمة AI على المنفذ 7860 مع GEMINI_MODEL=gemini-flash-latest.";
+  }
+  return localizeBylawsFallback(raw, question);
+};
 
 export const createChatInteraction = async (studentId: number, message: string) => {
   const student = await prisma.student.findUnique({
-    where: { student_id: studentId }
+    where: { student_id: studentId },
+    include: {
+      enrollments: {
+        where: { status: { in: ["PASSED", "FAILED"] } },
+        include: { course: true },
+      },
+    },
   });
 
   if (!student) {
     throw new AppError("Student not found", 404);
   }
 
+  const studentContext = {
+    level: student.level,
+    cumulative_gpa: Number(student.cumulative_gpa),
+    earned_hours: student.total_earned_hours,
+    major_type: student.major_type,
+    completed_courses: student.enrollments
+      .filter((e) => e.grade && e.grade !== "F")
+      .map((e) => e.course.course_code),
+    failed_courses: student.enrollments
+      .filter((e) => e.grade === "F")
+      .map((e) => e.course.course_code),
+  };
+
+  let answer: string | null = null;
+  let status: "COMPLETED" | "FAILED" | "PENDING" = "PENDING";
+
+  if (isAiEnabled()) {
+    try {
+      const result = await callCogniAdvisorAsk(message, studentContext);
+      answer = sanitizeChatAnswer(result.answer, message);
+      status = answer.includes("غير متاحة") && result.answer.startsWith("LLM Error")
+        ? "FAILED"
+        : "COMPLETED";
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "AI service unavailable";
+      answer = msg.includes("Cannot reach AI service")
+        ? "خدمة الذكاء الاصطناعي غير متصلة. تأكد من تشغيل Flask على المنفذ 7860 مع COGNI_ADVISOR_AI_ENABLED=1."
+        : msg.includes("timed out")
+          ? "استغرق الطلب وقتاً طويلاً. حاول مرة أخرى بعد تحميل النماذج (EELU_PRELOAD=1)."
+          : msg;
+      status = "FAILED";
+    }
+  }
+
   const interaction = await prisma.aIInteraction.create({
     data: {
       student_id: studentId,
       query_type: "CHAT",
-      input_data: { message },
-      status: "PENDING"
-    }
+      input_data: { message, student_context: studentContext },
+      response_data: answer ? { answer } : undefined,
+      status,
+    },
   });
 
   return {
     interaction_id: interaction.interaction_id,
-    message: "Your inquiry has been submitted. It will be processed shortly",
-    status: interaction.status
+    answer: answer ?? "خدمة الذكاء الاصطناعي غير متاحة حالياً. حاول لاحقاً.",
+    status: interaction.status,
   };
 };
 
@@ -184,12 +253,18 @@ export const getStudentHistory = async (studentId: number) => {
 
   return {
     total: interactions.length,
-    interactions: interactions.map(i => ({
-      interaction_id: i.interaction_id,
-      query_type: i.query_type,
-      status: i.status,
-      created_at: i.created_at,
-      has_response: !!i.response_data
-    }))
+    interactions: interactions.map((i) => {
+      const input = i.input_data as { message?: string } | null;
+      const response = i.response_data as { answer?: string } | null;
+      return {
+        interaction_id: i.interaction_id,
+        query_type: i.query_type,
+        status: i.status,
+        created_at: i.created_at,
+        has_response: !!i.response_data,
+        message: input?.message ?? null,
+        answer: response?.answer ?? null,
+      };
+    }),
   };
 };

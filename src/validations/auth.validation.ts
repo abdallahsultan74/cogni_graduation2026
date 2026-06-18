@@ -23,6 +23,20 @@ export const forgotPasswordSchema = z.object({
   })
 });
 
+export const forgotPasswordRequestSchema = z.object({
+  body: z.object({
+    national_id: z.string().min(14)
+  })
+});
+
+export const forgotPasswordConfirmSchema = z.object({
+  body: z.object({
+    national_id: z.string().min(14),
+    otp: z.string().regex(/^\d{6}$/, "OTP must be 6 digits"),
+    newPassword: z.string().min(6)
+  })
+});
+
 export const forgotPasswordOtpRequestSchema = z.object({
   body: z.object({
     email: z.string().email()

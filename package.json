@@ -9,6 +9,10 @@
     "openapi:export": "npx tsx scripts/export-openapi.ts",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:smoke": "tsx src/scripts/smoke_test.ts",
+    "test:e2e": "tsx src/scripts/e2e_full_test.ts",
+    "test:comprehensive": "tsx src/scripts/debug_comprehensive_test.ts",
+    "test:frontend-smoke": "tsx src/scripts/frontend_smoke_test.ts --open",
     "build": "tsc && node -e \"console.log('TypeScript build finished OK')\"",
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts"
@@ -40,13 +44,16 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
+    "pdfkit": "^0.19.1",
     "prisma": "^6.6.0",
+    "resend": "^6.12.4",
     "swagger-ui-express": "^5.0.1",
     "typescript": "^5.9.3",
     "winston": "^3.19.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/pdfkit": "^0.17.6",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "vitest": "^4.0.18"

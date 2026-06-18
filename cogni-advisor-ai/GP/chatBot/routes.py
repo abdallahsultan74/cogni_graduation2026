@@ -27,13 +27,14 @@ def chat():
 @chatbot_bp.route('/api/ask', methods=['POST'])
 def ask_question():
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         question = data.get("question", "").strip()
+        student_context = data.get("student_context")
 
         if not question:
             return jsonify({"error": "No question provided"}), 400
 
-        answer = process_query(question)
+        answer = process_query(question, student_context)
         print("The Chatbot Answer: ", answer)
         return jsonify({"answer": answer}), 200
 

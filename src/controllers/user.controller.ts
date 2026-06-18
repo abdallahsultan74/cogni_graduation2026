@@ -33,8 +33,8 @@ export const createAdminByAdminHandler = async (req: any, res: Response) => {
 };
 
 export const getUsersHandler = async (req: any, res: Response) => {
-
-  const users = await userService.getAllUsers();
+  const role = req.query.role as string | undefined;
+  const users = await userService.getAllUsers(role);
 
   res.json(users);
 };

@@ -15,6 +15,7 @@ const router = Router();
 
 router.get("/me/summary", authenticate, authorize("STUDENT"), asyncHandler(controller.getMySummaryHandler));
 router.get("/me", authenticate, authorize("STUDENT"), asyncHandler(controller.getMyProfileHandler));
+router.get("/me/transcript", authenticate, authorize("STUDENT"), asyncHandler(controller.getMyTranscriptHandler));
 router.patch("/me", authenticate, authorize("STUDENT"), validate(updateMyProfileSchema), asyncHandler(controller.updateMyProfileHandler));
 router.get("/me/messages", authenticate, authorize("STUDENT"), asyncHandler(getMessagesWithAdvisorHandler));
 router.post("/me/messages", authenticate, authorize("STUDENT"), validate(sendMessageBodySchema), asyncHandler(sendMessageToAdvisorHandler));

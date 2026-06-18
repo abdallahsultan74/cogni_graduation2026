@@ -33,7 +33,7 @@ def main():
             return False
     
     # Hugging Face Spaces usually provides PORT; keep EELU_PORT for local/dev compatibility.
-    port = int(os.environ.get("PORT") or os.environ.get("EELU_PORT", "5050"))
+    port = int(os.environ.get("PORT") or os.environ.get("EELU_PORT", "7860"))
     host = os.environ.get("EELU_HOST", "0.0.0.0")
 
     print()

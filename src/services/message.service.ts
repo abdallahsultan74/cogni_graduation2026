@@ -1,13 +1,33 @@
 import prisma from "../config/prisma.js";
 import { AppError } from "../utils/AppError.js";
+import { createNotification } from "./notification.service.js";
+
+type NotificationPayload = Parameters<typeof createNotification>[0];
+
+const notifySafely = async (payload: NotificationPayload) => {
+  try {
+    await createNotification(payload);
+  } catch (err) {
+    console.warn("Failed to create notification:", err);
+  }
+};
 
 /** List conversations for advisor: students assigned to this advisor with last message. */
 export const getConversationsForAdvisor = async (advisorId: number) => {
   const students = await prisma.student.findMany({
     where: { advisor_id: advisorId },
     include: {
-      user: { select: { user_id: true, first_name: true, last_name: true } }
-    }
+      user: {
+        select: {
+          user_id: true,
+          first_name: true,
+          last_name: true,
+          university_email: true,
+          personal_email: true,
+          national_id: true,
+        },
+      },
+    },
   });
 
   const studentUserIds = students.map((s) => s.student_id);
@@ -39,10 +59,18 @@ export const getConversationsForAdvisor = async (advisorId: number) => {
     return {
       user_id: s.student_id,
       student_id: s.student_id,
+      student_code: s.university_student_id ?? `S${String(s.student_id).padStart(7, "0")}`,
+      university_student_id: s.university_student_id,
       full_name: `${s.user.first_name} ${s.user.last_name}`,
+      email: s.user.university_email,
+      national_id: s.user.national_id,
+      major_type: s.major_type,
+      level: s.level,
+      cumulative_gpa: Number(s.cumulative_gpa),
+      total_earned_hours: s.total_earned_hours,
       last_message: last?.body ?? null,
       last_message_at: last?.sent_at ?? null,
-      last_message_from_me: last?.is_from_me ?? null
+      last_message_from_me: last?.is_from_me ?? null,
     };
   });
 };
@@ -101,6 +129,15 @@ export const sendMessageToStudent = async (
     }
   });
 
+  await notifySafely({
+    recipient_id: recipientUserId,
+    title: "رسالة جديدة من مرشدك",
+    body: body.trim().slice(0, 200),
+    type: "MESSAGE",
+    action_url: "/student/messages",
+    entity_id: message.message_id,
+  });
+
   return {
     message_id: message.message_id,
     body: message.body,
@@ -149,12 +186,16 @@ export const sendMessageToAdvisor = async (
 ) => {
   const student = await prisma.student.findUnique({
     where: { student_id: studentUserId },
-    select: { advisor_id: true }
+    select: {
+      advisor_id: true,
+      user: { select: { first_name: true, last_name: true } },
+    },
   });
   if (!student || !student.advisor_id)
     throw new AppError("No advisor assigned. Contact administration", 404);
 
   const advisorUserId = student.advisor_id;
+  const studentName = `${student.user.first_name} ${student.user.last_name}`.trim();
 
   const message = await prisma.message.create({
     data: {
@@ -164,9 +205,42 @@ export const sendMessageToAdvisor = async (
     }
   });
 
+  await notifySafely({
+    recipient_id: advisorUserId,
+    title: `رسالة من ${studentName}`,
+    body: body.trim().slice(0, 200),
+    type: "MESSAGE",
+    action_url: `/advisor/messages?student=${studentUserId}`,
+    entity_id: message.message_id,
+  });
+
   return {
     message_id: message.message_id,
     body: message.body,
     sent_at: message.sent_at
   };
+};
+
+/** Count unread messages for current user (as recipient). */
+export const getUnreadMessagesCount = async (userId: number) => {
+  const count = await prisma.message.count({
+    where: { recipient_id: userId, is_read: false },
+  });
+  return { count };
+};
+
+/** Mark messages from a conversation as read when user opens thread. */
+export const markConversationRead = async (
+  userId: number,
+  otherUserId: number
+) => {
+  await prisma.message.updateMany({
+    where: {
+      sender_id: otherUserId,
+      recipient_id: userId,
+      is_read: false,
+    },
+    data: { is_read: true },
+  });
+  return { message: "Messages marked as read" };
 };

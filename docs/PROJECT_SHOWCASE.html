@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cogni-Advisor · EELU 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#05080f;--surface:#0d1220;--surface2:#111827;
+--blue:#3b82f6;--cyan:#06b6d4;--gold:#f59e0b;--purple:#8b5cf6;
+--border:rgba(59,130,246,0.18);--border2:rgba(6,182,212,0.15);
+--text:#f0f6ff;--muted:#6b7280;--subtle:#94a3b8;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;min-height:100vh}
+canvas#neural{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.35}
+.page{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 24px 80px}
+
+.hero{text-align:center;padding:70px 0 50px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:100px;padding:6px 16px;font-size:12px;color:#93c5fd;font-family:'Space Grotesk',sans-serif;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:28px}
+.badge span{width:6px;height:6px;background:#3b82f6;border-radius:50%;animation:pulse-dot 2s infinite}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,6vw,64px);font-weight:700;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,#f0f6ff 0%,#93c5fd 50%,#06b6d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp 0.8s ease}
+.hero-sub{font-size:16px;color:var(--subtle);max-width:560px;margin:0 auto 32px;line-height:1.7;animation:fadeUp 1s ease 0.2s both}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:40px;animation:fadeUp 1s ease 0.4s both}
+.chip{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 12px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--subtle);transition:transform 0.2s,border-color 0.2s}
+.chip:hover{transform:translateY(-2px)}
+.chip.blue{border-color:rgba(59,130,246,0.4);color:#93c5fd;background:rgba(59,130,246,0.08)}
+.chip.cyan{border-color:rgba(6,182,212,0.4);color:#67e8f9;background:rgba(6,182,212,0.08)}
+.chip.gold{border-color:rgba(245,158,11,0.4);color:#fcd34d;background:rgba(245,158,11,0.08)}
+.chip.purple{border-color:rgba(139,92,246,0.4);color:#c4b5fd;background:rgba(139,92,246,0.08)}
+
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:48px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 12px;text-align:center;transition:border-color 0.3s,transform 0.3s}
+.stat-card:hover{border-color:rgba(59,130,246,0.4);transform:translateY(-3px)}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+
+.section{margin-bottom:48px}
+.sec-label{font-size:11px;font-family:'Space Grotesk',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:600;margin-bottom:24px;color:var(--text)}
+
+.arch-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+.arch-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#3b82f6,#06b6d4,transparent)}
+.arch-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px}
+.arch-node{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:10px;padding:12px 16px;text-align:center;min-width:100px;transition:transform 0.3s}
+.arch-node:hover{transform:scale(1.05)}
+.arch-node.front{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.4)}
+.arch-node.center{background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.4)}
+.arch-node.db{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)}
+.arch-node .n-icon{font-size:20px;margin-bottom:4px}
+.arch-node .n-title{font-size:12px;font-weight:500;color:var(--text)}
+.arch-node .n-sub{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.arch-arrow{color:var(--muted);font-size:18px;padding:0 4px}
+.arch-users{display:flex;gap:8px;flex-direction:column}
+.arch-mini{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--subtle);text-align:center}
+
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all 0.3s;position:relative;overflow:hidden}
+.feat-card:hover{border-color:rgba(59,130,246,0.5);background:var(--surface2);transform:translateY(-4px)}
+.feat-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.feat-card:hover::after{transform:scaleX(1)}
+.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px}
+.feat-icon.ai{background:rgba(59,130,246,0.15)}
+.feat-icon.acad{background:rgba(6,182,212,0.15)}
+.feat-icon.plan{background:rgba(245,158,11,0.15)}
+.feat-icon.comm{background:rgba(139,92,246,0.15)}
+.feat-icon.mgmt{background:rgba(16,185,129,0.15)}
+.feat-icon.sec{background:rgba(239,68,68,0.15)}
+.feat-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:8px}
+.feat-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.feat-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+.feat-tag{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--cyan);background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:4px;padding:2px 7px}
+
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tech-col{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color 0.3s}
+.tech-col:hover{border-color:rgba(59,130,246,0.35)}
+.tech-col-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--subtle);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.tech-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tech-item:last-child{border-bottom:none}
+.tech-name{font-size:13px;color:var(--subtle)}
+.tech-val{font-size:11px;font-family:'JetBrains Mono',monospace;color:#93c5fd;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:4px;padding:2px 8px}
+.tech-val.cyan{color:#67e8f9;background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.2)}
+.tech-val.gold{color:#fcd34d;background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.2)}
+.tech-val.purple{color:#c4b5fd;background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.2)}
+
+.api-group{margin-bottom:20px}
+.api-group-title{font-size:12px;font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px}
+.api-row{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;font-family:'JetBrains Mono',monospace;font-size:12px;transition:border-color 0.2s,transform 0.2s}
+.api-row:hover{border-color:rgba(59,130,246,0.4);transform:translateX(4px)}
+.method{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;min-width:46px;text-align:center}
+.method.get{background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid rgba(16,185,129,0.3)}
+.method.post{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.3)}
+.method.patch{background:rgba(245,158,11,0.15);color:#fcd34d;border:1px solid rgba(245,158,11,0.3)}
+.method.crud{background:rgba(139,92,246,0.15);color:#c4b5fd;border:1px solid rgba(139,92,246,0.3)}
+.api-path{color:var(--text);flex:1}
+.api-path span{color:var(--cyan)}
+
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:all 0.3s}
+.team-card:hover{border-color:rgba(59,130,246,0.4);transform:translateY(-4px)}
+.avatar{width:48px;height:48px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600}
+.team-name{font-size:12px;font-weight:500;margin-bottom:4px;line-height:1.3}
+.team-id{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+
+.sup-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.sup-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color 0.3s}
+.sup-card:hover{border-color:rgba(245,158,11,0.4)}
+.sup-avatar{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:rgba(245,158,11,0.15)}
+.sup-title{font-size:12px;color:var(--muted);margin-bottom:2px}
+.sup-name{font-size:14px;font-weight:500}
+
+.future-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.future-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--subtle);transition:all 0.2s}
+.future-item:hover{color:var(--text);border-color:var(--border2);transform:translateX(4px)}
+.future-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#06b6d4);flex-shrink:0;animation:pulse-dot 2s infinite}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.3),rgba(6,182,212,0.3),transparent);margin:48px 0}
+.footer{text-align:center;padding:32px 0;border-top:1px solid var(--border)}
+.footer-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;background:linear-gradient(135deg,#3b82f6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.footer-sub{font-size:13px;color:var(--muted)}
+
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:700px){
+.stats-row{grid-template-columns:repeat(2,1fr)}
+.features-grid,.tech-grid{grid-template-columns:1fr}
+.team-grid{grid-template-columns:repeat(2,1fr)}
+.sup-row,.future-list{grid-template-columns:1fr}
+.arch-flow{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<canvas id="neural"></canvas>
+
+<div class="page">
+
+  <div class="hero">
+    <img src="../src/assets/logo.jpg" alt="Cogni-Advisor Logo" style="width:140px;height:140px;object-fit:contain;border-radius:24px;margin-bottom:24px;box-shadow:0 0 40px rgba(59,130,246,0.25);animation:fadeUp 0.8s ease" />
+    <div class="badge"><span></span>Graduation Project 2026 · EELU</div>
+    <h1 class="hero-title">Cogni-Advisor</h1>
+    <p class="hero-sub">AI-powered academic advising platform for Egyptian E-Learning University — risk analysis, course recommendations, smart study plans, and intelligent chat grounded in EELU bylaws.</p>
+    <div class="hero-chips">
+      <span class="chip purple">Next.js 14</span>
+      <span class="chip purple">React 18</span>
+      <span class="chip purple">Tailwind CSS</span>
+      <span class="chip purple">NextAuth</span>
+      <span class="chip blue">Node.js 20+</span>
+      <span class="chip blue">TypeScript 5.9</span>
+      <span class="chip blue">PostgreSQL 16</span>
+      <span class="chip cyan">Python 3.11</span>
+      <span class="chip cyan">LangChain RAG</span>
+      <span class="chip cyan">FAISS</span>
+      <span class="chip gold">Gemini API</span>
+      <span class="chip gold">HuggingFace</span>
+    </div>
+  </div>
+
+  <div class="stats-row fade-in">
+    <div class="stat-card"><div class="stat-num">8</div><div class="stat-lbl">Team Members</div></div>
+    <div class="stat-card"><div class="stat-num">20+</div><div class="stat-lbl">Frontend Pages</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-lbl">AI Modules</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-lbl">User Roles</div></div>
+    <div class="stat-card"><div class="stat-num">30+</div><div class="stat-lbl">API Endpoints</div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section fade-in">
+    <div class="sec-label">System Architecture</div>
+    <div class="sec-title">How It Works</div>
+    <div class="arch-box">
+      <div class="arch-flow">
+        <div class="arch-users">
+          <div class="arch-mini">👨‍🎓 Student</div>
+          <div class="arch-mini">👨‍🏫 Advisor</div>
+          <div class="arch-mini">🏛 Admin</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node front"><div class="n-icon">🖥</div><div class="n-title">Frontend</div><div class="n-sub">Next.js 14</div></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node center"><div class="n-icon">⚡</div><div class="n-title">Backend API</div><div class="n-sub">Express + TS</div></div>
+        <div class="arch-arrow">→</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="arch-node db"><div class="n-icon">🗄</div><div class="n-title">PostgreSQL</div><div class="n-sub">Prisma ORM</div></div>
+          <div class="arch-node" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.4)"><div class="n-icon">🤖</div><div class="n-title">AI Service</div><div class="n-sub">Flask + FAISS</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="sec-label">Core Features</div>
+    <div class="sec-title">Platform Highlights</div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon ai">🤖</div>
+        <div class="feat-title">AI Chatbot (RAG)</div>
+        <div class="feat-desc">Intelligent academic assistant answering bylaws and curriculum questions using FAISS + LangChain.</div>
+        <div class="feat-tags"><span class="feat-tag">LangChain</span><span class="feat-tag">FAISS</span><span class="feat-tag">Gemini</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon plan">📊</div>
+        <div class="feat-title">GPA Prediction</div>
+        <div class="feat-desc">Predicts cumulative GPA and analyzes academic risk based on student records.</div>
+        <div class="feat-tags"><span class="feat-tag">Risk Analysis</span><span class="feat-tag">Analytics</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon acad">📚</div>
+        <div class="feat-title">Course Recommender</div>
+        <div class="feat-desc">CSP engine analyzing prerequisites and EELU policy to suggest optimal courses.</div>
+        <div class="feat-tags"><span class="feat-tag">CSP</span><span class="feat-tag">Graph</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon mgmt">📝</div>
+        <div class="feat-title">Study Plan AI</div>
+        <div class="feat-desc">Auto-generated study plans with advisor review and approval workflow.</div>
+        <div class="feat-tags"><span class="feat-tag">Auto-Generate</span><span class="feat-tag">Approval</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon comm">💬</div>
+        <div class="feat-title">Messaging System</div>
+        <div class="feat-desc">Internal messaging, notifications, and email OTP password reset via Resend.</div>
+        <div class="feat-tags"><span class="feat-tag">Email</span><span class="feat-tag">OTP</span></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon sec">🔐</div>
+        <div class="feat-title">JWT Auth + RBAC</div>
+        <div class="feat-desc">Secure role-based access across Student, Advisor, and Admin portals.</div>
+        <div class="feat-tags"><span class="feat-tag">JWT</span><span class="feat-tag">NextAuth</span><span class="feat-tag">Zod</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="sec-label">Technology Stack</div>
+    <div class="sec-title">Full Stack</div>
+    <div class="tech-grid">
+      <div class="tech-col">
+        <div class="tech-col-title">🖥 Frontend</div>
+        <div class="tech-item"><span class="tech-name">Framework</span><span class="tech-val purple">Next.js 14</span></div>
+        <div class="tech-item"><span class="tech-name">UI Library</span><span class="tech-val purple">React 18</span></div>
+        <div class="tech-item"><span class="tech-name">Styling</span><span class="tech-val purple">Tailwind CSS</span></div>
+        <div class="tech-item"><span class="tech-name">Auth</span><span class="tech-val purple">NextAuth v4</span></div>
+        <div class="tech-item"><span class="tech-name">Data</span><span class="tech-val purple">React Query</span></div>
+        <div class="tech-item"><span class="tech-name">Forms</span><span class="tech-val purple">Hook Form + Zod</span></div>
+        <div class="tech-item"><span class="tech-name">UI Kit</span><span class="tech-val purple">Radix UI</span></div>
+      </div>
+      <div class="tech-col">
+        <div class="tech-col-title">⚡ Backend</div>
+        <div class="tech-item"><span class="tech-name">Runtime</span><span class="tech-val">Node.js 20+</span></div>
+        <div class="tech-item"><span class="tech-name">Framework</span><span class="tech-val">Express 5</span></div>
+        <div class="tech-item"><span class="tech-name">Language</span><span class="tech-val">TypeScript 5.9</span></div>
+        <div class="tech-item"><span class="tech-name">ORM</span><span class="tech-val">Prisma 6</span></div>
+        <div class="tech-item"><span class="tech-name">Database</span><span class="tech-val gold">PostgreSQL 16</span></div>
+        <div class="tech-item"><span class="tech-name">Auth</span><span class="tech-val">JWT</span></div>
+        <div class="tech-item"><span class="tech-name">Docs</span><span class="tech-val">Swagger</span></div>
+      </div>
+      <div class="tech-col">
+        <div class="tech-col-title">🤖 AI Service</div>
+        <div class="tech-item"><span class="tech-name">Language</span><span class="tech-val cyan">Python 3.11</span></div>
+        <div class="tech-item"><span class="tech-name">Framework</span><span class="tech-val cyan">Flask</span></div>
+        <div class="tech-item"><span class="tech-name">RAG</span><span class="tech-val cyan">LangChain</span></div>
+        <div class="tech-item"><span class="tech-name">Vector DB</span><span class="tech-val cyan">FAISS</span></div>
+        <div class="tech-item"><span class="tech-name">Embeddings</span><span class="tech-val cyan">BAAI/bge-base</span></div>
+        <div class="tech-item"><span class="tech-name">LLM</span><span class="tech-val gold">Gemini API</span></div>
+        <div class="tech-item"><span class="tech-name">Alt LLM</span><span class="tech-val gold">OpenRouter</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="sec-label">API Reference</div>
+    <div class="sec-title">Key Endpoints</div>
+    <div class="api-group">
+      <div class="api-group-title">🔐 Authentication</div>
+      <div class="api-row"><span class="method post">POST</span><span class="api-path">/api/auth/<span>login</span></span></div>
+      <div class="api-row"><span class="method get">GET</span><span class="api-path">/api/auth/<span>me</span></span></div>
+    </div>
+    <div class="api-group">
+      <div class="api-group-title">👨‍🎓 Student</div>
+      <div class="api-row"><span class="method post">POST</span><span class="api-path">/api/ai/<span>chat</span></span></div>
+      <div class="api-row"><span class="method get">GET</span><span class="api-path">/api/study-plan/<span>generate</span></span></div>
+      <div class="api-row"><span class="method get">GET</span><span class="api-path">/api/<span>recommendations</span></span></div>
+    </div>
+    <div class="api-group">
+      <div class="api-group-title">👨‍🏫 Advisor</div>
+      <div class="api-row"><span class="method get">GET</span><span class="api-path">/api/advisor/<span>dashboard</span></span></div>
+      <div class="api-row"><span class="method get">GET</span><span class="api-path">/api/ai/risk-analysis/<span>:studentId</span></span></div>
+      <div class="api-row"><span class="method patch">PATCH</span><span class="api-path">/api/study-plan/<span>:id</span>/review</span></div>
+    </div>
+    <div class="api-group">
+      <div class="api-group-title">🏛 Admin</div>
+      <div class="api-row"><span class="method crud">CRUD</span><span class="api-path">/api/<span>users</span> · /api/<span>courses</span> · /api/<span>semesters</span></span></div>
+      <div class="api-row"><span class="method get">GET</span><span class="api-path">/api/admin/<span>overview</span></span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section fade-in">
+    <div class="sec-label">Project Team</div>
+    <div class="sec-title">Development Team</div>
+    <div class="team-grid">
+      <div class="team-card"><div class="avatar" style="background:rgba(59,130,246,0.15);color:#93c5fd">RR</div><div class="team-name">Rahma Rabie Eid</div><div class="team-id">#2202599</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(6,182,212,0.15);color:#67e8f9">RH</div><div class="team-name">Radwa Hamada Said</div><div class="team-id">#2101903</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(245,158,11,0.15);color:#fcd34d">MA</div><div class="team-name">Mazen Ahmed Mohamed</div><div class="team-id">#2200703</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(139,92,246,0.15);color:#c4b5fd">WA</div><div class="team-name">Wahid Ahmed Mohamed</div><div class="team-id">#2200905</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(16,185,129,0.15);color:#6ee7b7">AT</div><div class="team-name">Abdelrahman Tarek</div><div class="team-id">#2200895</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(239,68,68,0.15);color:#fca5a5">AS</div><div class="team-name">Abdallah Sultan</div><div class="team-id">#2200929</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(59,130,246,0.15);color:#93c5fd">AE</div><div class="team-name">Ahmed Emad Mohamed</div><div class="team-id">#2102419</div></div>
+      <div class="team-card"><div class="avatar" style="background:rgba(6,182,212,0.15);color:#67e8f9">AM</div><div class="team-name">Abdulrahman Mohamed</div><div class="team-id">#2200704</div></div>
+    </div>
+    <div class="sup-row">
+      <div class="sup-card"><div class="sup-avatar">👨‍🏫</div><div><div class="sup-title">Academic Supervisor</div><div class="sup-name">Dr. Yasser Abdelhamid</div></div></div>
+      <div class="sup-card"><div class="sup-avatar">👩‍💻</div><div><div class="sup-title">Assistant Supervisor</div><div class="sup-name">Eng. Shrouk Abdelwence</div></div></div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="sec-label">Future Enhancements</div>
+    <div class="sec-title">Roadmap</div>
+    <div class="future-list">
+      <div class="future-item"><span class="future-dot"></span>Mobile Application</div>
+      <div class="future-item"><span class="future-dot"></span>Fine-Tuned Arabic Academic LLM</div>
+      <div class="future-item"><span class="future-dot"></span>Predictive Academic Analytics</div>
+      <div class="future-item"><span class="future-dot"></span>Real-Time Notifications</div>
+      <div class="future-item"><span class="future-dot"></span>Advanced Graduation Planner</div>
+      <div class="future-item"><span class="future-dot"></span>Multi-Faculty Support</div>
+      <div class="future-item"><span class="future-dot"></span>Learning Analytics Dashboard</div>
+      <div class="future-item"><span class="future-dot"></span>Voice-Based Academic Assistant</div>
+    </div>
+  </div>
+
+  <div class="footer fade-in">
+    <div class="footer-title">Cogni-Advisor · EELU 2026</div>
+    <div class="footer-sub">Bachelor of Information Technology — Artificial Intelligence Track</div>
+  </div>
+
+</div>
+
+<script>
+const canvas=document.getElementById('neural'),ctx=canvas.getContext('2d');
+let W,H,nodes=[],mouse={x:-999,y:-999};
+const N=55,MAX_DIST=130;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+for(let i=0;i<N;i++)nodes.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,r:Math.random()*2+1.5});
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<N;i++){
+    const a=nodes[i];a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;
+    const dm=Math.hypot(a.x-mouse.x,a.y-mouse.y);
+    if(dm<100){a.x+=(a.x-mouse.x)*0.01;a.y+=(a.y-mouse.y)*0.01}
+    ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,Math.PI*2);ctx.fillStyle='rgba(59,130,246,0.7)';ctx.fill();
+    for(let j=i+1;j<N;j++){
+      const b=nodes[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<MAX_DIST){
+        const alpha=(1-d/MAX_DIST)*0.35,g=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+        g.addColorStop(0,`rgba(59,130,246,${alpha})`);g.addColorStop(1,`rgba(6,182,212,${alpha})`);
+        ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=g;ctx.lineWidth=0.6;ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

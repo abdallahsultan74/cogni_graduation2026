@@ -11,6 +11,7 @@ export const getMyProfile = async (advisorId: number) => {
           first_name: true,
           middle_name: true,
           last_name: true,
+          university_email: true,
           personal_email: true,
           gender: true,
           street_address: true,
@@ -33,6 +34,7 @@ export const getMyProfile = async (advisorId: number) => {
       full_name: fullName,
       first_name: user.first_name,
       last_name: user.last_name,
+      university_email: user.university_email,
       personal_email: user.personal_email,
       gender: user.gender ?? null,
       street_address: user.street_address ?? null,
@@ -88,23 +90,28 @@ export const getMyStudents = async (
   if (filters?.level != null) where.level = filters.level;
   if (filters?.search?.trim()) {
     const term = filters.search.trim();
-    const num = Number(term);
-    if (!Number.isNaN(num) && Number.isInteger(num)) {
-      where.student_id = num;
+    if (/^220\d{4}$/.test(term)) {
+      where.university_student_id = term;
     } else {
-      where.user = {
-        OR: [
-          { first_name: { contains: term, mode: "insensitive" } },
-          { last_name: { contains: term, mode: "insensitive" } }
-        ]
-      };
+      const num = Number(term);
+      if (!Number.isNaN(num) && Number.isInteger(num)) {
+        where.student_id = num;
+      } else {
+        where.user = {
+          OR: [
+            { first_name: { contains: term, mode: "insensitive" } },
+            { last_name: { contains: term, mode: "insensitive" } },
+            { university_email: { contains: term, mode: "insensitive" } }
+          ]
+        };
+      }
     }
   }
 
   const students = await prisma.student.findMany({
     where,
     include: {
-      user: { select: { first_name: true, last_name: true } }
+      user: { select: { first_name: true, last_name: true, national_id: true } }
     },
     orderBy: [{ user: { last_name: "asc" } }, { user: { first_name: "asc" } }]
   });
@@ -118,10 +125,14 @@ export const getMyStudents = async (
 
     return {
       student_id: s.student_id,
-      student_code: `S${String(s.student_id).padStart(7, "0")}`,
+      student_code: s.university_student_id ?? `S${String(s.student_id).padStart(7, "0")}`,
+      university_student_id: s.university_student_id,
       full_name: `${s.user.first_name} ${s.user.last_name}`,
+      national_id: s.user.national_id,
+      major_type: s.major_type,
       level: s.level,
       cumulative_gpa: gpa,
+      total_earned_hours: s.total_earned_hours,
       status: s.status,
       academicStatus
     };
@@ -158,6 +169,7 @@ export const getDashboard = async (advisorId: number) => {
       prisma.studyPlan.count({
         where: {
           plan_status: "PENDING",
+          submitted_at: { not: null },
           student: { advisor_id: advisorId }
         }
       }),
@@ -174,7 +186,10 @@ export const getDashboard = async (advisorId: number) => {
         }
       }),
       prisma.studyPlan.findMany({
-        where: { student: { advisor_id: advisorId } },
+        where: {
+          submitted_at: { not: null },
+          student: { advisor_id: advisorId },
+        },
         take: 5,
         orderBy: { created_at: "desc" },
         include: {

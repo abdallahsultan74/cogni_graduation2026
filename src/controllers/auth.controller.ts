@@ -74,6 +74,18 @@ export const forgotPasswordHandler = async (req: any, res: Response) => {
   res.json(result);
 };
 
+export const requestForgotPasswordHandler = async (req: any, res: Response) => {
+  const { national_id } = req.body;
+  const result = await authService.requestPasswordResetByNationalId(national_id);
+  res.json(result);
+};
+
+export const confirmForgotPasswordHandler = async (req: any, res: Response) => {
+  const { national_id, otp, newPassword } = req.body;
+  const result = await authService.confirmPasswordReset(national_id, otp, newPassword);
+  res.json(result);
+};
+
 export const requestForgotPasswordOtpHandler = async (req: any, res: Response) => {
   const { email } = req.body;
   const result = await authService.requestForgotPasswordOtp(email);

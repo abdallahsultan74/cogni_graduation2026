@@ -25,6 +25,11 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/health")
+def health():
+    return {"status": "OK"}, 200
+
+
 # Preload models only when explicitly requested (production server) or as the main script.
 # Tests and harness import `app` without paying the 30-60s startup cost.
 def _should_preload():

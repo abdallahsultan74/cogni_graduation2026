@@ -481,6 +481,8 @@ pm2 start ecosystem.config.cjs --env production
 - **Swagger:** `http://localhost:5000/api-docs` — توثيق تفاعلي لجميع المسارات.
 - **Postman:** استورد `postman/collection.json`؛ أنشئ Environment بـ `BASE_URL` (مثلاً `http://localhost:5000`) و `ADMIN_TOKEN`، `ADVISOR_TOKEN`، `STUDENT_TOKEN` بعد Login.
 - **Health Check:** `GET /api/health` — جاهزية السيرفر وقاعدة البيانات.
+- **اختبار الواجهة (Frontend):** [`FRONTEND_TESTING.md`](./FRONTEND_TESTING.md) — دليل اختبار يدوي + smoke tests للعرض التقديمي.
+- **ملخص العرض:** [`FRONTEND_TESTING_PRESENTATION.md`](./FRONTEND_TESTING_PRESENTATION.md) — جدول مختصر للـ PowerPoint.
 
 **تشغيل الاختبارات:**
 
@@ -488,6 +490,7 @@ pm2 start ecosystem.config.cjs --env production
 npm test
 npm run test:watch
 npm run test:coverage
+npm run test:frontend-smoke   # اختبار دخان لمسارات الـ API التي يستخدمها الفرونت
 ```
 
 ---

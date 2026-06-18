@@ -31,6 +31,7 @@ import notificationRoutes from "./routes/notification.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
 import semesterRecordRoutes from "./routes/semesterRecord.routes.js";
 import messageRoutes from "./routes/message.routes.js";
+import sharedMessagesRoutes from "./routes/messages.routes.js";
 import recommendationsRoutes from "./routes/recommendations.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
 
@@ -100,8 +101,6 @@ app.use("/api/auth/login/advisor", authLimiter);
 app.use("/api/auth/login/admin", authLimiter);
 app.use("/api/auth/register", authLimiter);
 app.use("/api/auth/forgot-password", forgotPasswordLimiter);
-app.use("/api/auth/forgot-password/otp/request", forgotPasswordLimiter);
-app.use("/api/auth/forgot-password/otp/verify", forgotPasswordLimiter);
 
 // Feature routes
 app.use("/api/auth", authRoutes);
@@ -118,6 +117,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/semester-records", semesterRecordRoutes);
 app.use("/api/advisor/messages", messageRoutes);
+app.use("/api/messages", sharedMessagesRoutes);
 app.use("/api/recommendations", recommendationsRoutes);
 app.use("/api/ai", aiRoutes);
 

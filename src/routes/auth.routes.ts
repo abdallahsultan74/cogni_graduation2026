@@ -12,6 +12,8 @@ import {
   changePasswordHandler,
   meHandler,
   forgotPasswordHandler,
+  requestForgotPasswordHandler,
+  confirmForgotPasswordHandler,
   requestForgotPasswordOtpHandler,
   verifyForgotPasswordOtpHandler
 } from "../controllers/auth.controller.js";
@@ -20,6 +22,8 @@ import {
   loginSchema,
   changePasswordSchema,
   forgotPasswordSchema,
+  forgotPasswordRequestSchema,
+  forgotPasswordConfirmSchema,
   forgotPasswordOtpRequestSchema,
   forgotPasswordOtpVerifySchema
 } from "../validations/auth.validation.js";
@@ -29,6 +33,18 @@ const router = Router();
 router.post(
   "/register",
   asyncHandler(registerStudentHandler)
+);
+
+router.post(
+  "/forgot-password/request",
+  validate(forgotPasswordRequestSchema),
+  asyncHandler(requestForgotPasswordHandler)
+);
+
+router.post(
+  "/forgot-password/confirm",
+  validate(forgotPasswordConfirmSchema),
+  asyncHandler(confirmForgotPasswordHandler)
 );
 
 router.post(

@@ -1,0 +1,437 @@
+{
+  "source": "eelulaw.pdf appendix pages 31-35",
+  "blocks": [
+    {
+      "key": "first_year_first_semester",
+      "year_label": "first_year_first",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "IT111",
+          "name": "Electronics",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        },
+        {
+          "code": "MA111",
+          "name": "Mathematics1-",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        },
+        {
+          "code": "HU111",
+          "name": "Technical Report Writing",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "-",
+          "prerequisite": ""
+        },
+        {
+          "code": "HU113",
+          "name": "Human Rights",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "-",
+          "prerequisite": ""
+        },
+        {
+          "code": "MA112",
+          "name": "Discrete Math",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        },
+        {
+          "code": "IT110",
+          "name": "Introduction to Computers",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        }
+      ]
+    },
+    {
+      "key": "first_year_second_semester",
+      "year_label": "first_year_second",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "ST121",
+          "name": "Probability and Statistics-1",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Mathematics1"
+        },
+        {
+          "code": "HU112",
+          "name": "Creative and Scientific Thinking",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "-",
+          "prerequisite": ""
+        },
+        {
+          "code": "MA113",
+          "name": "Mathematics-2",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Mathematics1"
+        },
+        {
+          "code": "HU101",
+          "name": "Micro Economics",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "-",
+          "prerequisite": ""
+        },
+        {
+          "code": "IT113",
+          "name": "Logic Design",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Electronics"
+        },
+        {
+          "code": "CS112",
+          "name": "Programming Language",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Introduction to Computers"
+        }
+      ]
+    },
+    {
+      "key": "fourth_year_first_semester",
+      "year_label": "fourth_year_first",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "LB421",
+          "name": "Selected labs in Software Engineering",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Algorithms analysis and Design, Advanced Software Engineering"
+        },
+        {
+          "code": "IT423",
+          "name": "Embedded Systems",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Micro controller"
+        },
+        {
+          "code": "HU427",
+          "name": "Entrepreneurship",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "-",
+          "prerequisite": ""
+        },
+        {
+          "code": "IT434",
+          "name": "Advanced Computer Networks",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Computer Networks Technology"
+        },
+        {
+          "code": "PC401",
+          "name": "Project (1)",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "2",
+          "prerequisite": "Passing 85 Credit Hours"
+        },
+        {
+          "code": "CS446",
+          "name": "Software Design and architecture",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        }
+      ]
+    },
+    {
+      "key": "fourth_year_second_semester",
+      "year_label": "fourth_year_second",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "CS447",
+          "name": "Selected topics in software engineering",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        },
+        {
+          "code": "IT437",
+          "name": "Selected topics in Computer networks",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        },
+        {
+          "code": "CS445",
+          "name": "Software Testing and QA",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": ""
+        },
+        {
+          "code": "IT438",
+          "name": "Communication Technology",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Computer Networks Technology"
+        },
+        {
+          "code": "PC402",
+          "name": "Project (2)",
+          "credit_hours": 3,
+          "lecture_hours": "1",
+          "lab_hours": "4",
+          "prerequisite": "Project(1)"
+        },
+        {
+          "code": "LB431",
+          "name": "Selected labs in AI",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Artificial Intelligence"
+        }
+      ]
+    },
+    {
+      "key": "second_year_first_semester",
+      "year_label": "second_year_first",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "CS215",
+          "name": "Object Oriented Programing",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Programming Language"
+        },
+        {
+          "code": "DS211",
+          "name": "Introduction to Database systems",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Programming Language"
+        },
+        {
+          "code": "MA214",
+          "name": "Mathematics-3",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Mathematics2"
+        },
+        {
+          "code": "IT231",
+          "name": "Computer Networks Technology",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Introduction to Computers"
+        },
+        {
+          "code": "ST222",
+          "name": "Probability and Statistics-2",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Probability and Statistics 1"
+        },
+        {
+          "code": "CS240",
+          "name": "Introduction to Software Engineering",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Programming Language"
+        }
+      ]
+    },
+    {
+      "key": "second_year_second_semester",
+      "year_label": "second_year_second",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "IT217",
+          "name": "Introduction to Operation Research",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Programming Language, Probability and Statistics1"
+        },
+        {
+          "code": "CS216",
+          "name": "Data Structure",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Object Oriented Programing"
+        },
+        {
+          "code": "IT221",
+          "name": "Computer Graphics",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Object Oriented Programing"
+        },
+        {
+          "code": "IT230",
+          "name": "Web Technology",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Object Oriented Programing"
+        },
+        {
+          "code": "IT212",
+          "name": "Digital Signal Processing",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Mathematics3"
+        }
+      ]
+    },
+    {
+      "key": "third_year_first_semester",
+      "year_label": "third_year_first",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "LB312",
+          "name": "Network Routing and Switching-Lab",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Networking Fundamentals lab"
+        },
+        {
+          "code": "AI311",
+          "name": "Artificial intelligence",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Data Structure"
+        },
+        {
+          "code": "CS319",
+          "name": "Operating Systems",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Data Structure"
+        },
+        {
+          "code": "AI321",
+          "name": "Machine Learning Fundamentals",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Probability and Statistics2, Mathematics3"
+        },
+        {
+          "code": "CS318",
+          "name": "Computer Organization",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Logic Design, Data Structure"
+        },
+        {
+          "code": "CS341",
+          "name": "Algorithms analysis and Design",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Data Structure"
+        }
+      ]
+    },
+    {
+      "key": "third_year_second_semester",
+      "year_label": "third_year_second",
+      "semester_label": "Second semester",
+      "courses": [
+        {
+          "code": "IT322",
+          "name": "Pattern Recognition",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Digital Signal Processing, Probability and Statistics-2"
+        },
+        {
+          "code": "IT333",
+          "name": "Information Computer Networks Security",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Computer Networks Technology"
+        },
+        {
+          "code": "AI448",
+          "name": "Natural Language Processing",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Machine Learning Fundamentals"
+        },
+        {
+          "code": "CS344",
+          "name": "Advanced Software Engineering",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Introduction to Software Engineering"
+        },
+        {
+          "code": "IT343",
+          "name": "Micro controller",
+          "credit_hours": 3,
+          "lecture_hours": "2.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Computer Networks Technology"
+        },
+        {
+          "code": "LB313",
+          "name": "Ethical Hacking-lab",
+          "credit_hours": 2,
+          "lecture_hours": "1.5",
+          "lab_hours": "1.5",
+          "prerequisite": "Computer Networks Technology"
+        }
+      ]
+    }
+  ]
+}

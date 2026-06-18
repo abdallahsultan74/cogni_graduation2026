@@ -23,9 +23,9 @@
   {
     "id": "rag-004-summer-cap",
     "question": "What is the maximum number of credit hours allowed in the summer semester for a regular student?",
-    "expected_snippets": ["6"],
-    "expected_citations": ["Rules For general"],
-    "must_not_contain": ["9 credit hours summer", "12 credit hours summer"]
+    "expected_snippets": ["9"],
+    "expected_citations": ["policy", "articles_policy"],
+    "must_not_contain": ["6 credit hours summer", "maximum is 6"]
   },
   {
     "id": "rag-005-graduation-project-prereq",

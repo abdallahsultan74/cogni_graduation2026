@@ -1,0 +1,862 @@
+{
+  "pages": [
+    {
+      "page": 1,
+      "text": "تامولعملا ايجولونكت\n(First Year)\nFirst semester\nCourse Credit Lecture Exercise/Lab\nCourse Name Prerequisite\ncode Hours Hours Hours\nIT 111 Electronics 3 2.5 1.5 -\nMA111 Mathematics1- 3 2.5 1.5 -\nTechnical Report\nHU111 2 1.5 - -\nWriting\nHU113 Human Rights 2 1.5 - -\nMA112 Discrete Math 3 2.5 1.5 -\nIntroduction to\nIT110 3 2.5 1.5 -\nComputers\n16\nSecond semester\nCourse Credit Lecture Exercise/Lab\nCourse Name Prerequisite\ncode Hours Hours Hours\nProbability and\nST121 3 2.5 1.5 Mathematics-1\nStatistics-1\nCreative and\nHU112 2 1.5 - -\nScientific Thinking\nMA113 Mathematics-2 3 2.5 1.5 Mathematics-1\nHU101 Micro Economics 2 1.5 -\nIT113 Logic Design 3 2.5 1.5 Electronics\nProgramming\nIT 114 3 2.5 1.5 Introduction to\nTechniques\nComputers\n16\n1",
+      "tables": [
+        [
+          [
+            "First semester",
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            "Credit\nHours",
+            "Lecture\nHours",
+            "Exercise/Lab\nHours",
+            "Prerequisite"
+          ],
+          [
+            "IT 111",
+            "Electronics",
+            "3",
+            "2.5",
+            "1.5",
+            "-"
+          ],
+          [
+            "MA111",
+            "Mathematics1-",
+            "3",
+            "2.5",
+            "1.5",
+            "-"
+          ],
+          [
+            "HU111",
+            "Technical Report\nWriting",
+            "2",
+            "1.5",
+            "-",
+            "-"
+          ],
+          [
+            "HU113",
+            "Human Rights",
+            "2",
+            "1.5",
+            "-",
+            "-"
+          ],
+          [
+            "MA112",
+            "Discrete Math",
+            "3",
+            "2.5",
+            "1.5",
+            "-"
+          ],
+          [
+            "IT110",
+            "Introduction to\nComputers",
+            "3",
+            "2.5",
+            "1.5",
+            "-"
+          ],
+          [
+            "",
+            null,
+            "16",
+            "",
+            null,
+            ""
+          ]
+        ],
+        [
+          [
+            "Second semester",
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            "Credit\nHours",
+            "Lecture\nHours",
+            "Exercise/Lab\nHours",
+            "Prerequisite"
+          ],
+          [
+            "ST121",
+            "Probability and\nStatistics-1",
+            "3",
+            "2.5",
+            "1.5",
+            "Mathematics-1"
+          ],
+          [
+            "HU112",
+            "Creative and\nScientific Thinking",
+            "2",
+            "1.5",
+            "-",
+            "-"
+          ],
+          [
+            "MA113",
+            "Mathematics-2",
+            "3",
+            "2.5",
+            "1.5",
+            "Mathematics-1"
+          ],
+          [
+            "HU101",
+            "Micro Economics",
+            "2",
+            "1.5",
+            "-",
+            ""
+          ],
+          [
+            "IT113",
+            "Logic Design",
+            "3",
+            "2.5",
+            "1.5",
+            "Electronics"
+          ],
+          [
+            "IT 114",
+            "Programming\nTechniques",
+            "3",
+            "2.5",
+            "1.5",
+            "Introduction to\nComputers"
+          ],
+          [
+            "",
+            null,
+            "16",
+            "",
+            null,
+            ""
+          ]
+        ]
+      ]
+    },
+    {
+      "page": 2,
+      "text": "(Second year)\nFirst semester\nLectur\nCourse Credit Exercise/La\nCourse Name e Prerequisite\ncode Hours b Hours\nHours\nObject Oriented\nIT215 3 2.5 1.5 Programming Techniques\nPrograming\nIntroduction to\nDS211 3 2.5 1.5 Programming Techniques\nDatabase systems\nMA214 Mathematics-3 3 2.5 1.5 Mathematics-2\nComputer\nIT231 Networks 3 2.5 1.5 Introduction to Computers\nTechnology\nProbability and Probability and Statistics-\nST222 3 2.5 1.5\nStatistics-2 1\nIntroduction to\nSoftware\nIT240 3 2.5 1.5 Programming Techniques\nEngineering\n18\nSecond semester\nCredi\nCourse t Lecture Exercise/La\nCourse Name Prerequisite\ncode Hour Hours b Hours\ns\nProgramming\nIntroduction to Techniques,\nIT217 3 2.5 1.5\nOperation Research Probability and\nStatistics-1\nObject Oriented\nIT216 Data Structure 3 2.5 1.5\nPrograming\nMathematics-3\nMachine Learning\nAI321 3 2.5 1.5\nFundamentals Probability and\nStatistics-2\nHU427 Entrepreneurship 2 1.5 - -\nObject Oriented\nWeb Technology 3 2.5 1.5\nIT230 Programing\nNetworking Computer Networks\nLB211 2 1.5 1.5\nFundamentals lab Technology\n16\n2",
+      "tables": [
+        [
+          [
+            "First semester",
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            "Credit\nHours",
+            "Lectur\ne\nHours",
+            "Exercise/La\nb Hours",
+            "Prerequisite"
+          ],
+          [
+            "IT215",
+            "Object Oriented\nPrograming",
+            "3",
+            "2.5",
+            "1.5",
+            "Programming Techniques"
+          ],
+          [
+            "DS211",
+            "Introduction to\nDatabase systems",
+            "3",
+            "2.5",
+            "1.5",
+            "Programming Techniques"
+          ],
+          [
+            "MA214",
+            "Mathematics-3",
+            "3",
+            "2.5",
+            "1.5",
+            "Mathematics-2"
+          ],
+          [
+            "IT231",
+            "Computer\nNetworks\nTechnology",
+            "3",
+            "2.5",
+            "1.5",
+            "Introduction to Computers"
+          ],
+          [
+            "ST222",
+            "Probability and\nStatistics-2",
+            "3",
+            "2.5",
+            "1.5",
+            "Probability and Statistics-\n1"
+          ],
+          [
+            "IT240",
+            "Introduction to\nSoftware\nEngineering",
+            "3",
+            "2.5",
+            "1.5",
+            "Programming Techniques"
+          ],
+          [
+            "",
+            null,
+            "18",
+            "",
+            null,
+            ""
+          ]
+        ],
+        [
+          [
+            "Second semester",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            null,
+            null,
+            "Course Name",
+            null,
+            null,
+            "Credi\nt\nHour\ns",
+            null,
+            null,
+            "Lecture\nHours",
+            null,
+            null,
+            "Exercise/La\nb Hours",
+            null,
+            null,
+            "Prerequisite",
+            null,
+            null
+          ],
+          [
+            "IT217",
+            null,
+            null,
+            "Introduction to\nOperation Research",
+            null,
+            null,
+            "3",
+            null,
+            null,
+            "2.5",
+            null,
+            null,
+            "1.5",
+            null,
+            null,
+            "Programming\nTechniques,\nProbability and\nStatistics-1",
+            null,
+            null
+          ],
+          [
+            "IT216",
+            null,
+            null,
+            "Data Structure",
+            null,
+            null,
+            "3",
+            null,
+            null,
+            "2.5",
+            null,
+            null,
+            "1.5",
+            null,
+            null,
+            "Object Oriented\nPrograming",
+            null,
+            null
+          ],
+          [
+            "AI321",
+            null,
+            null,
+            "Machine Learning\nFundamentals",
+            null,
+            null,
+            "3",
+            null,
+            null,
+            "2.5",
+            null,
+            null,
+            "1.5",
+            null,
+            null,
+            "",
+            "Mathematics-3",
+            ""
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "",
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "Probability and",
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "Statistics-2",
+            null
+          ],
+          [
+            "",
+            "HU427",
+            "",
+            "",
+            "Entrepreneurship",
+            "",
+            "",
+            "2",
+            "",
+            "",
+            "1.5",
+            "",
+            "",
+            "-",
+            "",
+            "",
+            "-",
+            ""
+          ],
+          [
+            "IT230",
+            null,
+            null,
+            "Web Technology",
+            null,
+            null,
+            "3",
+            null,
+            null,
+            "2.5",
+            null,
+            null,
+            "1.5",
+            null,
+            null,
+            "Object Oriented\nPrograming",
+            null,
+            null
+          ],
+          [
+            "LB211",
+            null,
+            null,
+            "Networking\nFundamentals lab",
+            null,
+            null,
+            "2",
+            null,
+            null,
+            "1.5",
+            null,
+            null,
+            "1.5",
+            null,
+            null,
+            "Computer Networks\nTechnology",
+            null,
+            null
+          ],
+          [
+            "",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "16",
+            null,
+            null,
+            "",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "",
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            "Machine Learning"
+          ],
+          [
+            "Fundamentals"
+          ]
+        ]
+      ]
+    },
+    {
+      "page": 3,
+      "text": "(Third year)\nFirst semester\nCourse Credit Lecture Exercise/Lab\nCourse Name Prerequisite\ncode Hours Hours Hours\nNetwork Routing Networking\nLB312 2 1.5 1.5\nand Switching-Lab Fundamentals lab\nArtificial\nAI 311 3 2.5 1.5 Data Structure\nintelligence\nCS319 Operating Systems 3 2.5 1.5 Data Structure\nDigital Signal\nIT212 3 2.5 1.5 Mathematics-3\nProcessing\nComputer Logic Design, Data\nCS318 3 2.5 1.5\nOrganization Structure\nAlgorithms analysis\nCS341 3 2.5 1.5 Data Structure\nand Design\n17\nSecond semester\nCourse Credit Lecture Exercise/Lab\nCourse Name Prerequisite\ncode Hours Hours Hours\nPattern Digital Signal\nIT322 Recognition 3 2.5 1.5 Processing, Probability\nand Statistics-2\nInformation\nComputer\nComputer Networks\nIT333 Networks 3 2.5 1.5\nTechnology\nSecurity\nNatural\nMachine Learning\nAI448 Language 3 2.5 1.5\nFundamentals\nProcessing\nAdvanced\nIntroduction to\nCS344 Software 3 2.5 1.5\nSoftware Engineering\nEngineering\nComputer Networks\nIT343 Micro controller 3 2.5 1.5\nTechnology\nEthical Computer Networks\nLB313 2 1.5 1.5\nHacking-lab Technology\n17\n3",
+      "tables": [
+        [
+          [
+            "First semester",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            null,
+            null,
+            "Credit\nHours",
+            "Lecture\nHours",
+            "Exercise/Lab\nHours",
+            "Prerequisite"
+          ],
+          [
+            "LB312",
+            "Network Routing\nand Switching-Lab",
+            null,
+            null,
+            "2",
+            "1.5",
+            "1.5",
+            "Networking\nFundamentals lab"
+          ],
+          [
+            "AI 311",
+            "Artificial\nintelligence",
+            null,
+            null,
+            "3",
+            "2.5",
+            "1.5",
+            "Data Structure"
+          ],
+          [
+            "CS319",
+            "Operating Systems",
+            null,
+            null,
+            "3",
+            "2.5",
+            "1.5",
+            "Data Structure"
+          ],
+          [
+            "IT212",
+            "",
+            "Digital Signal",
+            "",
+            "3",
+            "2.5",
+            "1.5",
+            "Mathematics-3"
+          ],
+          [
+            null,
+            null,
+            "Processing",
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "CS318",
+            "Computer\nOrganization",
+            null,
+            null,
+            "3",
+            "2.5",
+            "1.5",
+            "Logic Design, Data\nStructure"
+          ],
+          [
+            "CS341",
+            "Algorithms analysis\nand Design",
+            null,
+            null,
+            "3",
+            "2.5",
+            "1.5",
+            "Data Structure"
+          ],
+          [
+            "",
+            null,
+            null,
+            null,
+            "17",
+            "",
+            null,
+            ""
+          ]
+        ],
+        [
+          [
+            "Second semester",
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            "Credit\nHours",
+            "Lecture\nHours",
+            "Exercise/Lab\nHours",
+            "Prerequisite"
+          ],
+          [
+            "IT322",
+            "Pattern\nRecognition",
+            "3",
+            "2.5",
+            "1.5",
+            "Digital Signal\nProcessing, Probability\nand Statistics-2"
+          ],
+          [
+            "IT333",
+            "Information\nComputer\nNetworks\nSecurity",
+            "3",
+            "2.5",
+            "1.5",
+            "Computer Networks\nTechnology"
+          ],
+          [
+            "AI448",
+            "Natural\nLanguage\nProcessing",
+            "3",
+            "2.5",
+            "1.5",
+            "Machine Learning\nFundamentals"
+          ],
+          [
+            "CS344",
+            "Advanced\nSoftware\nEngineering",
+            "3",
+            "2.5",
+            "1.5",
+            "Introduction to\nSoftware Engineering"
+          ],
+          [
+            "IT343",
+            "Micro controller",
+            "3",
+            "2.5",
+            "1.5",
+            "Computer Networks\nTechnology"
+          ],
+          [
+            "LB313",
+            "Ethical\nHacking-lab",
+            "2",
+            "1.5",
+            "1.5",
+            "Computer Networks\nTechnology"
+          ],
+          [
+            "",
+            null,
+            "17",
+            "",
+            null,
+            ""
+          ]
+        ]
+      ]
+    },
+    {
+      "page": 4,
+      "text": "(Fourth year)\nFirst semester\nCourse Credit Lecture Exercise/Lab\nCourse Name Prerequisite\ncode Hours Hours Hours\nAlgorithms analysis\nSelected labs in\nand Design,\nLB421 Software 2 1.5 1.5\nAdvanced Software\nEngineering\nEngineering\nIT423 Embedded Systems 3 2.5 1.5 Micro controller\nObject Oriented\nIT221 Computer Graphics 3 2.5 1.5\nPrograming\nAdvanced\nComputer Computer Networks\nIT434 3 2.5 1.5\nNetworks Technology\nPC401 Project (1) 3 2.5 2\nCommunication Computer Networks\nIT438 3 2.5 1.5\nTechnology Technology\n17\nSecond semester\nCourse Credit Lecture Exercise/La\nCourse Name Prerequisite\ncode Hours Hours b Hours\nWireless and Advanced Computer\nIT439 3 2.5 1.5\nMobile Networks Networks\nCloud Computing Advanced Computer\nIT436 3 2.5 1.5\nNetworking Networks\nSoftware Security Advanced Software\nCS449 3 2.5 1.5\nEngineering\nFundamental of\nHU 402 2 1.5 - -\nManagement\nPC402 Project (2) 3 1 4 Project(1)\nArtificial\nLB431 Selected labs in AI 2 1.5 1.5\nIntelligence\n16\n4",
+      "tables": [
+        [
+          [
+            "First semester",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            "Credit\nHours",
+            "Lecture\nHours",
+            "Exercise/Lab\nHours",
+            "Prerequisite",
+            null,
+            null
+          ],
+          [
+            "LB421",
+            "Selected labs in\nSoftware\nEngineering",
+            "2",
+            "1.5",
+            "1.5",
+            "Algorithms analysis\nand Design,\nAdvanced Software\nEngineering",
+            null,
+            null
+          ],
+          [
+            "IT423",
+            "Embedded Systems",
+            "3",
+            "2.5",
+            "1.5",
+            "Micro controller",
+            null,
+            null
+          ],
+          [
+            "IT221",
+            "Computer Graphics",
+            "3",
+            "2.5",
+            "1.5",
+            "",
+            "Object Oriented",
+            ""
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "Programing",
+            null
+          ],
+          [
+            "IT434",
+            "Advanced\nComputer\nNetworks",
+            "3",
+            "2.5",
+            "1.5",
+            "Computer Networks\nTechnology",
+            null,
+            null
+          ],
+          [
+            "PC401",
+            "Project (1)",
+            "3",
+            "2.5",
+            "2",
+            "",
+            null,
+            null
+          ],
+          [
+            "IT438",
+            "Communication\nTechnology",
+            "3",
+            "2.5",
+            "1.5",
+            "Computer Networks\nTechnology",
+            null,
+            null
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            null,
+            null
+          ],
+          [
+            "",
+            null,
+            "17",
+            "",
+            null,
+            "",
+            null,
+            null
+          ]
+        ],
+        [
+          [
+            "Second semester",
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            "Course\ncode",
+            "Course Name",
+            "Credit\nHours",
+            "Lecture\nHours",
+            "Exercise/La\nb Hours",
+            "Prerequisite"
+          ],
+          [
+            "IT439",
+            "Wireless and\nMobile Networks",
+            "3",
+            "2.5",
+            "1.5",
+            "Advanced Computer\nNetworks"
+          ],
+          [
+            "IT436",
+            "Cloud Computing\nNetworking",
+            "3",
+            "2.5",
+            "1.5",
+            "Advanced Computer\nNetworks"
+          ],
+          [
+            "CS449",
+            "Software Security",
+            "3",
+            "2.5",
+            "1.5",
+            "Advanced Software\nEngineering"
+          ],
+          [
+            "HU 402",
+            "Fundamental of\nManagement",
+            "2",
+            "1.5",
+            "-",
+            "-"
+          ],
+          [
+            "PC402",
+            "Project (2)",
+            "3",
+            "1",
+            "4",
+            "Project(1)"
+          ],
+          [
+            "LB431",
+            "Selected labs in AI",
+            "2",
+            "1.5",
+            "1.5",
+            "Artificial\nIntelligence"
+          ],
+          [
+            "",
+            null,
+            "16",
+            "",
+            null,
+            ""
+          ]
+        ]
+      ]
+    }
+  ]
+}

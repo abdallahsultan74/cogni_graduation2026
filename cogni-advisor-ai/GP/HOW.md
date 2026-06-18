@@ -121,8 +121,8 @@ Sample IDs that ship in the seed: `20180078` (4th-yr IT), `20180099` (4th-yr AI)
 
 ### Recommendation: catalog pipeline
 
-1. **`recommendation/data/bylaw_in.json`** — flat key-value dump from the bylaws PDF.
-2. **`preprocess_bylaws.py`** parses the flat keys into `courses.json`, `prerequisite_graph.json`, `policy.json`. Code-prefix heuristics infer `distribution_category` (`HU` → General_Requirements, `LB` → Specialized_Labs, `PC` → Graduation_Project, `MA`/`ST` → Math_And_Basic_Sciences, level-based fallback to Basic_Computer_Science vs Applied_Sciences). **AI-prefixed codes get `department="AI"`; the rest of Applied_Sciences/Project/Lab go to `department="IT"`.**
+1. **`eelulaw.pdf`** — full IT bylaws (2021); extracted via `python scripts/extract_eelulaw_full.py` into **`recommendation/data/bylaw_in.json`** and **`chatBot/data/eelulaw/`** for RAG.
+2. **`preprocess_bylaws.py`** parses the flat keys into `courses.json`, `prerequisite_graph.json`, `policy.json`. Appendix pages 31–35 define semester distribution; Article 16 tables define category codes.
 3. **`ensure_preprocessed_data()`** auto-regenerates artifacts whenever `bylaw_in.json` is newer than any output.
 4. **`AcademicAdvisor.run()`** orchestrates filtering → eligibility → deficit-driven CSP → core + electives → topological sort → JSON output.
 
@@ -148,7 +148,7 @@ Bands live in `policy.json:gpa_credit_caps` and use either `min_gpa` (inclusive)
 ### Chatbot pipeline
 
 1. `preload_models()` warms three module-level singletons in `chatBot/utils.py`: `_embeddings` (BGE base), `_vector_store` (FAISS), `_retriever` (k=8).
-2. `create_vector_store()` writes/reads at `bylaws_vector_index/`. The directory carries an `index_metadata.json` with the embedding model name; if it doesn't match the active model, the index is rebuilt automatically.
+2. `create_vector_store()` writes/reads at `bylaws_vector_index/`. RAG sources: `chatBot/data/eelulaw/` (run `python scripts/extract_eelulaw_full.py` then `python -m chatBot.rebuild_index` after bylaw updates). Legacy JSON in `chatBot/data/_archive/` is excluded from indexing.
 3. `retrieve_context(query, k=8)` returns retrieved chunks **without** calling the LLM (lets the harness score retrieval offline).
 4. `process_query(query)` retrieves chunks, stuffs them into the strict-grounding prompt at `chatBot/prompts/system_prompt.txt`, and calls `call_llm_cached(question, context)`.
 5. The LLM cache key is `(question, sha1(context))` — a stale-context answer cannot poison a fresh retrieval. Call `clear_llm_cache()` after rebuilding the index.

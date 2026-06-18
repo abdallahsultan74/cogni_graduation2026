@@ -2,12 +2,14 @@ import os from "node:os";
 import prisma from "../config/prisma.js";
 import { SystemSettingCategory } from "@prisma/client";
 import { AppError } from "../utils/AppError.js";
+import { groupItemsByCurriculum } from "../utils/curriculumGroups.js";
 
 export const getOverview = async () => {
-  const [totalUsers, activeCourses, totalStudents, auditLogs, database] = await Promise.all([
+  const [totalUsers, activeCourses, totalStudents, totalAdvisors, auditLogs, database, studentsPerAdvisor] = await Promise.all([
     prisma.user.count(),
     prisma.course.count({ where: { is_available: true } }),
     prisma.student.count(),
+    prisma.advisor.count(),
     prisma.auditLog.findMany({
       take: 10,
       orderBy: { created_at: "desc" },
@@ -15,7 +17,12 @@ export const getOverview = async () => {
         actor: { select: { user_id: true, first_name: true, last_name: true, role: true } }
       }
     }),
-    getDbStatus()
+    getDbStatus(),
+    prisma.student.groupBy({
+      by: ["advisor_id"],
+      _count: { student_id: true },
+      where: { advisor_id: { not: null } },
+    }),
   ]);
 
   const mem = process.memoryUsage();
@@ -24,6 +31,11 @@ export const getOverview = async () => {
     totalUsers,
     activeCourses,
     totalStudents,
+    totalAdvisors,
+    studentsPerAdvisor: studentsPerAdvisor.map((g) => ({
+      advisor_id: g.advisor_id,
+      student_count: g._count.student_id,
+    })),
     serverStatus: {
       api: "online",
       database
@@ -59,7 +71,13 @@ const SETTINGS_KEYS = {
   general: { key: "general", category: SystemSettingCategory.GENERAL },
   aiEngine: { key: "aiEngine", category: SystemSettingCategory.AI_ENGINE },
   permissions: { key: "permissions", category: SystemSettingCategory.PERMISSIONS },
-  security: { key: "security", category: SystemSettingCategory.SECURITY }
+  security: { key: "security", category: SystemSettingCategory.SECURITY },
+  academicCalendar: { key: "academicCalendar", category: SystemSettingCategory.GENERAL },
+};
+
+const DEFAULT_ACADEMIC_CALENDAR = {
+  currentSemesterId: null as number | null,
+  planningSemesterId: null as number | null,
 };
 
 const DEFAULT_SETTINGS = {
@@ -291,6 +309,158 @@ export const patchSystemSettings = async (actorId: number, patch: PatchSettingsI
   return {
     message: "Settings updated successfully",
     updatedKeys
+  };
+};
+
+export const getAcademicCalendar = async () => {
+  const row = await prisma.systemSetting.upsert({
+    where: { key: SETTINGS_KEYS.academicCalendar.key },
+    update: {},
+    create: {
+      key: SETTINGS_KEYS.academicCalendar.key,
+      category: SETTINGS_KEYS.academicCalendar.category,
+      value: DEFAULT_ACADEMIC_CALENDAR as any,
+    },
+  });
+  const value = (row.value as typeof DEFAULT_ACADEMIC_CALENDAR) ?? DEFAULT_ACADEMIC_CALENDAR;
+  const [current, planning] = await Promise.all([
+    value.currentSemesterId
+      ? prisma.semester.findUnique({ where: { semester_id: value.currentSemesterId } })
+      : null,
+    value.planningSemesterId
+      ? prisma.semester.findUnique({ where: { semester_id: value.planningSemesterId } })
+      : null,
+  ]);
+  return {
+    currentSemesterId: value.currentSemesterId,
+    planningSemesterId: value.planningSemesterId,
+    currentSemester: current,
+    planningSemester: planning,
+  };
+};
+
+export const setAcademicCalendar = async (
+  actorId: number,
+  data: { currentSemesterId?: number | null; planningSemesterId?: number | null }
+) => {
+  const existing = await getAcademicCalendar();
+  const merged = {
+    currentSemesterId:
+      data.currentSemesterId !== undefined
+        ? data.currentSemesterId
+        : existing.currentSemesterId,
+    planningSemesterId:
+      data.planningSemesterId !== undefined
+        ? data.planningSemesterId
+        : existing.planningSemesterId,
+  };
+  await prisma.systemSetting.upsert({
+    where: { key: SETTINGS_KEYS.academicCalendar.key },
+    update: { value: merged as any, updated_by: actorId },
+    create: {
+      key: SETTINGS_KEYS.academicCalendar.key,
+      category: SETTINGS_KEYS.academicCalendar.category,
+      value: merged as any,
+      updated_by: actorId,
+    },
+  });
+  await prisma.auditLog.create({
+    data: {
+      actor_id: actorId,
+      action: "UPDATE_ACADEMIC_CALENDAR",
+      entity_type: "SystemSetting",
+      entity_id: SETTINGS_KEYS.academicCalendar.key,
+      metadata: merged as any,
+    },
+  });
+  return getAcademicCalendar();
+};
+
+export const activateSemester = async (actorId: number, semesterId: number) => {
+  const semester = await prisma.semester.findUnique({ where: { semester_id: semesterId } });
+  if (!semester) throw new AppError("Semester not found", 404);
+  const cal = await getAcademicCalendar();
+  return setAcademicCalendar(actorId, {
+    currentSemesterId: semesterId,
+    planningSemesterId: cal.planningSemesterId ?? semesterId,
+  });
+};
+
+export const advanceSemester = async (actorId: number) => {
+  const cal = await getAcademicCalendar();
+  if (!cal.currentSemesterId) {
+    throw new AppError("No current semester set", 400);
+  }
+  const current = await prisma.semester.findUnique({
+    where: { semester_id: cal.currentSemesterId },
+  });
+  if (!current?.start_date) throw new AppError("Current semester has no start date", 400);
+
+  const next = await prisma.semester.findFirst({
+    where: { start_date: { gt: current.start_date } },
+    orderBy: { start_date: "asc" },
+  });
+  if (!next) throw new AppError("No next semester in database", 400);
+
+  return setAcademicCalendar(actorId, {
+    currentSemesterId: next.semester_id,
+    planningSemesterId: next.semester_id,
+  });
+};
+
+export const searchStudents = async (query: string) => {
+  const q = query.trim();
+  if (!q) return [];
+  return prisma.student.findMany({
+    where: {
+      OR: [
+        { user: { university_email: { contains: q, mode: "insensitive" } } },
+        { user: { personal_email: { contains: q, mode: "insensitive" } } },
+        { user: { first_name: { contains: q, mode: "insensitive" } } },
+        { user: { last_name: { contains: q, mode: "insensitive" } } },
+        { user: { national_id: { contains: q } } },
+      ],
+    },
+    take: 20,
+    include: {
+      user: {
+        select: {
+          user_id: true,
+          first_name: true,
+          last_name: true,
+          university_email: true,
+          personal_email: true,
+        },
+      },
+    },
+  });
+};
+
+export const getStudentEnrollmentsAdmin = async (studentId: number) => {
+  const student = await prisma.student.findUnique({
+    where: { student_id: studentId },
+    include: {
+      user: { select: { first_name: true, last_name: true, personal_email: true } },
+      enrollments: {
+        include: { course: true, semester: true },
+        orderBy: { enrollment_id: "asc" },
+      },
+    },
+  });
+  if (!student) throw new AppError("Student not found", 404);
+
+  const curriculum_groups = await groupItemsByCurriculum(
+    student.enrollments,
+    (e) => e.course.course_code,
+    student.major_type
+  );
+
+  return {
+    student_id: student.student_id,
+    major_type: student.major_type,
+    user: student.user,
+    enrollments: student.enrollments,
+    curriculum_groups,
   };
 };
 

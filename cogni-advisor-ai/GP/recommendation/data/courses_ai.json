@@ -1,0 +1,583 @@
+[
+  {
+    "code": "AI212",
+    "course_name": "Reasoning and Knowledge Representation",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Elective",
+    "prerequisites": [
+      "MA214",
+      "ST222"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "AI",
+    "level": "Fourth Year"
+  },
+  {
+    "code": "AI213",
+    "course_name": "Computational mathematics for learning and data analysis",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "MA214",
+      "ST222"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI311",
+    "course_name": "Artificial intelligence",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT216"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI321",
+    "course_name": "Machine Learning Fundamentals",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "MA214",
+      "ST222"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "AI",
+    "level": "Second Year"
+  },
+  {
+    "code": "AI331",
+    "course_name": "Reinforcement and Deep Learning",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "AI321"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI341",
+    "course_name": "Computer Vision",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT215"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI342",
+    "course_name": "Natural Languages Processing",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "AI321"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI343",
+    "course_name": "AI Systems Design and Implementation",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "AI321"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI351",
+    "course_name": "Intelligent Autonomous Robotics",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT113"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "AI361",
+    "course_name": "Big Data",
+    "credit_hours": 3,
+    "distribution_category": "Applied_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "AI213"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "AI",
+    "level": "Third Year"
+  },
+  {
+    "code": "CS240",
+    "course_name": "Introduction to Software Engineering",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT114"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "CS319",
+    "course_name": "Operating Systems",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT216"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Third Year"
+  },
+  {
+    "code": "DS211",
+    "course_name": "Introduction to Database systems",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT114"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "HU101",
+    "course_name": "Micro Economics",
+    "credit_hours": 2,
+    "distribution_category": "General_Requirements",
+    "type": "Elective",
+    "prerequisites": [],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "HU111",
+    "course_name": "Technical Report Writing",
+    "credit_hours": 2,
+    "distribution_category": "General_Requirements",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "HU112",
+    "course_name": "Creative and Scientific Thinking",
+    "credit_hours": 2,
+    "distribution_category": "General_Requirements",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "HU113",
+    "course_name": "Human Rights",
+    "credit_hours": 2,
+    "distribution_category": "General_Requirements",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "HU402",
+    "course_name": "Fundamental of Management",
+    "credit_hours": 3,
+    "distribution_category": "General_Requirements",
+    "type": "Elective",
+    "prerequisites": [],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Fourth Year"
+  },
+  {
+    "code": "HU427",
+    "course_name": "Entrepreneurship",
+    "credit_hours": 2,
+    "distribution_category": "General_Requirements",
+    "type": "Elective",
+    "prerequisites": [],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "IT110",
+    "course_name": "Introduction to Computers",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "IT111",
+    "course_name": "Electronics",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "IT113",
+    "course_name": "Logic Design",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT111"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "IT114",
+    "course_name": "Programming Techniques",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT110"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "IT215",
+    "course_name": "Object Oriented Programing",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT114"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "IT216",
+    "course_name": "Data Structure",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT215"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "IT217",
+    "course_name": "Introduction to Operation Research",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "ST121",
+      "IT114"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "IT230",
+    "course_name": "Web Technology",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT215"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "IT231",
+    "course_name": "Computer Networks Technology",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT110"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "IT318",
+    "course_name": "Computer Organization",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT113",
+      "IT216"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Third Year"
+  },
+  {
+    "code": "IT341",
+    "course_name": "Algorithms analysis and Design",
+    "credit_hours": 3,
+    "distribution_category": "Basic_Computer_Science",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT216"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Third Year"
+  },
+  {
+    "code": "LB211",
+    "course_name": "Networking Fundamentals lab",
+    "credit_hours": 3,
+    "distribution_category": "Specialized_Labs",
+    "type": "Mandatory",
+    "prerequisites": [
+      "IT231"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "LB431",
+    "course_name": "Selected labs in AI",
+    "credit_hours": 3,
+    "distribution_category": "Specialized_Labs",
+    "type": "Mandatory",
+    "prerequisites": [
+      "AI311"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "Fourth Year"
+  },
+  {
+    "code": "MA111",
+    "course_name": "Mathematics1",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "MA112",
+    "course_name": "Discrete Math",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "MA113",
+    "course_name": "Mathematics-2",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "MA111"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "MA214",
+    "course_name": "Mathematics-3",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "MA113"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  },
+  {
+    "code": "PC401",
+    "course_name": "Graduation Project",
+    "credit_hours": 3,
+    "distribution_category": "Graduation_Project",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "First"
+    ],
+    "department": "IT",
+    "level": "Fourth Year"
+  },
+  {
+    "code": "PC402",
+    "course_name": "Graduation Project",
+    "credit_hours": 3,
+    "distribution_category": "Graduation_Project",
+    "type": "Mandatory",
+    "prerequisites": [],
+    "Term": [
+      "Second"
+    ],
+    "department": "IT",
+    "level": "Fourth Year"
+  },
+  {
+    "code": "ST121",
+    "course_name": "Probability and Statistics-1",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "MA111"
+    ],
+    "Term": [
+      "Second"
+    ],
+    "department": "null",
+    "level": "First Year"
+  },
+  {
+    "code": "ST222",
+    "course_name": "Probability and Statistics-2",
+    "credit_hours": 3,
+    "distribution_category": "Math_And_Basic_Sciences",
+    "type": "Mandatory",
+    "prerequisites": [
+      "ST121"
+    ],
+    "Term": [
+      "First"
+    ],
+    "department": "null",
+    "level": "Second Year"
+  }
+]

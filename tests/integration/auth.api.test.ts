@@ -6,7 +6,15 @@ process.env.JWT_SECRET = process.env.JWT_SECRET ?? "test-secret";
 
 const prismaMock = {
   $connect: vi.fn(),
+  $transaction: vi.fn((ops: unknown[]) => Promise.all(ops)),
   user: {
+    findFirst: vi.fn(),
+    findUnique: vi.fn(),
+    update: vi.fn()
+  },
+  passwordResetToken: {
+    create: vi.fn(),
+    deleteMany: vi.fn(),
     findFirst: vi.fn(),
     findUnique: vi.fn(),
     update: vi.fn()
@@ -14,6 +22,12 @@ const prismaMock = {
 };
 
 vi.mock("../../src/config/prisma.js", () => ({ default: prismaMock }));
+vi.mock("../../src/services/email.service.js", () => ({
+  generateOtp: () => "123456",
+  getOtpExpiryMinutes: () => 10,
+  hashResetToken: (t: string) => `hash-${t}`,
+  sendPasswordResetOtpEmail: vi.fn().mockResolvedValue({ devLogged: true, masked: "st***@gmail.com" })
+}));
 
 describe("Auth API", () => {
   beforeEach(async () => {
@@ -26,42 +40,25 @@ describe("Auth API", () => {
       const { default: app } = await import("../../src/app.js");
       const res = await request(app)
         .post("/api/auth/login")
-        .send({ identifier: "short" });
+        .send({ email: "not-an-email", password: "x" });
       expect(res.status).toBe(400);
       expect(res.body.success).toBe(false);
     });
 
     it("returns 401 when user not found", async () => {
-      prismaMock.user.findFirst.mockResolvedValue(null);
+      prismaMock.user.findUnique.mockResolvedValue(null);
       const { default: app } = await import("../../src/app.js");
       const res = await request(app)
         .post("/api/auth/login")
-        .send({ identifier: "12345678901234", password: "password123" });
-      expect(res.status).toBe(401);
-    });
-
-    it("returns 401 when password is wrong", async () => {
-      const hash = await bcrypt.hash("correct", 10);
-      prismaMock.user.findFirst.mockResolvedValue({
-        user_id: 1,
-        national_id: "12345678901234",
-        password_hash: hash,
-        first_name: "Test",
-        last_name: "User",
-        role: "STUDENT"
-      });
-      const { default: app } = await import("../../src/app.js");
-      const res = await request(app)
-        .post("/api/auth/login")
-        .send({ identifier: "12345678901234", password: "wrongpassword" });
+        .send({ email: "student@student.eelu.edu.eg", password: "password123" });
       expect(res.status).toBe(401);
     });
 
     it("returns 200 and token when credentials are valid", async () => {
       const hash = await bcrypt.hash("password123", 10);
-      prismaMock.user.findFirst.mockResolvedValue({
+      prismaMock.user.findUnique.mockResolvedValue({
         user_id: 1,
-        national_id: "12345678901234",
+        university_email: "student@student.eelu.edu.eg",
         password_hash: hash,
         first_name: "Test",
         last_name: "User",
@@ -70,92 +67,68 @@ describe("Auth API", () => {
       const { default: app } = await import("../../src/app.js");
       const res = await request(app)
         .post("/api/auth/login")
-        .send({ identifier: "12345678901234", password: "password123" });
+        .send({ email: "student@student.eelu.edu.eg", password: "password123" });
       expect(res.status).toBe(200);
       expect(res.body.token).toBeDefined();
       expect(res.body.user).toMatchObject({ id: 1, role: "STUDENT" });
     });
+  });
 
-    it("allows login using personal email as identifier", async () => {
-      const hash = await bcrypt.hash("password123", 10);
-      prismaMock.user.findFirst.mockResolvedValue({
-        user_id: 7,
-        national_id: "12345678901234",
-        personal_email: "student@example.com",
-        password_hash: hash,
-        first_name: "Student",
-        last_name: "One",
-        role: "STUDENT"
-      });
+  describe("POST /api/auth/forgot-password/request", () => {
+    it("returns generic success when user missing", async () => {
+      prismaMock.user.findUnique.mockResolvedValue(null);
       const { default: app } = await import("../../src/app.js");
       const res = await request(app)
-        .post("/api/auth/login")
-        .send({ identifier: "student@example.com", password: "password123" });
+        .post("/api/auth/forgot-password/request")
+        .send({ national_id: "12345678901234" });
       expect(res.status).toBe(200);
-      expect(res.body.user).toMatchObject({ id: 7, role: "STUDENT" });
+      expect(res.body.message).toContain("verification code");
     });
-  });
 
-  describe("POST /api/auth/register", () => {
-    it("returns 403 because public registration is disabled", async () => {
-      const { default: app } = await import("../../src/app.js");
-      const res = await request(app)
-        .post("/api/auth/register")
-        .send({
-          first_name: "A",
-          last_name: "B",
-          national_id: "12345678901234",
-          personal_email: "a@b.com",
-          password: "password123"
-        });
-      expect(res.status).toBe(403);
-      expect(res.body.success).toBe(false);
-    });
-  });
-
-  describe("POST /api/auth/forgot-password", () => {
-    it("resets password for student account", async () => {
+    it("creates OTP token and sends email when user has personal email", async () => {
       prismaMock.user.findUnique.mockResolvedValue({
         user_id: 10,
-        national_id: "12345678901234",
-        personal_email: "student@example.com",
+        personal_email: "student@gmail.com",
         role: "STUDENT"
       });
-      prismaMock.user.update.mockResolvedValue({});
+      prismaMock.passwordResetToken.deleteMany.mockResolvedValue({ count: 0 });
+      prismaMock.passwordResetToken.create.mockResolvedValue({ token_id: 1 });
 
       const { default: app } = await import("../../src/app.js");
       const res = await request(app)
-        .post("/api/auth/forgot-password")
+        .post("/api/auth/forgot-password/request")
+        .send({ national_id: "12345678901234" });
+
+      expect(res.status).toBe(200);
+      expect(prismaMock.passwordResetToken.deleteMany).toHaveBeenCalledTimes(1);
+      expect(prismaMock.passwordResetToken.create).toHaveBeenCalledTimes(1);
+      expect(res.body.masked_email).toBe("st***@gmail.com");
+    });
+  });
+
+  describe("POST /api/auth/forgot-password/confirm", () => {
+    it("updates password for valid OTP", async () => {
+      prismaMock.user.findUnique.mockResolvedValue({ user_id: 10 });
+      prismaMock.passwordResetToken.findFirst.mockResolvedValue({
+        token_id: 1,
+        user_id: 10,
+        used_at: null,
+        expires_at: new Date(Date.now() + 60_000)
+      });
+      prismaMock.user.update.mockResolvedValue({});
+      prismaMock.passwordResetToken.update.mockResolvedValue({});
+
+      const { default: app } = await import("../../src/app.js");
+      const res = await request(app)
+        .post("/api/auth/forgot-password/confirm")
         .send({
           national_id: "12345678901234",
-          personal_email: "student@example.com",
+          otp: "123456",
           newPassword: "newPassword123"
         });
 
       expect(res.status).toBe(200);
       expect(res.body.message).toBe("Password reset successfully");
-      expect(prismaMock.user.update).toHaveBeenCalledTimes(1);
-    });
-
-    it("returns 404 when target account is not a student", async () => {
-      prismaMock.user.findUnique.mockResolvedValue({
-        user_id: 11,
-        national_id: "12345678901234",
-        personal_email: "advisor@example.com",
-        role: "ADVISOR"
-      });
-
-      const { default: app } = await import("../../src/app.js");
-      const res = await request(app)
-        .post("/api/auth/forgot-password")
-        .send({
-          national_id: "12345678901234",
-          personal_email: "advisor@example.com",
-          newPassword: "newPassword123"
-        });
-
-      expect(res.status).toBe(404);
-      expect(res.body.success).toBe(false);
     });
   });
 

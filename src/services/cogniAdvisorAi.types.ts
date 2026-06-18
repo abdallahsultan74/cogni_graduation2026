@@ -48,6 +48,8 @@ export type CogniAdvisorRecommendResult = {
   electives: {
     GeneralOptions?: CogniAdvisorCourseSummary[];
     AppliedOptions?: CogniAdvisorCourseSummary[];
+    GeneralSelected?: CogniAdvisorCourseSummary[];
+    AppliedSelected?: CogniAdvisorCourseSummary[];
     General?: number;
     Applied?: number;
     TotalElectives?: number;

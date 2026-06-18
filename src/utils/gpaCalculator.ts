@@ -1,12 +1,5 @@
 import prisma from "../config/prisma.js";
-
-export const gradePoints: Record<string, number> = {
-  A: 4,
-  B: 3,
-  C: 2,
-  D: 1,
-  F: 0,
-};
+import { gradeToPoints } from "./gradeScale.js";
 
 interface Enrollment {
   grade: string | null;
@@ -21,9 +14,8 @@ export const calculateGPA = (enrollments: Enrollment[]): number => {
 
   for (const e of enrollments) {
     if (!e.grade) continue;
-
-    const points = gradePoints[e.grade as keyof typeof gradePoints];
-    if (points === undefined) continue;
+    const points = gradeToPoints(e.grade);
+    if (points === 0 && e.grade.toUpperCase() !== "F") continue;
 
     totalPoints += points * e.course.credits;
     totalCredits += e.course.credits;
@@ -49,4 +41,21 @@ export const recalculateStudentGPA = async (studentId: number): Promise<number> 
   });
 
   return gpa;
+};
+
+export const recalculateStudentEarnedHours = async (studentId: number): Promise<number> => {
+  const passed = await prisma.enrollment.findMany({
+    where: {
+      student_id: studentId,
+      grade: { not: null },
+      NOT: { grade: "F" },
+    },
+    include: { course: true },
+  });
+  const hours = passed.reduce((sum, e) => sum + e.course.credits, 0);
+  await prisma.student.update({
+    where: { student_id: studentId },
+    data: { total_earned_hours: hours },
+  });
+  return hours;
 };

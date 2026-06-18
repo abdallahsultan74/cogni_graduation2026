@@ -1,0 +1,542 @@
+{
+  "exportedAt": "2026-06-13T19:49:18.699Z",
+  "total": 59,
+  "passwords": {
+    "admin": "Admin@12345",
+    "student": "Password123",
+    "advisor_sara": "Aa123456#"
+  },
+  "users": [
+    {
+      "id": 18,
+      "name": "abdallah gebally",
+      "email": "abdallah.18@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 19,
+      "name": "abdallah gebally",
+      "email": "abdallah.19@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 21,
+      "name": "abdallah gebally",
+      "email": "abdallah.21@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص CS | معدل 0.00"
+    },
+    {
+      "id": 27,
+      "name": "ahmed mohamed",
+      "email": "ahmed.27@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 29,
+      "name": "ahmed mohamed",
+      "email": "ahmed.29@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 3,
+      "name": "Ahmed Hassan",
+      "email": "ahmed.3@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 30,
+      "name": "ahmed emad",
+      "email": "ahmed.30@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 31,
+      "name": "ahmed emad",
+      "email": "ahmed.31@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 32,
+      "name": "ahmed emad",
+      "email": "ahmed.32@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 34,
+      "name": "Ahmed Emad",
+      "email": "ahmed.34@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 35,
+      "name": "Ahmed Mohamed",
+      "email": "ahmed.35@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 4,
+      "name": "Ahmed Hassan",
+      "email": "ahmed.4@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 5,
+      "name": "Ahmed Hassan",
+      "email": "ahmed.5@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 15,
+      "name": "Ali Flow",
+      "email": "ali.15@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 10,
+      "name": "Api Student",
+      "email": "api.10@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 62,
+      "name": "أحمد خطر",
+      "email": "atrisk.y1@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص IT | معدل 2.12"
+    },
+    {
+      "id": 56,
+      "name": "باسم وليد",
+      "email": "bassem.waleed.y4@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 4 | تخصص IT | معدل 3.49"
+    },
+    {
+      "id": 17,
+      "name": "debug student",
+      "email": "debug.17@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 51,
+      "name": "دينا كمال",
+      "email": "dina.kamal.y2@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 2 | تخصص AI | معدل 3.39"
+    },
+    {
+      "id": 52,
+      "name": "إياد فتحي",
+      "email": "eyad.fathy.y3@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 3 | تخصص IT | معدل 3.33"
+    },
+    {
+      "id": 60,
+      "name": "كريم عادل",
+      "email": "failed.y2@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 2 | تخصص IT | معدل 2.67"
+    },
+    {
+      "id": 41,
+      "name": "فاطمة أحمد",
+      "email": "fatma.ahmed@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 3 | تخصص IT | معدل 3.00"
+    },
+    {
+      "id": 55,
+      "name": "هدى عمرو",
+      "email": "hoda.amr.y3@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 3 | تخصص AI | معدل 3.49"
+    },
+    {
+      "id": 50,
+      "name": "حسام رامي",
+      "email": "hossam.ramy.y2@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 2 | تخصص IT | معدل 2.21"
+    },
+    {
+      "id": 46,
+      "name": "كريم عادل",
+      "email": "karim.adel.y1@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص IT | معدل 2.89"
+    },
+    {
+      "id": 59,
+      "name": "ليلى أشرف",
+      "email": "layla.ashraf.y4@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 4 | تخصص AI | معدل 3.48"
+    },
+    {
+      "id": 33,
+      "name": "Luka Emad",
+      "email": "luka.33@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 40,
+      "name": "محمود السيد",
+      "email": "mahmoud.elsayed@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 2 | تخصص CS | معدل 1.80"
+    },
+    {
+      "id": 49,
+      "name": "مريم سامي",
+      "email": "mariam.sami.y2@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 2 | تخصص IT | معدل 3.42"
+    },
+    {
+      "id": 43,
+      "name": "mazen mohamed",
+      "email": "mazen.43@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 58,
+      "name": "مصطفى جمال",
+      "email": "mostafa.gamal.y4@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 4 | تخصص IT | معدل 3.28"
+    },
+    {
+      "id": 16,
+      "name": "New Student",
+      "email": "new.16@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 45,
+      "name": "نورهان محمود",
+      "email": "nourhan.mahmoud.y1@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص IT | معدل 3.41"
+    },
+    {
+      "id": 42,
+      "name": "عمر حسن",
+      "email": "omar.hassan@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 4 | تخصص AI | معدل 1.70"
+    },
+    {
+      "id": 48,
+      "name": "عمر طارق",
+      "email": "omar.tarek.y2@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 2 | تخصص IT | معدل 3.26"
+    },
+    {
+      "id": 14,
+      "name": "Otp Student",
+      "email": "otp.1777375520@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 53,
+      "name": "رنا شوقي",
+      "email": "rana.shawky.y3@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 3 | تخصص IT | معدل 3.47"
+    },
+    {
+      "id": 61,
+      "name": "سارة إعادة",
+      "email": "repeat.y3@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 3 | تخصص AI | معدل 3.20"
+    },
+    {
+      "id": 11,
+      "name": "Role Student",
+      "email": "role.11@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 47,
+      "name": "سلمى حسين",
+      "email": "salma.hussein.y1@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص AI | معدل 3.43"
+    },
+    {
+      "id": 25,
+      "name": "smoke student",
+      "email": "smoke.25@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 6,
+      "name": "string string",
+      "email": "string.6@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 54,
+      "name": "طارق نبيل",
+      "email": "tarek.nabil.y3@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 3 | تخصص IT | معدل 3.26"
+    },
+    {
+      "id": 1,
+      "name": "Test Student",
+      "email": "test.1@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 2,
+      "name": "Test Student",
+      "email": "test.2@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 37,
+      "name": "Test Student",
+      "email": "test.37@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 57,
+      "name": "ياسمين هشام",
+      "email": "yasmin.hesham.y4@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 4 | تخصص IT | معدل 3.51"
+    },
+    {
+      "id": 38,
+      "name": "Youssef Testing",
+      "email": "youssef.38@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص - | معدل 0.00"
+    },
+    {
+      "id": 44,
+      "name": "يوسف إبراهيم",
+      "email": "youssef.ibrahim.y1@student.eelu.edu.eg",
+      "role": "STUDENT",
+      "roleAr": "طالب",
+      "password": "Password123",
+      "note": "مستوى 1 | تخصص IT | معدل 0.00"
+    },
+    {
+      "id": 12,
+      "name": "Role Advisor",
+      "email": "role.12@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 12"
+    },
+    {
+      "id": 20,
+      "name": "sara adel",
+      "email": "sara.20@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "Aa123456#",
+      "note": "رقم المرشد: 20"
+    },
+    {
+      "id": 22,
+      "name": "sara adel",
+      "email": "sara.22@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 22"
+    },
+    {
+      "id": 23,
+      "name": "sara adel",
+      "email": "sara.23@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 23"
+    },
+    {
+      "id": 24,
+      "name": "sara adel",
+      "email": "sara.24@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 24"
+    },
+    {
+      "id": 28,
+      "name": "sara adel",
+      "email": "sara.28@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 28"
+    },
+    {
+      "id": 26,
+      "name": "smoke advisor",
+      "email": "smoke.26@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 26"
+    },
+    {
+      "id": 36,
+      "name": "Test Advisor",
+      "email": "test.36@advisor.eelu.edu.eg",
+      "role": "ADVISOR",
+      "roleAr": "مرشد",
+      "password": "— (كلمة سر وقت الإنشاء من الأدمن)",
+      "note": "رقم المرشد: 36"
+    },
+    {
+      "id": 9,
+      "name": "System Admin",
+      "email": "admin@admin.eelu.edu.eg",
+      "role": "ADMIN",
+      "roleAr": "ادمن",
+      "password": "Admin@12345",
+      "note": "رقم الادمن: 9"
+    },
+    {
+      "id": 13,
+      "name": "Role Admin",
+      "email": "role.13@admin.eelu.edu.eg",
+      "role": "ADMIN",
+      "roleAr": "ادمن",
+      "password": "Admin@12345",
+      "note": "رقم الادمن: 13"
+    }
+  ]
+}

@@ -1,509 +1,586 @@
-# 🎓 Cogni-Advisor Backend
+<!-- Banner -->
+<p align="center">
+  <img src="src/assets/logo.jpg" alt="Cogni-Advisor Logo" width="200" />
+</p>
 
-A production-ready academic advising system built with Node.js, Express, TypeScript, and PostgreSQL. This system provides comprehensive student management, academic planning, and advisor-student communication tools.
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=32&duration=2800&pause=1200&color=3B82F6&center=true&vCenter=true&width=620&lines=Cogni-Advisor;AI-Powered+Academic+Advising;EELU+Graduation+Project+2026" alt="Cogni-Advisor animated title" />
+</p>
 
-## ✨ Key Features
+<p align="center">
+  <img src="https://img.shields.io/badge/🎓_EELU-Egyptian_E--Learning_University-1e3a5f?style=for-the-badge&labelColor=0f172a" alt="EELU" />
+  <img src="https://img.shields.io/badge/🤖_Track-Artificial_Intelligence-7c3aed?style=for-the-badge&labelColor=0f172a" alt="AI Track" />
+  <img src="https://img.shields.io/badge/📅_Year-2026-0891b2?style=for-the-badge&labelColor=0f172a" alt="2026" />
+</p>
 
-### Core Functionality
-- 🔐 **Authentication & Authorization** - JWT-based with role-based access control (ADMIN, ADVISOR, STUDENT)
-- 📚 **Course Management** - Complete CRUD operations for courses, prerequisites, and enrollment
-- 👨‍🎓 **Student Portal** - Profile management, academic progress tracking, GPA calculation
-- 👨‍🏫 **Advisor Portal** - Plan reviews, student oversight, direct messaging
-- 🏛️ **Admin Portal** - System overview, user management, configurable system settings
-- 🤖 **AI-Powered Recommendations** - Smart course suggestions based on academic history
-- 📊 **Progress Tracking** - Real-time academic progress and degree completion monitoring
-- 💬 **Messaging System** - Secure communication between students and advisors
-- 🔔 **Smart Notifications** - Context-aware notification system
-- 📝 **Study Plan Management** - Create, submit, review, and approve academic plans
+<p align="center">
+  <em>Smart academic guidance · Study planning · Course recommendations · Risk analysis — powered by AI &amp; grounded in EELU IT/AI Bylaws 2021</em>
+</p>
 
-### Code Quality & Professional Standards
-- ✅ **Clean Code** - Organized modules, no redundant code, DRY principles
-- ✅ **Type Safety** - Full TypeScript with strict type checking
-- ✅ **Comprehensive Testing** - Unit and integration tests with Vitest
-- ✅ **API Documentation** - Complete Swagger/OpenAPI documentation
-- ✅ **Production-Ready** - Docker setup, CI/CD workflows, PM2 configuration
+<br>
 
-## 🛠️ Tech Stack
+<!-- Tech Badges -->
+<p align="center">
+  <strong>🖥️ Frontend</strong><br><br>
+  <img src="https://img.shields.io/badge/Next.js-14-000000?style=flat-square&logo=nextdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/NextAuth.js-v4-000000?style=flat-square" />
+  <img src="https://img.shields.io/badge/React_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white" />
+  <img src="https://img.shields.io/badge/Radix_UI-161618?style=flat-square" />
+  <img src="https://img.shields.io/badge/React_Hook_Form-EC5990?style=flat-square" />
+</p>
 
-- **Runtime:** Node.js 20 (LTS)
-- **Framework:** Express.js 5
-- **Language:** TypeScript 5.9
-- **Database:** PostgreSQL 16
-- **ORM:** Prisma 6
-- **Authentication:** JWT (jsonwebtoken)
-- **Validation:** Zod 4
-- **Testing:** Vitest 4 + Supertest
-- **Documentation:** Swagger/OpenAPI 3.0
-- **Logging:** Winston + Morgan
-- **Security:** Helmet, CORS, Rate Limiting
-- **Process Manager:** PM2 (cluster mode)
-- **Containerization:** Docker + Docker Compose
+<p align="center">
+  <strong>⚡ Backend</strong><br><br>
+  <img src="https://img.shields.io/badge/Node.js-20+-339933?style=flat-square&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express-5-000000?style=flat-square&logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Prisma-6-2D3748?style=flat-square&logo=prisma&logoColor=white" />
+  <img src="https://img.shields.io/badge/JWT-Auth-F59E0B?style=flat-square" />
+  <img src="https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=flat-square&logo=swagger&logoColor=black" />
+</p>
 
-## 🚀 Quick Start
+<p align="center">
+  <strong>🧠 AI Service</strong><br><br>
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/LangChain-RAG-1C3C3C?style=flat-square" />
+  <img src="https://img.shields.io/badge/FAISS-Vector_DB-06B6D4?style=flat-square" />
+  <img src="https://img.shields.io/badge/Gemini-API-8E75B2?style=flat-square&logo=google&logoColor=white" />
+  <img src="https://img.shields.io/badge/HuggingFace-Embeddings-FFD21E?style=flat-square&logo=huggingface&logoColor=black" />
+</p>
+
+<p align="center">
+  <a href="docs/PROJECT_SHOWCASE.html">
+    <img src="https://img.shields.io/badge/✨_Open_Interactive_Showcase-Click_Here-3B82F6?style=for-the-badge&labelColor=0f172a" alt="Interactive Showcase" />
+  </a>
+</p>
+
+---
+
+## 📑 Table of Contents
+
+| | |
+|:--|:--|
+| 🏠 [Overview](#-overview) | 🏗️ [Architecture](#️-system-architecture) |
+| 📊 [At a Glance](#-at-a-glance) | ✨ [Core Features](#-core-features) |
+| 🛠️ [Tech Stack](#️-technology-stack) | 📂 [Project Structure](#-project-structure) |
+| 👥 [Roles](#-roles--permissions) | 🔌 [API Reference](#-api-reference) |
+| 🗄️ [Database](#️-database-design) | ⚙️ [Environment](#️-environment-variables) |
+| 🚀 [Setup](#-installation--setup) | 🐳 [Docker](#-docker-deployment) |
+| 🧪 [Testing](#-testing) | 🔧 [Troubleshooting](#-troubleshooting) |
+| 👨‍💻 [Team](#-project-team) | 🔮 [Future](#-future-enhancements) |
+
+---
+
+## 🏠 Overview
+
+<table>
+<tr>
+<td width="60" align="center">🎓</td>
+<td>
+
+**Cogni-Advisor** is a full-stack AI-powered academic advising platform for the **Egyptian E-Learning University (EELU)**. It connects students, advisors, and administrators through a modern web experience backed by intelligent automation.
+
+</td>
+</tr>
+</table>
+
+The system is built as **three cooperating services**:
+
+| Layer | Stack | Port |
+|-------|-------|------|
+| 🖥️ **Frontend** | Next.js 14 · React 18 · Tailwind CSS | `3002` |
+| ⚡ **Backend API** | Node.js · Express · TypeScript · Prisma | `5000` |
+| 🤖 **AI Service** | Python · Flask · LangChain · FAISS | `7860` |
+
+> 📖 **Interactive presentation for supervisors:** open [`docs/PROJECT_SHOWCASE.html`](docs/PROJECT_SHOWCASE.html) in your browser for the animated visual overview.
+
+---
+
+## 📊 At a Glance
+
+<p align="center">
+
+| 👥 **8** | 🧠 **5** | 🔐 **3** | 🔌 **30+** | 📄 **20+** |
+|:---:|:---:|:---:|:---:|:---:|
+| Team Members | AI Modules | User Roles | API Endpoints | Frontend Pages |
+
+</p>
+
+| Service | URL |
+|---------|-----|
+| 🖥️ Frontend | `http://localhost:3002` |
+| ⚡ Backend | `http://localhost:5000` |
+| 📚 Swagger | `http://localhost:5000/api-docs` |
+| 🤖 AI Service | `http://localhost:7860` |
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+    subgraph Users["👥 Users"]
+        S["👨‍🎓 Student"]
+        A["👨‍🏫 Advisor"]
+        AD["🏛 Admin"]
+    end
+
+    subgraph Frontend["🖥️ Frontend — Next.js 14"]
+        SP["Student Portal<br/>5 pages"]
+        AP["Advisor Portal<br/>4 pages"]
+        ADP["Admin Portal<br/>10 pages"]
+    end
+
+    subgraph Backend["⚡ Backend API — Express + TS :5000"]
+        API["REST API + JWT"]
+        SW["Swagger / OpenAPI"]
+    end
+
+    subgraph Data["💾 Data Layer"]
+        DB[("PostgreSQL<br/>Prisma ORM")]
+    end
+
+    subgraph AI["🤖 AI Service — Flask :7860"]
+        RAG["💬 RAG Chatbot"]
+        REC["📚 Recommender"]
+        CSP["🧩 CSP Engine"]
+    end
+
+    S & A & AD --> Frontend
+    Frontend -->|NextAuth + React Query| API
+    API --> DB
+    API --> RAG & REC
+    RAG & REC --> CSP
+```
+
+### 🤖 AI Service Modules
+
+| Module | Icon | Description |
+|--------|------|-------------|
+| `chatBot/` | 💬 | RAG Q&A over EELU bylaws — LangChain + FAISS + `BAAI/bge-base-en-v1.5` + Gemini |
+| `recommendation/` | 📊 | Constraint-satisfaction course recommender with prerequisite graph |
+| `recommendation/data/` | 📁 | Course catalog, policy rules, IT/AI track catalogs |
+
+---
+
+## ✨ Core Features
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🤖 AI Chatbot (RAG)
+Academic assistant answering regulation & curriculum questions using retrieval-augmented generation.
+
+`LangChain` · `FAISS` · `Gemini` · `HuggingFace`
+
+---
+
+### 📊 GPA Prediction & Risk Analysis
+Predicts cumulative GPA and flags at-risk students from academic history.
+
+`Risk Analysis` · `Analytics` · `Alerts`
+
+---
+
+### 📚 Course Recommender
+Analyzes prerequisites, GPA bands, and credit caps to suggest optimal courses.
+
+`CSP` · `Graph Analysis` · `EELU Policy`
+
+</td>
+<td width="50%" valign="top">
+
+### 📝 Study Plan AI
+Auto-generates semester plans with advisor review & approval workflow.
+
+`Auto-Generate` · `Submit` · `Approve/Reject`
+
+---
+
+### 💬 Messaging & Notifications
+Student–advisor messaging, in-app alerts, email OTP password reset.
+
+`Resend` · `OTP` · `Sonner Toasts`
+
+---
+
+### 🔐 JWT Auth + RBAC
+Role-based access for Student, Advisor, and Admin portals.
+
+`JWT` · `Helmet` · `Zod` · `Rate Limiting`
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🛠️ Technology Stack
+
+### 🖥️ Frontend (`cogni-advisor-frontend`)
+
+| Component | Technology |
+|-----------|------------|
+| Framework | **Next.js 14** (App Router) |
+| UI Library | **React 18** |
+| Language | **TypeScript 5.9** |
+| Styling | **Tailwind CSS** |
+| Authentication | **NextAuth.js v4** (Credentials Provider) |
+| Data Fetching | **TanStack React Query** |
+| Forms | **React Hook Form** + **Zod** |
+| UI Primitives | **Radix UI** + **CVA** |
+| Notifications | **Sonner** (toast) |
+| Route Protection | Next.js **Middleware** |
+
+#### Frontend Portals (20+ pages)
+
+| Portal | Pages | Highlights |
+|--------|-------|------------|
+| 👨‍🎓 **Student** | Dashboard · Study Plan · Transcript · AI Chat · Messages | AI plan generation, chatbot, academic summary |
+| 👨‍🏫 **Advisor** | Dashboard · Students · Study Plans · Messages | Plan review, risk monitoring, feedback |
+| 🏛 **Admin** | Dashboard · Users · Courses · Semesters · Grades · Advisors · Settings | Full system management, bulk grade upload |
+
+---
+
+### ⚡ Backend
+
+| Component | Technology |
+|-----------|------------|
+| Runtime | Node.js 20+ |
+| Framework | Express 5 |
+| Language | TypeScript 5.9 |
+| ORM | Prisma 6 |
+| Database | PostgreSQL 16 (Supabase-compatible) |
+| Auth | JWT (24-hour expiry) |
+| Validation | Zod 4 |
+| Docs | Swagger / OpenAPI 3.0 |
+| Security | Helmet · CORS · Rate Limiting |
+| Email | Resend |
+| Testing | Vitest 4 + Supertest |
+
+---
+
+### 🤖 AI Service
+
+| Component | Technology |
+|-----------|------------|
+| Language | Python 3.11 |
+| Framework | Flask + Gunicorn |
+| RAG | LangChain |
+| Vector Store | FAISS |
+| Embeddings | `BAAI/bge-base-en-v1.5` |
+| LLM | Gemini (`gemini-flash-latest`) / OpenRouter |
+
+---
+
+## 📂 Project Structure
+
+```text
+Cogni-Advisor/
+│
+├── cogni-advisor-frontend/     # 🖥️ Next.js 14 web application
+│   └── src/
+│       ├── app/                # Student · Advisor · Admin portals
+│       ├── components/         # UI (Radix) + Layout shells
+│       ├── lib/actions/        # Server Actions (7 modules)
+│       └── auth.ts             # NextAuth config
+│
+├── src/                        # ⚡ Backend API
+│   ├── controllers/ · services/ · routes/
+│   ├── generators/             # AI study plan generator
+│   └── scripts/                # Seed & test scripts
+│
+├── cogni-advisor-ai/GP/        # 🤖 Python AI service
+│   ├── chatBot/                # RAG pipeline
+│   └── recommendation/         # Course recommender
+│
+├── prisma/                     # 💾 Database schema & migrations
+├── docs/                       # 📚 Documentation + showcase
+└── docker-compose.yml
+```
+
+---
+
+## 👥 Roles & Permissions
+
+| Role | Icon | Capabilities |
+|------|------|-------------|
+| **STUDENT** | 👨‍🎓 | Study plans · AI chat · Recommendations · Messaging |
+| **ADVISOR** | 👨‍🏫 | Dashboard · Plan review · Risk analysis · Feedback |
+| **ADMIN** | 🏛 | Users · Courses · Semesters · Grades · Settings |
+
+---
+
+## 🔌 API Reference
+
+**Base URL:** `http://localhost:5000` · **Auth:** `Authorization: Bearer <token>`
+
+<details>
+<summary><strong>🔐 Authentication</strong></summary>
+
+| Method | Endpoint |
+|--------|----------|
+| `POST` | `/api/auth/login` |
+| `GET` | `/api/auth/me` |
+| `PATCH` | `/api/auth/change-password` |
+
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"identifier":"student@eelu.edu.eg","password":"yourpassword","role":"STUDENT"}'
+```
+
+</details>
+
+<details>
+<summary><strong>👨‍🎓 Student Endpoints</strong></summary>
+
+| Method | Endpoint |
+|--------|----------|
+| `GET` | `/api/students/me` · `/api/students/me/summary` |
+| `POST` | `/api/study-plan` · `/api/ai/chat` · `/api/ai/suggest-plan` · `/api/ai/predict-gpa` |
+| `GET` | `/api/study-plan/generate` · `/api/recommendations` · `/api/ai/history` |
+| `PATCH` | `/api/study-plan/:id/submit` |
+
+</details>
+
+<details>
+<summary><strong>👨‍🏫 Advisor Endpoints</strong></summary>
+
+| Method | Endpoint |
+|--------|----------|
+| `GET` | `/api/advisor/dashboard` · `/api/advisor/students` |
+| `PATCH` | `/api/study-plan/:id/review` |
+| `GET` | `/api/ai/risk-analysis/:studentId` |
+| `GET` | `/api/advisor/messages/conversations` |
+
+</details>
+
+<details>
+<summary><strong>🏛 Admin Endpoints</strong></summary>
+
+| Method | Endpoint |
+|--------|----------|
+| CRUD | `/api/users` · `/api/courses` · `/api/semesters` |
+| `PATCH` | `/api/enrollments/mark-passed` |
+| `GET/PATCH` | `/api/admin/system-settings` · `/api/admin/overview` |
+
+</details>
+
+<details>
+<summary><strong>🤖 AI Service (direct :7860)</strong></summary>
+
+| Method | Endpoint |
+|--------|----------|
+| `GET` | `/health` · `/chatbot/chatbot` |
+| `POST` | `/chatbot/api/ask` · `/recommendation/api/recommend` |
+
+</details>
+
+---
+
+## 🗄️ Database Design
+
+| Category | Models |
+|----------|--------|
+| 👤 Core | `User` · `Student` · `Advisor` · `Admin` · `Course` · `Enrollment` |
+| 📝 Planning | `StudyPlan` · `StudyPlanCourse` · `SemesterRecord` · `GraduationProgress` |
+| 💬 Communication | `Message` · `Notification` · `Feedback` |
+| 🤖 AI | `AIInteraction` · `Alert` · `CourseReview` |
+| 🔒 Security | `PasswordResetToken` · `AuditLog` · `SystemSetting` |
+
+```bash
+npx prisma migrate dev    # Apply migrations
+npx prisma studio         # Visual DB browser
+```
+
+---
+
+## ⚙️ Environment Variables
+
+<details>
+<summary><strong>🖥️ Frontend (<code>cogni-advisor-frontend/.env</code>)</strong></summary>
+
+```env
+COGNI_API_BASE_URL=http://localhost:5000
+NEXTAUTH_URL=http://localhost:3002
+NEXTAUTH_SECRET=change-me-in-production
+```
+
+</details>
+
+<details>
+<summary><strong>⚡ Backend (<code>.env</code>)</strong></summary>
+
+```env
+PORT=5000
+DATABASE_URL=postgresql://...
+DIRECT_URL=postgresql://...
+JWT_SECRET=your-secret
+ALLOWED_ORIGINS=http://localhost:3002,http://localhost:3000
+COGNI_ADVISOR_AI_ENABLED=1
+COGNI_ADVISOR_AI_BASE_URL=http://localhost:7860
+RESEND_API_KEY=
+FRONTEND_URL=http://localhost:3002
+```
+
+</details>
+
+<details>
+<summary><strong>🤖 AI Service (<code>cogni-advisor-ai/GP/.env</code>)</strong></summary>
+
+```env
+GEMINI_API_KEY=your_key_here
+GEMINI_MODEL=gemini-flash-latest
+EELU_PORT=7860
+EELU_PRELOAD=1
+```
+
+</details>
+
+---
+
+## 🚀 Installation & Setup
 
 ### Prerequisites
 
-- Node.js 20+
-- PostgreSQL 16+
-- npm or yarn
+`Node.js 20+` · `Python 3.11` · `PostgreSQL 16` · `Gemini API Key`
 
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd Cogni-Advisor
-```
-
-2. **Install dependencies**
-```bash
-npm install
-```
-
-3. **Setup environment variables**
-```bash
-cp .env.example .env
-# Edit .env with your database credentials
-```
-
-4. **Run database migrations**
-```bash
-npx prisma migrate dev
-npx prisma generate
-```
-
-5. **Start development server**
-```bash
-npm run dev
-```
-
-Server will be running at `http://localhost:5000`
-
-## 🐳 Docker Setup
+### 1️⃣ Backend
 
 ```bash
-# Start with Docker Compose
-docker-compose up --build
-
-# Stop
-docker-compose down
+npm install && cp .env.example .env
+npx prisma migrate dev && npx prisma generate
+npm run dev                    # → http://localhost:5000
 ```
 
-## 📚 API Documentation
+### 2️⃣ AI Service
 
-Interactive API documentation available at:
+```bash
+cd cogni-advisor-ai/GP
+python -m venv .venv && .\.venv\Scripts\Activate.ps1   # Windows
+pip install -r requirements.txt && cp .env.example .env
+python run_app.py              # → http://localhost:7860
 ```
-http://localhost:5000/api-docs
+
+> ⏳ First startup: **5–15 min** for model preload. Fast mode: `$env:EELU_PRELOAD="0"; python run_app.py`
+
+### 3️⃣ Frontend
+
+```bash
+cd cogni-advisor-frontend
+npm install && cp .env.example .env
+npm run dev                    # → http://localhost:3002
 ```
+
+### 🌱 Seed Scripts
+
+```bash
+npx tsx src/scripts/seed_courses.ts
+npx tsx src/scripts/seed_students_by_level.ts
+npx tsx src/scripts/run_semester_setup.ts
+```
+
+---
+
+## 🐳 Docker Deployment
+
+```bash
+docker compose up --build
+```
+
+| Service | URL |
+|---------|-----|
+| ⚡ Backend | `http://localhost:5000` |
+| 🤖 AI | `http://localhost:7860` |
+
+---
 
 ## 🧪 Testing
 
 ```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Generate coverage report
-npm run test:coverage
+npm test                       # ✅ Unit + integration
+npm run test:e2e               # 🔄 End-to-end
+npm run test:frontend-smoke    # 🖥️ Frontend API paths
 ```
-
-## 📖 System Documentation
-
-**التوثيق الشامل (عربي):** [`docs/README.md`](docs/README.md) — ملف واحد يشرح المشروع بالكامل: الأهداف، التقنيات، الهيكل، المصادقة، الـ API حسب الأدوار، قاعدة البيانات، التثبيت والتشغيل، ودليل ربط الـ Frontend.
-
-## 📊 Project Structure
-
-The codebase is organized by technical layers with clear separation of concerns:
-
-```
-src/
-├── app.ts              # Express app configuration (mounts routes, middlewares, swagger)
-├── server.ts           # HTTP server bootstrap
-├── config/             # Configuration files (DB, logger, swagger, etc.)
-│   ├── prisma.ts       # Prisma client configuration
-│   ├── logger.ts       # Winston logger setup
-│   └── swagger.ts      # OpenAPI specification
-├── middlewares/        # Express middlewares
-│   ├── auth.middleware.ts         # JWT authentication
-│   ├── role.middleware.ts         # Role-based authorization
-│   ├── validate.middleware.ts     # Zod validation wrapper
-│   ├── errorHandler.middleware.ts # Global error handler
-│   └── requestId.middleware.ts    # Request tracking
-├── routes/             # Express routers per feature (HTTP routes only)
-│   ├── auth.routes.ts
-│   ├── user.routes.ts
-│   ├── student.routes.ts
-│   ├── advisor.routes.ts
-│   ├── admin.routes.ts
-│   ├── course.routes.ts
-│   ├── semester.routes.ts
-│   ├── enrollment.routes.ts
-│   ├── studyPlan.routes.ts
-│   ├── progress.routes.ts
-│   ├── notification.routes.ts
-│   ├── feedback.routes.ts
-│   ├── semesterRecord.routes.ts
-│   ├── message.routes.ts
-│   ├── recommendations.routes.ts
-│   └── ai.routes.ts
-├── controllers/        # Route handlers (HTTP layer per feature)
-│   ├── auth.controller.ts
-│   ├── user.controller.ts
-│   ├── student.controller.ts
-│   ├── advisor.controller.ts
-│   ├── admin.controller.ts
-│   ├── course.controller.ts
-│   ├── semester.controller.ts
-│   ├── enrollment.controller.ts
-│   ├── studyPlan.controller.ts
-│   ├── progress.controller.ts
-│   ├── notification.controller.ts
-│   ├── feedback.controller.ts
-│   ├── semesterRecord.controller.ts
-│   ├── message.controller.ts
-│   ├── recommendations.controller.ts
-│   └── ai.controller.ts
-├── services/           # Business logic & data access (Prisma)
-│   ├── auth.service.ts
-│   ├── user.service.ts
-│   ├── student.service.ts
-│   ├── advisor.service.ts
-│   ├── admin.service.ts
-│   ├── course.service.ts
-│   ├── semester.service.ts
-│   ├── enrollment.service.ts
-│   ├── studyPlan.service.ts
-│   ├── progress.service.ts
-│   ├── notification.service.ts
-│   ├── feedback.service.ts
-│   ├── semesterRecord.service.ts
-│   ├── message.service.ts
-│   ├── recommendations.service.ts
-│   └── ai.service.ts
-├── validations/        # Zod schemas for request validation
-│   ├── auth.validation.ts
-│   ├── user.validation.ts
-│   ├── student.validation.ts
-│   ├── advisor.validation.ts
-│   ├── admin.validation.ts
-│   ├── course.validation.ts
-│   ├── semester.validation.ts
-│   ├── enrollment.validation.ts
-│   ├── studyPlan.validation.ts
-│   ├── progress.validation.ts
-│   ├── notification.validation.ts
-│   ├── feedback.validation.ts
-│   ├── semesterRecord.validation.ts
-│   ├── message.validation.ts
-│   ├── recommendations.validation.ts
-│   └── ai.validation.ts
-├── generators/         # Complex generators (e.g. study plan generation)
-│   └── studyPlan.generator.ts
-├── types/              # Global TypeScript type declarations
-│   └── express.d.ts
-├── utils/              # Utility functions & helpers
-│   ├── AppError.ts          # Custom error class
-│   ├── asyncHandler.ts      # Async route wrapper
-│   └── gpaCalculator.ts     # GPA calculation utilities
-└── generated/          # Prisma generated client (do not edit manually)
-```
-
-For a deeper architectural overview (request lifecycle, feature modules and data flow), see `docs/ARCHITECTURE.md`. For a comprehensive Arabic walkthrough of the system and APIs, see `docs/README.md`.
-
-## 🔐 Environment Variables
-
-```env
-# Server
-NODE_ENV=development
-PORT=5000
-
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/cogni_advisor
-
-# Security
-JWT_SECRET=your-super-secret-jwt-key
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
-```
-
-## 📖 API Endpoints
-
-### 🔐 Authentication
-- `POST /api/auth/login` - User login with credentials
-- `GET /api/auth/me` - Current user info (id, role)
-- `PATCH /api/auth/change-password` - Change user password
-
-### 👥 Users (Admin Only)
-- `GET /api/users` - List all users with filtering
-- `POST /api/users` - Create new user (any role)
-- `GET /api/users/:id` - Get user details
-- `PATCH /api/users/:id` - Update user information
-- `DELETE /api/users/:id` - Delete user (cascading delete)
-
-### 👨‍🎓 Students
-- `GET /api/students/me` - Get current student profile
-- `GET /api/students/me/summary` - Get academic summary with GPA
-- `PATCH /api/students/me` - Update student profile
-- `GET /api/students/:id` - Get student by ID (Admin)
-- `PUT /api/students/:id` - Update student (Admin)
-- `PATCH /api/students/:id/deactivate` - Deactivate student (Admin)
-- `PATCH /api/students/:id/activate` - Reactivate student (Admin)
-
-### 📚 Courses
-- `GET /api/courses` - List all courses
-- `POST /api/courses` - Create course (Admin)
-- `GET /api/courses/:id` - Get course details
-- `GET /api/courses/:id/details` - Get course with prerequisites
-- `PUT /api/courses/:id` - Update course (Admin)
-- `DELETE /api/courses/:id` - Delete course (Admin)
-- `PATCH /api/courses/:id/toggle` - Toggle availability (Admin)
-- `POST /api/courses/add-prerequisite` - Add prerequisite (Admin)
-- `DELETE /api/courses/remove-prerequisite` - Remove prerequisite (Admin)
-
-### 📅 Semesters
-- `GET /api/semesters` - List all semesters
-- `POST /api/semesters` - Create semester (Admin)
-- `GET /api/semesters/:id` - Get semester details
-- `PUT /api/semesters/:id` - Update semester (Admin)
-- `DELETE /api/semesters/:id` - Delete semester (Admin)
-
-### 📝 Enrollments
-- `POST /api/enrollments` - Enroll in course (Student)
-- `PATCH /api/enrollments/mark-passed` - Mark course as passed (Admin)
-
-### 📊 Academic Progress
-- `GET /api/progress/:studentId` - Get student progress with GPA distribution
-
-### 📋 Study Plans
-- `POST /api/study-plan` - Create new study plan (Student)
-- `GET /api/study-plan/me/current` - Get current active plan (Student)
-- `GET /api/study-plan/generate` - Generate AI recommendations (Student)
-- `POST /api/study-plan/:id/add-course` - Add course to plan (Student)
-- `PATCH /api/study-plan/:id/submit` - Submit plan for review (Student)
-- `PATCH /api/study-plan/:id/review` - Approve/Reject plan (Advisor)
-- `GET /api/study-plan/advisor/pending` - Get pending plans (Advisor)
-
-### 👨‍🏫 Advisor Portal
-- `GET /api/advisor/me` - Get advisor profile
-- `PATCH /api/advisor/me` - Update advisor profile
-- `GET /api/advisor/dashboard` - Get advisor dashboard metrics
-- `GET /api/advisor/students` - Get assigned students list
-- `GET /api/advisor/students/:studentId` - Get student details
-
-### 🔔 Notifications
-- `GET /api/notifications` - Get user notifications
-- `POST /api/notifications` - Create notification (System)
-- `PATCH /api/notifications/read-all` - Mark all as read
-- `PATCH /api/notifications/:id/read` - Mark one as read
-
-### 💬 Feedback
-- `POST /api/feedback` - Create feedback (Advisor)
-- `GET /api/feedback/student/:studentId` - Get student feedback
-- `GET /api/feedback/my` - Get my feedback (Advisor)
-
-### 📑 Semester Records
-- `POST /api/semester-records` - Create semester record (Admin)
-- `GET /api/semester-records/student/:studentId` - Get student records
-- `GET /api/semester-records/semester/:semesterId` - Get semester records
-- `PATCH /api/semester-records/:id` - Update record (Admin)
-
-### 🏛️ Admin Portal
-- `GET /api/admin/overview` - System overview dashboard
-- `GET /api/admin/system-settings` - Get all system settings (5 categories)
-- `PATCH /api/admin/system-settings` - Update system settings (with audit logging)
-
-### 🏥 Health Check
-- `GET /api/health` - System health check
-
-### 🤖 AI Module (Infrastructure)
-- `POST /api/ai/chat` - Send query (Student)
-- `POST /api/ai/suggest-plan` - Request plan suggestion (Student)
-- `POST /api/ai/predict-gpa` - Predict GPA (Student)
-- `GET /api/ai/risk-analysis/:studentId` - Risk analysis (Admin/Advisor)
-- `GET /api/ai/history` - Interaction history (Student)
-
-**📚 Full API Documentation:** Visit `/api-docs` for interactive Swagger UI
-
-**🧪 Test Collection:** Import `postman/collection.json` (Postman v2.1 format)
-
-## 🏗️ Database Schema
-
-The database schema is managed through Prisma migrations. Key models include:
-
-- **User** - Base user with authentication
-- **Student** - Student-specific data and academic records
-- **Advisor** - Advisor profiles
-- **Course** - Course catalog
-- **Enrollment** - Student course enrollments
-- **StudyPlan** - Student study plans
-- **SystemSetting** - System configuration
-- **AuditLog** - System activity tracking
-
-## 🔒 Security Features
-
-### Authentication & Authorization
-- ✅ **JWT Authentication** - Secure token-based auth with configurable expiry
-- ✅ **Role-Based Access Control** - Fine-grained permissions (ADMIN, ADVISOR, STUDENT)
-- ✅ **Password Security** - Bcrypt hashing with salt rounds
-
-### Input & Request Protection
-- ✅ **Input Validation** - Zod schema validation on all endpoints
-- ✅ **Rate Limiting** - Express-rate-limit to prevent abuse
-- ✅ **CORS Protection** - Configurable allowed origins
-- ✅ **Helmet Security Headers** - HTTP security headers
-- ✅ **SQL Injection Prevention** - Prisma parameterized queries
-
-### Audit & Monitoring
-- ✅ **Audit Logging** - Track system changes with AuditLog model
-- ✅ **Request Tracking** - UUID-based request IDs
-- ✅ **Error Handling** - Centralized error handler with logging
-
-## 📈 Monitoring & Logging
-
-- **Winston** - Structured logging to files and console
-- **Morgan** - HTTP request logging
-- **Request ID** - UUID tracking for each request
-- **PM2** - Process monitoring and management
-
-## 🚢 Deployment
-
-### Using PM2
-
-```bash
-npm run build
-pm2 start ecosystem.config.cjs --env production
-```
-
-### Using Docker
-
-```bash
-docker-compose -f docker-compose.yml up -d
-```
-
-## 🧪 API Test Collection
-
-A comprehensive test collection is available at `postman/collection.json`:
-
-### Test Coverage
-- Endpoints across all modules (Auth, Users, Students, Courses, Semesters, Enrollments, Progress, Study Plans, Advisor, Notifications, Feedback, Admin, AI)
-- Test scenarios covering:
-  - ✅ Success cases
-  - ✅ Authentication/authorization failures
-  - ✅ Validation errors
-  - ✅ Not found scenarios
-  - ✅ Duplicate/conflict cases
-
-### How to Use
-1. Import into Postman or Insomnia
-2. Set environment variables (BASE_URL, tokens)
-3. Run collection for comprehensive API testing
-
-### Test Structure
-```json
-{
-  "info": { "name": "Cogni-Advisor API Tests", "version": "1.0.0" },
-  "variables": { "BASE_URL", "ADMIN_TOKEN", "STUDENT_TOKEN", "ADVISOR_TOKEN" },
-  "modules": [ "auth", "users", "students", "courses", ... ]
-}
-```
-
-## 📝 Available Scripts
-
-```bash
-npm run dev           # Start development server with tsx watch
-npm run build         # Compile TypeScript to JavaScript
-npm start             # Start production server (requires build)
-npm test              # Run all tests with Vitest
-npm run test:watch    # Run tests in watch mode
-npm run test:coverage # Generate test coverage report
-```
-
-### Database Scripts
-```bash
-npx prisma migrate dev    # Run migrations in development
-npx prisma migrate deploy # Run migrations in production
-npx prisma generate       # Generate Prisma Client
-npx prisma studio        # Open Prisma Studio (database GUI)
-```
-
-### PM2 Production Scripts
-```bash
-pm2 start ecosystem.config.cjs --env production  # Start with PM2
-pm2 stop cogni-advisor                           # Stop application
-pm2 restart cogni-advisor                        # Restart application
-pm2 logs cogni-advisor                           # View logs
-pm2 monit                                        # Monitor processes
-```
-
-## 🎯 Code Quality Standards
-
-This project follows professional development standards:
-
-### Clean Code Principles
-- ✅ **No Redundant Code** - Regular cleanup of unused imports and dead code
-- ✅ **DRY Principle** - Shared utilities (e.g., `gpaCalculator.ts`)
-- ✅ **Consistent Error Handling** - `asyncHandler` wrapper on all routes
-- ✅ **Type Safety** - Strict TypeScript with no `any` abuse
-
-### Testing Standards
-- ✅ **Unit Tests** - Service layer functions (Vitest + mocks)
-- ✅ **Integration Tests** - Full API endpoint coverage (Supertest)
-- ✅ **Coverage Tracking** - Automated coverage reports
-
-### Documentation
-- ✅ **OpenAPI/Swagger** - Complete API specification
-- ✅ **Code Comments** - Clear, non-obvious intent documentation
-- ✅ **README** - Comprehensive setup and usage guide
-
-## 🚀 Performance Optimizations
-
-- **Database Queries** - Optimized Prisma queries with proper indexing
-- **Connection Pooling** - Prisma connection pooling enabled
-- **Async Operations** - Non-blocking async/await throughout
-- **PM2 Cluster Mode** - Multi-process deployment for scalability
-- **Caching Ready** - Structure supports Redis integration
-
-## 🔄 Recent Updates
-
-### Latest Improvements (Week 4)
-- ✅ **Code Cleanup** - Removed all redundant code and unused dependencies
-- ✅ **Package Optimization** - Moved TypeScript to devDependencies
-- ✅ **GPA Calculation** - Unified utility function for consistency
-- ✅ **Route Protection** - Added asyncHandler to all routes
-- ✅ **Build Artifacts** - Removed compiled test files, updated .gitignore
-- ✅ **Dependencies** - Removed unused nodemon and ts-node
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Contribution Guidelines
-- Follow existing code style and structure
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting PR
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👥 Team
-
-**Cogni-Advisor Development Team**
-
-For questions or support, please open an issue on GitHub.
-
-## 🌟 Acknowledgments
-
-Built with modern best practices and production-ready standards.
 
 ---
 
-**Made with ❤️ by the Cogni-Advisor Team**
+## 🔄 Typical Workflow
+
+```mermaid
+sequenceDiagram
+    participant AD as 🏛 Admin
+    participant ST as 👨‍🎓 Student
+    participant AV as 👨‍🏫 Advisor
+    participant AI as 🤖 AI
+
+    AD->>ST: Create account & assign advisor
+    ST->>AI: Generate study plan / ask chatbot
+    ST->>AV: Submit plan for review
+    AV->>ST: Approve / reject + feedback
+    AD->>ST: Record grades (mark-passed)
+    ST->>AI: Get recommendations & risk insights
+```
+
+---
+
+## 🔧 Troubleshooting
+
+| ⚠️ Problem | ✅ Solution |
+|-----------|------------|
+| AI hangs on startup | Wait 5–15 min or set `EELU_PRELOAD=0` |
+| AI not connected | Run Flask on `:7860`, set `COGNI_ADVISOR_AI_ENABLED=1` |
+| Chat unavailable | Add `GEMINI_API_KEY` to AI `.env` |
+| CORS error | Add frontend URL to `ALLOWED_ORIGINS` |
+| Login fails | Use **university email**, not personal email |
+
+---
+
+## 👨‍💻 Project Team
+
+<p align="center">
+
+| | | | |
+|:---:|:---:|:---:|:---:|
+| **RR**<br>Rahma Rabie Eid<br>`#2202599` | **RH**<br>Radwa Hamada Said<br>`#2101903` | **MA**<br>Mazen Ahmed Mohamed<br>`#2200703` | **WA**<br>Wahid Ahmed Mohamed<br>`#2200905` |
+| **AT**<br>Abdelrahman Tarek<br>`#2200895` | **AS**<br>Abdallah Sultan<br>`#2200929` | **AE**<br>Ahmed Emad Mohamed<br>`#2102419` | **AM**<br>Abdulrahman Mohamed<br>`#2200704` |
+
+</p>
+
+### 🎓 Supervision
+
+| Role | Name |
+|------|------|
+| 👨‍🏫 Academic Supervisor | **Dr. Yasser Abdelhamid** |
+| 👩‍💻 Assistant Supervisor | **Eng. Shrouk Abdelwence** |
+
+---
+
+## 🔮 Future Enhancements
+
+| | |
+|:--|:--|
+| 📱 Mobile Application | 🧠 Fine-Tuned Arabic Academic LLM |
+| 📈 Predictive Academic Analytics | 🔔 Real-Time Notifications (WebSocket) |
+| 🎓 Advanced Graduation Planner | 🏫 Multi-Faculty Support |
+| 📊 Learning Analytics Dashboard | 🎙️ Voice-Based Academic Assistant |
+
+---
+
+## 📄 License
+
+Academic project developed for graduation requirements at the **Egyptian E-Learning University (EELU)**.
+
+---
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&duration=4000&pause=2000&color=06B6D4&center=true&width=500&lines=Cogni-Advisor+%C2%B7+EELU+2026;Built+with+%E2%9D%A4%EF%B8%8F+for+Academic+Excellence" alt="Footer animation" />
+  <br><br>
+  <strong>Bachelor of Information Technology — Artificial Intelligence Track</strong>
+</p>

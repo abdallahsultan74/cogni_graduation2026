@@ -1,5 +1,6 @@
 import type { Response } from "express";
 import * as advisorService from "../services/advisor.service.js";
+import * as studentService from "../services/student.service.js";
 
 export const getMyProfileHandler = async (req: any, res: Response) => {
   const profile = await advisorService.getMyProfile(req.user.id);
@@ -33,4 +34,11 @@ export const getMyStudentByIdHandler = async (req: any, res: Response) => {
 export const getDashboardHandler = async (req: any, res: Response) => {
   const dashboard = await advisorService.getDashboard(req.user.id);
   res.json(dashboard);
+};
+
+export const getStudentTranscriptHandler = async (req: any, res: Response) => {
+  const studentId = Number(req.params.studentId);
+  await advisorService.getMyStudentById(req.user.id, studentId);
+  const transcript = await studentService.getStudentTranscript(studentId);
+  res.json(transcript);
 };

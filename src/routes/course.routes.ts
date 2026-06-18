@@ -22,6 +22,7 @@ router.post(
   asyncHandler(controller.createCourseHandler)
 );
 router.get("/", authenticate, asyncHandler(controller.getCoursesHandler));
+router.get("/grouped", authenticate, asyncHandler(controller.getCoursesGroupedHandler));
 
 router.post(
   "/add-prerequisite",

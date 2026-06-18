@@ -5,7 +5,8 @@ import { buildCogniAdvisorRecommendPayload } from "../../src/services/aiPayloadB
 describe("aiPayloadBuilder", () => {
   it("formats StudentId and maps semester_name + major_type", async () => {
     const payload = await buildCogniAdvisorRecommendPayload({
-      studentId: 2201234567,
+      studentId: 44,
+      universityStudentId: "2200044",
       gpa: 3.2,
       majorType: "CS",
       semesterName: "Fall 2025",
@@ -28,7 +29,7 @@ describe("aiPayloadBuilder", () => {
       ]
     });
 
-    expect(payload.StudentId).toBe("2201234567");
+    expect(payload.StudentId).toBe("2200044");
     // "CS" is mapped to IT track for this program
     expect(payload.DepartmentName).toBe("IT");
     expect(payload.Term).toBe("First");
@@ -46,7 +47,8 @@ describe("aiPayloadBuilder", () => {
 
   it("maps major_type AI -> DepartmentName AI", async () => {
     const payload = await buildCogniAdvisorRecommendPayload({
-      studentId: 2201234567,
+      studentId: 44,
+      universityStudentId: "2200044",
       gpa: 2.9,
       majorType: "AI",
       semesterName: "Summer 2026",

@@ -1,37 +1,45 @@
 services:
-  app:
-    build: .
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cogni-backend
     ports:
-      - "5000:5000"
+      - "${BACKEND_PORT:-5000}:5000"
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=production
-      - PORT=5000
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/cogni_advisor
-      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
-      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
-    volumes:
-      - ./logs:/app/logs
+      NODE_ENV: production
+      PORT: 5000
+      COGNI_ADVISOR_AI_ENABLED: "1"
+      COGNI_ADVISOR_AI_BASE_URL: http://ai:7860
+      COGNI_ADVISOR_AI_TIMEOUT_MS: "120000"
     depends_on:
-      db:
+      ai:
         condition: service_healthy
     restart: unless-stopped
+    networks:
+      - cogni
 
-  db:
-    image: postgres:16-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=cogni_advisor
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  ai:
+    build:
+      context: ./cogni-advisor-ai/GP
+      dockerfile: dockerfile
+    container_name: cogni-ai
     ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - "${AI_PORT:-7860}:7860"
+    env_file:
+      - ./cogni-advisor-ai/GP/.env
+    environment:
+      PORT: 7860
+      EELU_HOST: 0.0.0.0
+      EELU_PORT: 7860
+      EELU_PRELOAD: "0"
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-flash-latest}
     restart: unless-stopped
+    networks:
+      - cogni
 
-volumes:
-  postgres_data:
+networks:
+  cogni:
+    driver: bridge

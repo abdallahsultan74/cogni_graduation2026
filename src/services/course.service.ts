@@ -1,5 +1,6 @@
 import prisma from "../config/prisma.js";
 import { AppError } from "../utils/AppError.js";
+import { getGroupedCoursesForTrack } from "../utils/curriculumGroups.js";
 
 export const createCourse = async (data: any) => {
   const {
@@ -28,6 +29,10 @@ export const createCourse = async (data: any) => {
 
 export const getAllCourses = async () => {
   return prisma.course.findMany();
+};
+
+export const getCoursesGroupedByCurriculum = async (majorType?: string | null) => {
+  return getGroupedCoursesForTrack(majorType);
 };
 
 export const getCourseById = async (id: number) => {

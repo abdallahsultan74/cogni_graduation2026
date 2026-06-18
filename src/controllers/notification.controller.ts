@@ -3,10 +3,16 @@ import * as notificationService from "../services/notification.service.js";
 
 export const getMyNotificationsHandler = async (req: Request, res: Response) => {
   const recipientId = (req as any).user.id;
-  const list = await notificationService.getByRecipientId(recipientId);
-  // Add id as alias for notification_id for frontend compatibility
+  const unreadOnly = req.query.unread === "true";
+  const list = await notificationService.getByRecipientId(recipientId, { unreadOnly });
   const withId = list.map((n) => ({ ...n, id: n.notification_id }));
   res.json(withId);
+};
+
+export const getUnreadCountHandler = async (req: Request, res: Response) => {
+  const recipientId = (req as any).user.id;
+  const result = await notificationService.getUnreadCount(recipientId);
+  res.json(result);
 };
 
 export const markAsReadHandler = async (req: Request, res: Response) => {
@@ -29,7 +35,7 @@ export const createNotificationHandler = async (req: Request, res: Response) => 
 
   const notification = await notificationService.createNotification({
     ...req.body,
-    recipient_id: effectiveRecipientId
+    recipient_id: effectiveRecipientId,
   });
   res.status(201).json(notification);
 };

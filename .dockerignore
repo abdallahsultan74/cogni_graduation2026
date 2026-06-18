@@ -10,3 +10,14 @@ tests
 vitest.config.ts
 .vscode
 .idea
+cogni-advisor-frontend
+cogni-advisor-ai
+logs
+.cursor
+docs
+assign_student.ts
+clear_empty_plans.ts
+create_and_test.ts
+reset_plan.ts
+seed_egyptian_students.ts
+test_student_flow.ts

@@ -15,6 +15,14 @@ export const getCoursesHandler = async (
     res.json(courses);
 };
 
+export const getCoursesGroupedHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const groups = await courseService.getCoursesGroupedByCurriculum();
+  res.json({ groups, source: "eelulaw.pdf" });
+};
+
 export const getCourseByIdHandler = async (
   req: Request,
   res: Response

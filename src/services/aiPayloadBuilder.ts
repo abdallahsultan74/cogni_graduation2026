@@ -9,7 +9,7 @@ import type {
   CogniAdvisorCourseType
 } from "./cogniAdvisorAi.types.js";
 
-import { getAiCourseCatalog } from "../utils/aiCourseCatalog.js";
+import { getAiCourseCatalog, getUnionCourseCatalog } from "../utils/aiCourseCatalog.js";
 import { mapSemesterToCogniAdvisorTerm } from "../utils/aiTermMapper.js";
 
 type EnrollmentWithCourse = PrismaEnrollment & { course: Course };
@@ -23,28 +23,28 @@ const resolveDepartmentName = (majorType: string | null | undefined): CogniAdvis
   return "IT";
 };
 
-const formatStudentIdForAi = (studentId: number): string => {
-  const v = String(studentId);
-  // User requirement: id starts with 220 + 7 digits => 10 digits total.
-  // Example: 2201234567
-  if (!/^220\d{7}$/.test(v)) {
-    // Don't hard-fail; just keep it explicit for troubleshooting.
-    console.warn(`[CogniAdvisorAI] studentId "${v}" does not match pattern /^220\\d{7}$/`);
+import { isValidUniversityStudentId } from "../utils/studentIdentity.js";
+
+const formatStudentIdForAi = (universityStudentId: string | null | undefined, fallbackId: number): string => {
+  const v = universityStudentId ?? String(fallbackId);
+  if (!isValidUniversityStudentId(v)) {
+    console.warn(`[CogniAdvisorAI] studentId "${v}" does not match pattern /^220\\d{4}$/`);
   }
   return v;
 };
 
 export const buildCogniAdvisorCompletedCourses = async (
-  enrollments: EnrollmentWithCourse[]
+  enrollments: EnrollmentWithCourse[],
+  majorType?: string | null
 ): Promise<CogniAdvisorCompletedCourse[]> => {
-  const catalog = await getAiCourseCatalog();
+  const catalog = await getAiCourseCatalog(majorType);
+  const unionCatalog = await getUnionCourseCatalog();
 
   const completed: CogniAdvisorCompletedCourse[] = [];
   for (const e of enrollments) {
     const code = e.course.course_code;
-    const meta = catalog.get(code);
+    const meta = catalog.get(code) ?? unionCatalog.get(code);
     if (!meta) {
-      // Missing catalog entry will break AI distribution logic; be explicit.
       throw new Error(`AI catalog missing metadata for course code "${code}"`);
     }
 
@@ -71,6 +71,7 @@ export const buildCogniAdvisorCompletedCourses = async (
 
 export const buildCogniAdvisorRecommendPayload = async (params: {
   studentId: number;
+  universityStudentId?: string | null;
   gpa: number;
   majorType: string | null;
   completedEnrollments: EnrollmentWithCourse[];
@@ -79,7 +80,10 @@ export const buildCogniAdvisorRecommendPayload = async (params: {
   semester?: CogniAdvisorSemester;
   expectedToGraduate?: boolean;
 }): Promise<CogniAdvisorRecommendPayload> => {
-  const completedCourses = await buildCogniAdvisorCompletedCourses(params.completedEnrollments);
+  const completedCourses = await buildCogniAdvisorCompletedCourses(
+    params.completedEnrollments,
+    params.majorType
+  );
   const DepartmentName = resolveDepartmentName(params.majorType);
   const aiTermAndSemester =
     params.term && params.semester
@@ -87,7 +91,7 @@ export const buildCogniAdvisorRecommendPayload = async (params: {
       : mapSemesterToCogniAdvisorTerm(params.semesterName);
 
   const payload: CogniAdvisorRecommendPayload = {
-    StudentId: formatStudentIdForAi(params.studentId),
+    StudentId: formatStudentIdForAi(params.universityStudentId, params.studentId),
     GPA: params.gpa,
     semester: aiTermAndSemester.semester,
     Term: aiTermAndSemester.Term,

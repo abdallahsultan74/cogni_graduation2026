@@ -1,0 +1,71 @@
+{
+  "source": "eelulaw.pdf / bylaw_in.json",
+  "courses": {
+    "1": {
+      "code": "1",
+      "title": "Natural Language Processing",
+      "prerequisite": "Machine Learning Fundamentals",
+      "description": "Introduction – Language Models – Text Classification – Information Retrieval – Information Extraction – Morphological Analysis and the Lexicon Phrase Structure Grammars – Parsing – Context Free Grammar – Augmented grammar rules – Semantic interpretation – Machine Translation Systems – Statistical Machine Translation."
+    },
+    "2": {
+      "code": "2",
+      "title": "Semantic Web and Ontology",
+      "prerequisite": "Artificial Intelligence, Web technology",
+      "description": "Introduction Semantic web – Descriptive logic – Describing web resources in RDF Ontology development – Ontology development – Ontology language – Web ontology language OWL – OWL API – Rule Interchange Format RIF – Query language. Semantic Portals – applying Semantic Web technologies to the Social Web."
+    },
+    "3": {
+      "code": "3",
+      "title": "Cloud Computing Networks",
+      "prerequisite": "Advanced Computer Networks",
+      "description": "Introduction to cloud computing – Cloud computing reference model – Physical Layer (Compute/Storage – FC SAN - IPSAN - FCoE) – Virtual layer (VLAN – VSAN - Tunneling Protocols) – Characteristics of cloud networking – Deployment models – Network virtualization techniques used in data centers – Data center evolution – Routing inside a Data center."
+    },
+    "4": {
+      "code": "4",
+      "title": "Selected Topics in Computer Networks",
+      "prerequisite": "Advanced Computer Networks",
+      "description": "The course will cover a broad range of topics including congestion control, routing, analysis and design of network protocols (both wired and wireless), data centers, analysis and performance of content distribution networks, network security, vulnerability, and defenses, net neutrality, and online social networks."
+    },
+    "5": {
+      "code": "5",
+      "title": "Software Security",
+      "prerequisite": "Advanced Software Engineering",
+      "description": "Poor software design and engineering are the root causes of most security vulnerabilities in deployed systems today. Moreover with code mobility, web technologies and code modifies increase security hazards facing software systems. This course takes a close look at software as a mechanism for attacks, tool for protecting resources and as a resource to be defended. Topics covered include the software design process; choices of programming languages, operating systems, databases and platforms for building secure systems; common software vulnerabilities, such as buffer overflows and race conditions; auditing software; proving properties of software; and the benefits of open and closed source development."
+    },
+    "6": {
+      "code": "6",
+      "title": "Image processing",
+      "prerequisite": "Digital Signal Processing",
+      "description": "Image sampling and quantization – Zooming in and zooming out – Overview of image processing systems – Point operations – Spatial filters – Image transform – Filters in frequency domain – Image noise reduction – Image restoration – Image segmentation – Image classification accuracy evaluation – Morphological operations – Application field."
+    },
+    "7": {
+      "code": "7",
+      "title": "Communication Technology",
+      "prerequisite": "Computer Networks Technology",
+      "description": "Communication technology concepts and terminology – Optical Circuit/ Packet/ Burst Switching – Passive Optical Networks – RFID Technology – Internet of Things Technologies – Wireless Communication Fundamentals – 3G/4G/5G Communication Fundamentals – Recent Trends in Communication Technologies."
+    },
+    "8": {
+      "code": "8",
+      "title": "Wireless and Mobile Networks",
+      "prerequisite": "Advanced Computer Networks",
+      "description": "Antennas: types – Radiation patterns – Antenna gain – Propagation models –Line of sight transmission – Impairments – Fading in wireless environments – Satellites: orbits types – Geostationary satellites – LEO satellites – MEO satellites – Footprint – Capacity allocation: FDMA – TDMA – CDMA – Cellular networks: definition – architecture – frequency reuse – Call forwarding – Handoff – power control – Main architecture – Last generation architecture –Ad-hoc networks: definition – problems – MAC protocol – routing – energy management – Wireless sensor networks: definition – applications – routing – energy consumption – aggregation techniques."
+    },
+    "9": {
+      "code": "9",
+      "title": "Graduation Project",
+      "prerequisite": "Passing 85 Credit Hours",
+      "description": "This course will continue for two semesters. In the first semester; a group of students will select one of the projects proposed by the department and analyse the underlying problem. In the second semester; the design and implementation of the project will be conducted."
+    },
+    "10": {
+      "code": "10",
+      "title": "Software Design and Architecture",
+      "prerequisite": "Algorithms Analysis and Design, Advanced Software Engineering",
+      "description": "Study of design patterns – Frameworks and architectures – Survey of current middleware architectures – Design of distributed systems using middleware – Component based design – Measurement theory and appropriate use of metrics in design – Designing for software qualities attributes – Measuring internal qualities and complexity of software – Evaluation and evolution of designs – Basics of software evolution – reengineering – reverse engineering."
+    },
+    "11": {
+      "code": "11",
+      "title": "Selected Topics in Software Engineering",
+      "prerequisite": "Advanced Software Engineering",
+      "description": "This course aims at introducing students to novel topics in software engineering that need to be identified in a responsive manner as technology evolve and develop."
+    }
+  }
+}

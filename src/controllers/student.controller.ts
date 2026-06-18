@@ -58,3 +58,8 @@ export const updateMyProfileHandler = async (req: any, res: Response) => {
   const updated = await studentService.updateMyProfile(req.user.id, req.body);
   res.json(updated);
 };
+
+export const getMyTranscriptHandler = async (req: any, res: Response) => {
+  const transcript = await studentService.getMyTranscript(req.user.id);
+  res.json(transcript);
+};

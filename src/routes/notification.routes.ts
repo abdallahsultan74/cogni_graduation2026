@@ -10,6 +10,8 @@ const router = Router();
 
 router.get("/", authenticate, asyncHandler(controller.getMyNotificationsHandler));
 
+router.get("/unread-count", authenticate, asyncHandler(controller.getUnreadCountHandler));
+
 router.patch("/read-all", authenticate, asyncHandler(controller.markAllAsReadHandler));
 
 router.patch(

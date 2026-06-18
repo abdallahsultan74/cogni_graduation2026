@@ -12,7 +12,30 @@ GRAPH_PATH = DATA_DIR / "prerequisite_graph.json"
 POLICY_PATH = DATA_DIR / "policy.json"
 
 GENERAL_MANDATORY_CODES = {"HU111", "HU112", "HU113"}
-GENERAL_ELECTIVE_CODES = {"HU101", "HU102", "HU201", "HU124", "HU125", "HU115", "HU427", "HU128", "HU402"}
+GENERAL_ELECTIVE_CODES = {"HU101", "HU102", "HU201", "HU124", "HU125", "HU115", "HU128", "HU402", "HU427"}
+
+
+def _codes_from_bylaw(data, key, fallback: set[str]) -> set[str]:
+    raw = data.get(key)
+    if isinstance(raw, list) and raw:
+        return {clean_code(c) for c in raw if clean_code(c)}
+    return fallback
+
+
+def load_category_codes(data):
+    global GENERAL_MANDATORY_CODES, GENERAL_ELECTIVE_CODES, MATH_BASIC_SCI_CODES, BASIC_CS_CODES
+    GENERAL_MANDATORY_CODES = _codes_from_bylaw(
+        data, "category_general_mandatory_codes", GENERAL_MANDATORY_CODES
+    )
+    GENERAL_ELECTIVE_CODES = _codes_from_bylaw(
+        data, "category_general_elective_codes", GENERAL_ELECTIVE_CODES
+    )
+    MATH_BASIC_SCI_CODES = _codes_from_bylaw(
+        data, "category_math_basic_sciences_codes", MATH_BASIC_SCI_CODES
+    )
+    BASIC_CS_CODES = _codes_from_bylaw(
+        data, "category_basic_computer_science_codes", BASIC_CS_CODES
+    )
 
 
 def load_bylaw_data():
@@ -76,17 +99,24 @@ MATH_BASIC_SCI_CODES = {
 #   - IT217 Operations Research and IT230 Web Technology are Faculty
 #     Requirements, not Applied Sciences.
 BASIC_CS_CODES = {
-    "IT110",                              # Introduction to Computers
-    "CS112", "CS215", "CS216",            # Programming, OOP, Data Structures
-    "CS240",                              # Intro to Software Engineering
-    "IT217",                              # Intro to Operations Research / Decision Support
-    "DS211",                              # Intro to Database Systems
-    "IT230",                              # Web Technology
-    "CS318",                              # Computer Organization
-    "IT231",                              # Computer Networks Technology
-    "CS341",                              # Algorithms Analysis and Design
-    "CS319",                              # Operating Systems
-    "AI311",                              # Artificial Intelligence (faculty-wide)
+    "IT110",
+    "CS112",
+    "CS215",
+    "CS216",
+    "CS240",
+    "IT217",
+    "DS211",
+    "IT230",
+    "CS318",
+    "IT231",
+    "CS341",
+    "CS319",
+    "AI311",
+    # Legacy aliases kept for enrollments seeded under older codes
+    "IT114",
+    "IT215",
+    "IT216",
+    "IT240",
 }
 
 
@@ -283,12 +313,34 @@ def build_name_to_code(records):
             "graduation project 1": "PC401",
             "graduation project 2": "PC402",
             "programming language": "CS112",
+            "programming techniques": "IT114",
             "object oriented programming": "CS215",
+            "object oriented programing": "IT215",
             "data structure": "CS216",
-            "data structures": "CS216",
+            "data structures": "IT216",
+            "introduction to operation research": "IT217",
+            "introduction to operations research": "IT217",
+            "introduction to software engineering": "IT240",
+            "digital signal processing": "IT212",
+            "networking fundamentals lab": "LB211",
+            "network routing and switching lab": "LB312",
+            "network routing and switching-lab": "LB312",
+            "computer graphics": "IT221",
+            "embedded systems": "IT423",
+            "wireless and mobile networks": "IT439",
+            "cloud computing networking": "IT436",
+            "software security": "CS449",
+            "selected labs in software engineering": "LB421",
+            "selected labs in ai": "LB431",
+            "project 1": "PC401",
+            "project 2": "PC402",
+            "project(1)": "PC401",
             "mathematics 1": "MA111",
+            "mathematics-1": "MA111",
             "mathematics 2": "MA113",
+            "mathematics-2": "MA113",
             "mathematics 3": "MA214",
+            "mathematics-3": "MA214",
             "discrete math": "MA112",
             "creative and scientific thinking": "HU112",
             "creative thinking and communication skills": "HU112",
@@ -322,9 +374,71 @@ def build_name_to_code(records):
             "advanced software engineering": "CS344",
             "communication technology": "IT438",
             "wireless and mobile networks": "IT439",
+            "probability and statistics 1": "ST121",
+            "probability and statistics-1": "ST121",
+            "mathematics2": "MA113",
+            "mathematics-2": "MA113",
+            "mathematics-1": "MA111",
+            "electronics": "IT111",
+            "introduction to computers": "IT110",
+            "computer networks technology": "IT231",
+            "networking fundamentals lab": "LB211",
+            "micro controller": "IT343",
+            "logic design": "IT113",
+            "advanced software engineering": "CS344",
+            "algorithms analysis and design": "CS341",
+            "advanced computer networks": "IT434",
+            "digital signal processing": "IT212",
         }
     )
     return aliases
+
+
+# Explicit prerequisite fixes when PDF/OCR name resolution fails (2023 bylaws).
+PREREQUISITE_CODE_OVERRIDES: dict[str, list[str]] = {
+    "CS112": ["IT110"],
+    "IT114": ["IT110"],
+    "IT113": ["IT111"],
+    "CS215": ["CS112"],
+    "IT215": ["IT114"],
+    "CS216": ["CS215"],
+    "IT216": ["IT215"],
+    "IT217": ["CS112", "ST121"],
+    "IT230": ["CS215"],
+    "IT231": ["IT110"],
+    "CS240": ["CS112"],
+    "IT240": ["IT114"],
+    "DS211": ["CS112"],
+    "MA113": ["MA111"],
+    "MA214": ["MA113"],
+    "ST121": ["MA111"],
+    "ST222": ["ST121"],
+    "LB211": ["IT231"],
+    "LB312": ["LB211"],
+    "AI311": ["CS216"],
+    "CS318": ["IT113", "CS216"],
+    "CS319": ["CS216"],
+    "CS341": ["CS216"],
+    "IT212": ["MA214"],
+    "IT322": ["IT212", "ST222"],
+    "IT333": ["IT231"],
+    "IT343": ["IT231"],
+    "LB313": ["IT231"],
+    "CS344": ["CS240"],
+    "AI321": ["MA214", "ST222"],
+    "AI448": ["AI321"],
+    "IT221": ["CS215"],
+    "IT423": ["IT343"],
+    "IT434": ["IT231"],
+    "IT438": ["IT231"],
+    "IT436": ["IT434"],
+    "IT439": ["IT434"],
+    "CS449": ["CS344"],
+    "LB421": ["CS341", "CS344"],
+    "LB431": ["AI311"],
+    "PC402": ["PC401"],
+    "HU113": [],
+}
 
 
 def split_prerequisites(raw_text):
@@ -354,6 +468,14 @@ def resolve_prerequisites(records):
                 resolved.append("PC401")
         record["prerequisites"] = list(dict.fromkeys(resolved))
         record.pop("raw_prerequisite", None)
+
+
+def apply_prerequisite_overrides(records: dict) -> None:
+    for code, prereqs in PREREQUISITE_CODE_OVERRIDES.items():
+        if code not in records:
+            continue
+        merged = list(dict.fromkeys([*records[code].get("prerequisites", []), *prereqs]))
+        records[code]["prerequisites"] = merged
 
 
 def build_policy(data):
@@ -425,13 +547,17 @@ def normalize_generated_course(record):
 
 
 def build_courses(data):
+    load_category_codes(data)
     records = {}
 
     parse_full_group(data, records, "first_year_first_semester_course", "First", "First Year")
     parse_full_group(data, records, "first_year_second_semester_course", "Second", "First Year")
     parse_full_group(data, records, "second_year_first_semester_course", "First", "Second Year")
     parse_full_group(data, records, "second_year_second_semester_course", "Second", "Second Year")
+    parse_full_group(data, records, "third_year_first_semester_course", "First", "Third Year")
+    parse_full_group(data, records, "third_year_second_semester_course", "Second", "Third Year")
 
+    # Legacy sparse keys (pre-eelulaw appendix)
     parse_sparse_group(data, records, "first_semester_course_code", "first_semester_course_name", "first_semester_prerequisite", "First", "Third Year")
     parse_sparse_group(data, records, "second_semester_course_code", "second_semester_course_name", "second_semester_prerequisite", "Second", "Third Year")
 
@@ -443,6 +569,7 @@ def build_courses(data):
 
     apply_course_overrides(data, records)
     resolve_prerequisites(records)
+    apply_prerequisite_overrides(records)
 
     return sorted((normalize_generated_course(record) for record in records.values()), key=lambda item: item["code"])
 
@@ -477,6 +604,15 @@ def preprocess_bylaws(force=False):
 
 
 def ensure_preprocessed_data(force=False):
+    track_files = [
+        DATA_DIR / "courses_it.json",
+        DATA_DIR / "courses_ai.json",
+    ]
+    if not force and all(path.exists() for path in track_files):
+        if not POLICY_PATH.exists():
+            preprocess_bylaws(force=True)
+        return
+
     outputs = [POLICY_PATH, COURSES_PATH, GRAPH_PATH]
     if force or any(not path.exists() for path in outputs):
         preprocess_bylaws(force=force)
