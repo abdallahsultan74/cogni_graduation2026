@@ -1,6 +1,6 @@
 <!-- Banner -->
 <p align="center">
-  <img src="src/assets/logo2.jpg" alt="Cogni-Advisor Logo" width="200" />
+  <img src="src/assets/logo2.png" alt="Cogni-Advisor Logo" width="200" />
 </p>
 
 <p align="center">
