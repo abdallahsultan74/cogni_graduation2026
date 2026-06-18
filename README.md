@@ -1,7 +1,5 @@
 <!-- Banner -->
-<p align="center">
-  <img src="src/assets/logo2.png" alt="Cogni-Advisor Logo" width="200" />
-</p>
+<img src="src/assets/logo2.png" alt="Cogni-Advisor Logo" width="100%" />
 
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=32&duration=2800&pause=1200&color=3B82F6&center=true&vCenter=true&width=620&lines=Cogni-Advisor;AI-Powered+Academic+Advising;EELU+Graduation+Project+2026" alt="Cogni-Advisor animated title" />
